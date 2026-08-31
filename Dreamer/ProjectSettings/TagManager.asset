@@ -15,12 +15,12 @@ TagManager:
   - 
   - 
   - DestructibleTile
+  - Obstacle
+  - 
+  - 
+  - 
+  - 
   - Enemy
-  - 
-  - 
-  - 
-  - 
-  - 
   - 
   - 
   - 

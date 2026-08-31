@@ -94,7 +94,7 @@ namespace Dreamer.Core
 
             if (ObjectPoolManager.Instance != null)
             {
-                GameObject vfx = ObjectPoolManager.Instance.SpawnFromPool(vfxPrefab, spawnPosition, Quaternion.identity, autoReturnDelay);
+                GameObject vfx = ObjectPoolManager.Instance.SpawnFromPool(vfxPrefab, spawnPosition, Quaternion.identity, autoReturnDelay : autoReturnDelay);
             }
             else
             {

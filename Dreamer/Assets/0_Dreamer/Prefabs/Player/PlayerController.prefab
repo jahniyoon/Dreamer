@@ -157,7 +157,7 @@ MonoBehaviour:
   moveDuration: 0.12
   obstacleLayer:
     serializedVersion: 2
-    m_Bits: 512
+    m_Bits: 1024
 --- !u!50 &8163987635674323621
 Rigidbody2D:
   serializedVersion: 5
@@ -242,7 +242,7 @@ GameObject:
   - component: {fileID: 3276935132908280440}
   - component: {fileID: 181993912602061753}
   m_Layer: 0
-  m_Name: Visual
+  m_Name: Model
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

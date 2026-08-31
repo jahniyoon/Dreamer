@@ -181,6 +181,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &256418945
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 256418946}
+  m_Layer: 0
+  m_Name: '========Stage========= '
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &256418946
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 256418945}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &410036332
 GameObject:
   m_ObjectHideFlags: 0
@@ -212,6 +243,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &528625816 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4127021521959618565, guid: e320222a391790348adee1399d658ec8, type: 3}
+  m_PrefabInstance: {fileID: 7619700853210802119}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &619394800
 GameObject:
   m_ObjectHideFlags: 0
@@ -406,6 +442,7 @@ GameObject:
   m_Component:
   - component: {fileID: 769090573}
   - component: {fileID: 769090572}
+  - component: {fileID: 769090574}
   m_Layer: 0
   m_Name: CinemachineCamera
   m_TagString: Untagged
@@ -433,12 +470,12 @@ MonoBehaviour:
   m_StreamingVersion: 20241001
   m_LegacyPriority: 0
   Target:
-    TrackingTarget: {fileID: 0}
+    TrackingTarget: {fileID: 528625816}
     LookAtTarget: {fileID: 0}
     CustomLookAtTarget: 0
   Lens:
     FieldOfView: 60
-    OrthographicSize: 3.11
+    OrthographicSize: 9.7
     NearClipPlane: 0.3
     FarClipPlane: 1000
     Dutch: 0
@@ -465,12 +502,184 @@ Transform:
   m_GameObject: {fileID: 769090571}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.04, y: -0.09, z: -1.844361}
+  m_LocalPosition: {x: 0, y: 1, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &769090574
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 769090571}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b617507da6d07e749b7efdb34e1173e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Cinemachine::Unity.Cinemachine.CinemachineFollow
+  TrackerSettings:
+    BindingMode: 4
+    PositionDamping: {x: 0, y: 0, z: 0}
+    AngularDampingMode: 0
+    RotationDamping: {x: 1, y: 1, z: 1}
+    QuaternionDamping: 1
+  FollowOffset: {x: 0, y: 0, z: -10}
+--- !u!1 &977792681
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 977792682}
+  - component: {fileID: 977792683}
+  - component: {fileID: 977792684}
+  m_Layer: 0
+  m_Name: Map Generator
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &977792682
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 977792681}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &977792683
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 977792681}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b70f1886809c56469aef76bc8588b21, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Dreamer.Tile.TileGridMapGenerator
+  maxTargetDepth: 1655
+  mapWidth: 9
+  initialGenerateDepth: 20
+  generateThreshold: 5
+  despawnThreshold: 15
+  tileSize: 1
+  defaultFallbackTile: {fileID: 11400000, guid: eb72b3ceccd92d4499d8eb2cc5d898dc, type: 2}
+  tileRules:
+  - ruleName: Soft Earth
+    tileData: {fileID: 11400000, guid: eb72b3ceccd92d4499d8eb2cc5d898dc, type: 2}
+    minDepth: 0
+    weightByDepth:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: -0.006120866
+        outSlope: -0.006120866
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0.30943897
+      - serializedVersion: 3
+        time: 0.5
+        value: 0
+        inSlope: Infinity
+        outSlope: Infinity
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+  - ruleName: Medium Rock
+    tileData: {fileID: 11400000, guid: c89676ae47aeff24ca86a18a413e555d, type: 2}
+    minDepth: 500
+    weightByDepth:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: -0.006120866
+        outSlope: -0.006120866
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0.30943897
+      - serializedVersion: 3
+        time: 0.8
+        value: 0
+        inSlope: Infinity
+        outSlope: Infinity
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+  - ruleName: Hard Rock
+    tileData: {fileID: 11400000, guid: a3e6386296932a24d9c725745a7a3f1f, type: 2}
+    minDepth: 800
+    weightByDepth:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+  tilePrefab: {fileID: 4843194554918242858, guid: 1999fa55300c36a4ab63b789f131a0f0, type: 3}
+  wallPrefab: {fileID: 3247256581263447025, guid: 6189d214bba156d42bdd2282448eeb3c, type: 3}
+  playerTransform: {fileID: 528625816}
+--- !u!114 &977792684
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 977792681}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d9dcd00242b6ec42b746a0f60d2e199, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Dreamer.Enemy.EnemySpawner
+  mapGenerator: {fileID: 0}
+  globalSpawnRate: 0.15
+  enemySpawnRules: []
+  bossConfigs: []
 --- !u!1 &1061454894
 GameObject:
   m_ObjectHideFlags: 0
@@ -610,7 +819,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 3.11
+  orthographic size: 9.7
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
@@ -635,7 +844,7 @@ Transform:
   m_GameObject: {fileID: 1061454894}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.04, y: -0.09, z: -1.844361}
+  m_LocalPosition: {x: 0, y: 1, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -734,7 +943,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4127021521959618565, guid: e320222a391790348adee1399d658ec8, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4127021521959618565, guid: e320222a391790348adee1399d658ec8, type: 3}
       propertyPath: m_LocalPosition.z
@@ -768,14 +977,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7615778528889417191, guid: e320222a391790348adee1399d658ec8, type: 3}
-      propertyPath: moveAction.m_Action.m_Name
-      value: Move
-      objectReference: {fileID: 0}
-    - target: {fileID: 7615778528889417191, guid: e320222a391790348adee1399d658ec8, type: 3}
-      propertyPath: attackAction.m_Action.m_Name
-      value: Attack
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -795,3 +996,5 @@ SceneRoots:
   - {fileID: 661044477}
   - {fileID: 66432573}
   - {fileID: 7619700853210802119}
+  - {fileID: 256418946}
+  - {fileID: 977792682}
