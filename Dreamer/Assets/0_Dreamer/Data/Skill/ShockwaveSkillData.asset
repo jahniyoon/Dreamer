@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f852120e9567ccf498516799460ca955, type: 3}
+  m_Name: ShockwaveSkillData
+  m_EditorClassIdentifier: Assembly-CSharp::Dreamer.Data.SkillData
+  <SkillType>k__BackingField: 1
+  <SkillName>k__BackingField: "\uCC44\uAD74 \uCDA9\uACA9\uD30C (Shockwave)"
+  <SkillIcon>k__BackingField: {fileID: 0}
+  <Description>k__BackingField: "\uC8FC\uBCC0 3x3 \uBC94\uC704\uC758 \uC9C0\uCE35\uC744
+    \uD55C \uBC88\uC5D0 \uD30C\uAD34\uD558\uACE0 \uAC15\uB825\uD55C \uC9C0\uC9C4
+    \uD53C\uD574\uB97C \uC785\uD799\uB2C8\uB2E4."
+  <Cooldown>k__BackingField: 5
+  <Duration>k__BackingField: 0
+  <DamageMultiplier>k__BackingField: 2
+  <RangeRadius>k__BackingField: 1.5
+  <VfxPrefab>k__BackingField: {fileID: 0}
+  <CastSound>k__BackingField: {fileID: 0}
+  <CameraShakeIntensity>k__BackingField: 0.5

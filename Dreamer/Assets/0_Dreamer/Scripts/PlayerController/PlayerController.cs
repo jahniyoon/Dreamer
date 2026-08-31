@@ -1,3 +1,4 @@
+using Dreamer.Tile;
 using UnityEngine;
 
 
@@ -97,5 +98,72 @@ namespace Dreamer.Player
                 Movement.ExecuteGridMove(targetDir);
             }
         }
+        /// <summary>
+        /// 플레이어 아래쪽 방향으로 연속 탐색하여 빈 공간(파괴된 타일) 수만큼 즉시 낙하 처리
+        /// </summary>
+        public void CheckAndApplyGravity()
+        {
+            if (Movement == null || Movement.IsMoving) return;
+
+            int fallDistance = 0;
+            Vector2Int currentGridPos = Movement.CurrentGridPos;
+
+            // 아래쪽으로 1칸씩 스캔하여 막힌 타일/벽을 만날 때까지 거리 계산
+            while (true)
+            {
+                Vector2Int checkGridPos = currentGridPos + (Vector2Int.down * (fallDistance + 1));
+                Vector2 checkWorldPos = new Vector2(checkGridPos.x * Movement.GridSize, checkGridPos.y * Movement.GridSize);
+
+                if (IsPositionBlocked(checkWorldPos))
+                {
+                    break; // 막힌 타일/벽을 만나면 스캔 중단
+                }
+
+                fallDistance++;
+
+                // 안전장치: 최대 30칸 이상 연속 낙하 루프 방지
+                if (fallDistance >= 30) break;
+            }
+
+            // 낙하할 빈 공간이 1칸 이상 존재하면 즉시 낙하 연출 실행
+            if (fallDistance > 0)
+            {
+                Movement.ExecuteMultiGridFall(fallDistance);
+            }
+        }
+        /// <summary>
+        /// 해당 위치에 체력이 남아있는 지층 타일이나 외벽 장애물이 존재하는지 검사
+        /// </summary>
+        private bool IsPositionBlocked(Vector2 worldPos)
+        {
+            LayerMask blockingLayers = Movement.ObstacleLayer;
+
+            // 1차: 지정된 레이어 기반 검사
+            Collider2D hit = Physics2D.OverlapCircle(worldPos, Movement.GridSize * 0.35f, blockingLayers);
+
+            // 2차: 인스펙터 레이어 설정 누락 대비 레이어 무관 검사
+            if (hit == null)
+            {
+                hit = Physics2D.OverlapCircle(worldPos, Movement.GridSize * 0.35f);
+            }
+
+            if (hit != null)
+            {
+                // 지층 타일인 경우 CurrentHp를 직접 검사 (체력이 1 이상 남아있으면 무조건 막힘)
+                if (hit.TryGetComponent<TileInstance>(out var tileInstance))
+                {
+                    return tileInstance.CurrentHp > 0;
+                }
+
+                // 플레이어 자신이나 트리거가 아닌 외벽/장애물이면 막힘 판정
+                if (!hit.CompareTag("Player") && !hit.isTrigger)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
     }
+
 }

@@ -73,6 +73,39 @@ namespace Dreamer.Player
 
             return true;
         }
+        /// <summary>
+        /// 하단 발판이 파괴되었을 때, N칸 깊이만큼 바닥에 착지할 때까지 가속 낙하 연출
+        /// </summary>
+        public void ExecuteMultiGridFall(int fallDistance)
+        {
+            if (IsMoving || fallDistance <= 0) return;
+
+            IsMoving = true;
+
+            // 정수 그리드 Y 좌표 차감
+            CurrentGridPos += Vector2Int.down * fallDistance;
+            Vector3 targetWorldPos = new Vector3(CurrentGridPos.x * gridSize, CurrentGridPos.y * gridSize, 0f);
+
+            // 낙하 거리에 비례한 자연스러운 낙하 시간 계산 (가속 느낌)
+            float fallDuration = Mathf.Sqrt(fallDistance) * 0.08f;
+
+            transform.DOKill();
+            transform.DOMove(targetWorldPos, fallDuration)
+                .SetEase(Ease.InQuad) // 중력 가속도 연출
+                .OnComplete(() =>
+                {
+                    transform.position = targetWorldPos;
+                    IsMoving = false;
+
+                    // 착지 피드백 (Juice)
+                    if (visual != null) visual.PlayMoveSquash();
+                    if (Dreamer.Core.JuiceManager.Instance != null)
+                    {
+                        Dreamer.Core.JuiceManager.Instance.ShakeCamera(0.15f * fallDistance);
+                    }
+                });
+        }
+
 
         /// <summary>
         /// 막힌 지층/벽 타격 시 제자리에서 튕기는 찌그러짐 쥬시 연출

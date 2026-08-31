@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 1235198269858411817}
   - component: {fileID: 7615778528889417191}
   - component: {fileID: 8324360134953111597}
+  - component: {fileID: 8126412915291418708}
   - component: {fileID: 8163987635674323621}
   - component: {fileID: 5542203820501849739}
   m_Layer: 0
@@ -68,6 +69,13 @@ MonoBehaviour:
   baseAttack: 1
   baseDefense: 0
   baseMoveSpeed: 5
+  attackCooldown: 0.2
+  <CurrentStats>k__BackingField:
+    <MaxHp>k__BackingField: 0
+    <AttackPower>k__BackingField: 0
+    <Defense>k__BackingField: 0
+    <MoveSpeed>k__BackingField: 0
+    <AttackCooldown>k__BackingField: 0
 --- !u!114 &7481615004876486006
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -128,18 +136,42 @@ MonoBehaviour:
       m_SingletonActionBindings: []
       m_Flags: 0
     m_Reference: {fileID: -1680190386980627800, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
-  attackAction:
+  skill_A:
     m_UseReference: 1
     m_Action:
-      m_Name: Attack
+      m_Name: Skill_A
       m_Type: 0
       m_ExpectedControlType: 
-      m_Id: efb5cb81-ef06-4305-89b2-810a3428da95
+      m_Id: 0358ee82-f7b2-491a-891c-2abb8a7a524a
       m_Processors: 
       m_Interactions: 
       m_SingletonActionBindings: []
       m_Flags: 0
     m_Reference: {fileID: 1120369429361536294, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
+  skill_B:
+    m_UseReference: 1
+    m_Action:
+      m_Name: Skill_B
+      m_Type: 0
+      m_ExpectedControlType: 
+      m_Id: 177703f4-b571-41c1-b299-c2c1198e76b5
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings: []
+      m_Flags: 0
+    m_Reference: {fileID: 3137457569920547786, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
+  skill_C:
+    m_UseReference: 1
+    m_Action:
+      m_Name: Skill_C
+      m_Type: 0
+      m_ExpectedControlType: 
+      m_Id: 608af776-a75b-4232-b8a7-026a10f9c9fb
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings: []
+      m_Flags: 0
+    m_Reference: {fileID: -5412548215272066007, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
 --- !u!114 &8324360134953111597
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -156,7 +188,28 @@ MonoBehaviour:
   moveDuration: 0.12
   obstacleLayer:
     serializedVersion: 2
-    m_Bits: 1024
+    m_Bits: 34304
+--- !u!114 &8126412915291418708
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 500425634754431959}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a51e0a5a136a6d499aacbd43d409526, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Dreamer.Player.PlayerSkillHandler
+  destructibleTileLayer:
+    serializedVersion: 2
+    m_Bits: 512
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 32768
+  skillSlotAData: {fileID: 11400000, guid: 28c578aa00653344a85294580795bc4c, type: 2}
+  skillSlotBData: {fileID: 11400000, guid: 4d0bc2802914ee44aa3c590f48c25f08, type: 2}
+  skillSlotCData: {fileID: 11400000, guid: 68614b6f5da850c46b72fb2bb42c0934, type: 2}
 --- !u!50 &8163987635674323621
 Rigidbody2D:
   serializedVersion: 5

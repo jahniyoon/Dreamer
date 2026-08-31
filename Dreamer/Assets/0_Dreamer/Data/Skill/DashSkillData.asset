@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f852120e9567ccf498516799460ca955, type: 3}
+  m_Name: DashSkillData
+  m_EditorClassIdentifier: Assembly-CSharp::Dreamer.Data.SkillData
+  <SkillType>k__BackingField: 0
+  <SkillName>k__BackingField: "\uB3CC\uC9C4 \uCC44\uAD74 (Dash Mine)"
+  <SkillIcon>k__BackingField: {fileID: 0}
+  <Description>k__BackingField: "\uBC14\uB77C\uBCF4\uB294 \uBC29\uD5A5\uC73C\uB85C
+    3\uCE78 \uB3CC\uC9C4\uD558\uBA70 \uACBD\uB85C \uC0C1\uC758 \uBAA8\uB4E0 \uC9C0\uCE35\uACFC
+    \uC801\uC744 \uC989\uC2DC \uD30C\uAD34\uD569\uB2C8\uB2E4."
+  <Cooldown>k__BackingField: 3.5
+  <Duration>k__BackingField: 0.15
+  <DamageMultiplier>k__BackingField: 1.5
+  <RangeRadius>k__BackingField: 3
+  <VfxPrefab>k__BackingField: {fileID: 0}
+  <CastSound>k__BackingField: {fileID: 0}
+  <CameraShakeIntensity>k__BackingField: 0.3

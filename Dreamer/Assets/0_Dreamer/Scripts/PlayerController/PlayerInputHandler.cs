@@ -11,38 +11,61 @@ namespace Dreamer.Player
     {
         [Header("Input System Actions")]
         [SerializeField] private InputActionProperty moveAction;
-        [SerializeField] private InputActionProperty attackAction;
+        [SerializeField] private InputActionProperty skill_A;
+        [SerializeField] private InputActionProperty skill_B;
+        [SerializeField] private InputActionProperty skill_C;
 
         public Vector2 RawInputDirection { get; private set; }
         public Vector2 Processed5WayDirection { get; private set; } = Vector2.down;
 
-        public event Action<Vector2> OnAttackInput;
+        // 각 스킬별 독립 이벤트
+        public event Action OnSkillAInput;
+        public event Action OnSkillBInput;
+        public event Action OnSkillCInput;
 
         private void OnEnable()
         {
-            if (moveAction.action != null)
+            if (moveAction.action != null) moveAction.action.Enable();
+
+            if (skill_A.action != null)
             {
-                moveAction.action.Enable();
+                skill_A.action.Enable();
+                skill_A.action.performed += HandleSkillAPerformed;
             }
 
-            if (attackAction.action != null)
+            if (skill_B.action != null)
             {
-                attackAction.action.Enable();
-                attackAction.action.performed += HandleAttackPerformed;
+                skill_B.action.Enable();
+                skill_B.action.performed += HandleSkillBPerformed;
+            }
+
+            if (skill_C.action != null)
+            {
+                skill_C.action.Enable();
+                skill_C.action.performed += HandleSkillCPerformed;
             }
         }
 
         private void OnDisable()
         {
-            if (moveAction.action != null)
+            if (moveAction.action != null) moveAction.action.Disable();
+
+            if (skill_A.action != null)
             {
-                moveAction.action.Disable();
+                skill_A.action.performed -= HandleSkillAPerformed;
+                skill_A.action.Disable();
             }
 
-            if (attackAction.action != null)
+            if (skill_B.action != null)
             {
-                attackAction.action.performed -= HandleAttackPerformed;
-                attackAction.action.Disable();
+                skill_B.action.performed -= HandleSkillBPerformed;
+                skill_B.action.Disable();
+            }
+
+            if (skill_C.action != null)
+            {
+                skill_C.action.performed -= HandleSkillCPerformed;
+                skill_C.action.Disable();
             }
         }
 
@@ -77,9 +100,19 @@ namespace Dreamer.Player
             }
         }
 
-        private void HandleAttackPerformed(InputAction.CallbackContext context)
+        private void HandleSkillAPerformed(InputAction.CallbackContext context)
         {
-            OnAttackInput?.Invoke(Processed5WayDirection);
+            OnSkillAInput?.Invoke();
+        }
+
+        private void HandleSkillBPerformed(InputAction.CallbackContext context)
+        {
+            OnSkillBInput?.Invoke();
+        }
+
+        private void HandleSkillCPerformed(InputAction.CallbackContext context)
+        {
+            OnSkillCInput?.Invoke();
         }
     }
 }

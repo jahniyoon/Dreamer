@@ -27,6 +27,7 @@ namespace Dreamer.Data
             Defense += item.DefenseBonus;
             MaxHp += item.MaxHpBonus;
             MoveSpeed += item.MoveSpeedBonus;
+            AttackCooldown -= item.CooldownBonus;
             // 쿨타임 감소 적용 (최소 쿨타임 0.05초 방어)
             if (item.CooldownBonus > 0f)
             {
