@@ -68,7 +68,7 @@ namespace Dreamer.Tile
             if (currentHp <= 0 || tileData == null) return;
 
             currentHp -= damage;
-
+            Debug.Log($"[Tile] {tileData.TileName}에게 {damage}의 데미지!({currentHp})");
             // 1. 타격 피드백 (Juice)
             ApplyHitJuice();
 

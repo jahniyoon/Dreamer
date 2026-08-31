@@ -23,7 +23,6 @@ namespace Dreamer.Player
             statsHandler = GetComponent<PlayerStatsHandler>();
             visualHandler = GetComponent<PlayerVisual>();
         }
-
         /// <summary>
         /// 전달받은 정수 원점 좌표(originGridPos)와 방향(direction)을 기준으로 정확히 타격 실행
         /// </summary>
@@ -38,34 +37,53 @@ namespace Dreamer.Player
 
             int attackPower = statsHandler != null ? statsHandler.CurrentStats.AttackPower : 1;
 
-            // 1. 대각선 공격 시: PC 옆(가로) 타일 부채꼴 휘두르기 데미지 적용
+            bool hitSide = false;
+
+            // 1. 대각선 입력 시: PC 옆(가로) 위치에 대상(타일/적)이 있다면 우선 타격
             if (direction.x != 0 && direction.y != 0)
             {
                 Vector2 sideWorldPos = new Vector2((originGridPos.x + direction.x) * gridSize, originGridPos.y * gridSize);
-                DamageTargetAtPosition(sideWorldPos, attackPower);
+                hitSide = DamageTargetAtPosition(sideWorldPos, attackPower);
             }
 
-            // 2. 최종 목표 방향 타격 처리
-            Vector2 targetWorldPos = new Vector2((originGridPos.x + direction.x) * gridSize, (originGridPos.y + direction.y) * gridSize);
-            DamageTargetAtPosition(targetWorldPos, attackPower);
+            // 2. 옆 타격에 성공하지 않은 경우에만 목표 대각선 방향 타격 실행 (1회 입력당 1회 타격 보장)
+            if (!hitSide)
+            {
+                Vector2 targetWorldPos = new Vector2((originGridPos.x + direction.x) * gridSize, (originGridPos.y + direction.y) * gridSize);
+                DamageTargetAtPosition(targetWorldPos, attackPower);
+            }
 
             Invoke(nameof(ResetAttackState), statsHandler.CurrentStats.AttackCooldown);
             return true;
         }
 
-        private void DamageTargetAtPosition(Vector2 position, int damage)
+        /// <summary>
+        /// 해당 위치의 대상(지층 타일 또는 적)을 공격하고, 실제 타격에 성공했는지 여부를 반환
+        /// </summary>
+        private bool DamageTargetAtPosition(Vector2 position, int damage)
         {
+            bool hitAnything = false;
+
+            // 지층 타격 검사 (HP가 1 이상 남아있는 경우에만 타격 성공)
             Collider2D tileCol = Physics2D.OverlapCircle(position, 0.35f, destructibleTileLayer);
             if (tileCol != null && tileCol.TryGetComponent<Tile.TileInstance>(out var tileInstance))
             {
-                tileInstance.TakeDamage(damage);
+                if (tileInstance.CurrentHp > 0)
+                {
+                    tileInstance.TakeDamage(damage);
+                    hitAnything = true;
+                }
             }
 
+            // 적 타격 검사
             Collider2D enemyCol = Physics2D.OverlapCircle(position, 0.35f, enemyLayer);
             if (enemyCol != null)
             {
                 Debug.Log($"[Combat] 💥 적 타격! 피해량: {damage}");
+                hitAnything = true;
             }
+
+            return hitAnything;
         }
 
         private void ResetAttackState()

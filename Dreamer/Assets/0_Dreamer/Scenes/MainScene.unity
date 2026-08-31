@@ -431,7 +431,7 @@ MonoBehaviour:
     DissipationMode: 2
     DissipationDistance: 100
     PropagationSpeed: 343
-  DefaultVelocity: {x: 0, y: -1, z: 0}
+  DefaultVelocity: {x: 0, y: 0.07, z: 0}
 --- !u!1 &769090571
 GameObject:
   m_ObjectHideFlags: 0
@@ -443,6 +443,8 @@ GameObject:
   - component: {fileID: 769090573}
   - component: {fileID: 769090572}
   - component: {fileID: 769090574}
+  - component: {fileID: 769090575}
+  - component: {fileID: 769090576}
   m_Layer: 0
   m_Name: CinemachineCamera
   m_TagString: Untagged
@@ -527,6 +529,43 @@ MonoBehaviour:
     RotationDamping: {x: 1, y: 1, z: 1}
     QuaternionDamping: 1
   FollowOffset: {x: 0, y: 0, z: -10}
+--- !u!114 &769090575
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 769090571}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00b2d199b96b516448144ab30fb26aed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Cinemachine::Unity.Cinemachine.CinemachineImpulseListener
+  ApplyAfter: 2
+  ChannelMask: -1
+  Gain: 1
+  Use2DDistance: 0
+  UseCameraSpace: 1
+  SignalCombinationMode: 0
+  ReactionSettings:
+    m_SecondaryNoise: {fileID: 0}
+    AmplitudeGain: 1
+    FrequencyGain: 1
+    Duration: 1
+    m_NoiseOffsets: {x: 0, y: 0, z: 0}
+--- !u!114 &769090576
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 769090571}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66aecb543a03823489a67a2a17f4be66, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Dreamer.Core.LockCameraX
+  targetXPosition: 0
 --- !u!1 &977792681
 GameObject:
   m_ObjectHideFlags: 0
@@ -572,10 +611,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b70f1886809c56469aef76bc8588b21, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Dreamer.Tile.TileGridMapGenerator
-  maxTargetDepth: 1655
+  maxTargetDepth: 500
   mapWidth: 9
   initialGenerateDepth: 20
-  generateThreshold: 5
+  generateThreshold: 15
   despawnThreshold: 15
   tileSize: 1
   defaultFallbackTile: {fileID: 11400000, guid: eb72b3ceccd92d4499d8eb2cc5d898dc, type: 2}
@@ -609,7 +648,7 @@ MonoBehaviour:
       m_RotationOrder: 4
   - ruleName: Medium Rock
     tileData: {fileID: 11400000, guid: c89676ae47aeff24ca86a18a413e555d, type: 2}
-    minDepth: 500
+    minDepth: 15
     weightByDepth:
       serializedVersion: 2
       m_Curve:
@@ -636,7 +675,7 @@ MonoBehaviour:
       m_RotationOrder: 4
   - ruleName: Hard Rock
     tileData: {fileID: 11400000, guid: a3e6386296932a24d9c725745a7a3f1f, type: 2}
-    minDepth: 800
+    minDepth: 50
     weightByDepth:
       serializedVersion: 2
       m_Curve:
@@ -661,8 +700,8 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-  tilePrefab: {fileID: 4843194554918242858, guid: 1999fa55300c36a4ab63b789f131a0f0, type: 3}
-  wallPrefab: {fileID: 3247256581263447025, guid: 6189d214bba156d42bdd2282448eeb3c, type: 3}
+  tilePrefab: {fileID: 7517113222047015647, guid: 1999fa55300c36a4ab63b789f131a0f0, type: 3}
+  wallPrefab: {fileID: 2865933159826572884, guid: 6189d214bba156d42bdd2282448eeb3c, type: 3}
   playerTransform: {fileID: 528625816}
 --- !u!114 &977792684
 MonoBehaviour:
@@ -676,7 +715,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d9dcd00242b6ec42b746a0f60d2e199, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Dreamer.Enemy.EnemySpawner
-  mapGenerator: {fileID: 0}
+  mapGenerator: {fileID: 977792683}
   globalSpawnRate: 0.15
   enemySpawnRules: []
   bossConfigs: []
@@ -976,6 +1015,10 @@ PrefabInstance:
     - target: {fileID: 4127021521959618565, guid: e320222a391790348adee1399d658ec8, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8324360134953111597, guid: e320222a391790348adee1399d658ec8, type: 3}
+      propertyPath: obstacleLayer.m_Bits
+      value: 1536
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
