@@ -1,5 +1,5 @@
 using UnityEngine;
-
+using Dreamer.Core;
 namespace Dreamer.Player
 {
     /// <summary>
@@ -62,30 +62,24 @@ namespace Dreamer.Player
         /// </summary>
         private bool DamageTargetAtPosition(Vector2 position, int damage)
         {
-            bool hitAnything = false;
+            LayerMask targetLayers = destructibleTileLayer | enemyLayer;
+            Collider2D hit = Physics2D.OverlapCircle(position, 0.35f, targetLayers);
 
-            // 지층 타격 검사 (HP가 1 이상 남아있는 경우에만 타격 성공)
-            Collider2D tileCol = Physics2D.OverlapCircle(position, 0.35f, destructibleTileLayer);
-            if (tileCol != null && tileCol.TryGetComponent<Tile.TileInstance>(out var tileInstance))
+            if (hit != null)
             {
-                if (tileInstance.CurrentHp > 0)
+                // IDamageable 인터페이스 하나로 타일과 적 모두 일괄 
+                if (hit.TryGetComponent<IDamageable>(out var target))
                 {
-                    tileInstance.TakeDamage(damage);
-                    hitAnything = true;
+                    if (!target.IsDead)
+                    {
+                        target.TakeDamage(damage);
+                        return true;
+                    }
                 }
             }
 
-            // 적 타격 검사
-            Collider2D enemyCol = Physics2D.OverlapCircle(position, 0.35f, enemyLayer);
-            if (enemyCol != null)
-            {
-                Debug.Log($"[Combat] 💥 적 타격! 피해량: {damage}");
-                hitAnything = true;
-            }
-
-            return hitAnything;
+            return false;
         }
-
         private void ResetAttackState()
         {
             IsAttacking = false;

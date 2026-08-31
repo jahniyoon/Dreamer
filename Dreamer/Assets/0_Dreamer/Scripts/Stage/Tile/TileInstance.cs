@@ -8,7 +8,7 @@ namespace Dreamer.Tile
     /// 단일 지층 타일의 체력, 피격 반응, 파괴 및 이펙트/드롭 연동을 담당하는 컴포넌트
     /// </summary>
     [RequireComponent(typeof(SpriteRenderer), typeof(Collider2D))]
-    public class TileInstance : MonoBehaviour
+    public class TileInstance : MonoBehaviour, IDamageable
     {
         [Header("지층 데이터")]
         [SerializeField] private TileData tileData;
@@ -22,6 +22,7 @@ namespace Dreamer.Tile
         public TileData Data => tileData;
         public int CurrentHp => currentHp;
         public Vector2Int GridPosition => gridPosition;
+        public bool IsDead => currentHp <= 0;
 
         /// <summary>
         ///  타일 파괴 시 좌표를 통보하는 정적 이벤트
