@@ -17,9 +17,16 @@ namespace Dreamer.Tile
         private Collider2D tileCollider;
         private int currentHp;
         private Vector3 originalScale;
+        private Vector2Int gridPosition; // 내 그리드 좌표 기억
 
         public TileData Data => tileData;
         public int CurrentHp => currentHp;
+        public Vector2Int GridPosition => gridPosition;
+
+        /// <summary>
+        ///  타일 파괴 시 좌표를 통보하는 정적 이벤트
+        /// </summary>
+        public static event System.Action<Vector2Int> OnTileDestroyed;
 
         private void Awake()
         {
@@ -28,17 +35,14 @@ namespace Dreamer.Tile
             originalScale = transform.localScale;
         }
 
-        private void OnEnable()
-        {
-            InitTile(tileData);
-        }
-
         /// <summary>
-        /// 타일 데이터를 기반으로 초기화 (오브젝트 풀 재사용 대응)
+        /// 타일 데이터와 그리드 좌표를 기반으로 초기화
         /// </summary>
-        public void InitTile(TileData data)
+        public void InitTile(TileData data, Vector2Int gridPos)
         {
             tileData = data;
+            gridPosition = gridPos;
+
             if (tileData == null) return;
 
             currentHp = tileData.MaxHp;
@@ -75,30 +79,11 @@ namespace Dreamer.Tile
             }
         }
 
-        private void ApplyHitJuice()
-        {
-            // DOTween 피격 펀치 스케일 효과
-            transform.DOKill();
-            transform.localScale = originalScale;
-            transform.DOPunchScale(new Vector3(-0.15f, 0.15f, 0f), 0.12f, 5, 0.5f)
-                .OnComplete(() => transform.localScale = originalScale);
-
-            // 카메라 흔들림 & 히트 스톱
-            if (JuiceManager.Instance != null)
-            {
-                JuiceManager.Instance.ShakeCamera(tileData.CameraShakeIntensity);
-                JuiceManager.Instance.DoHitStop(0.03f, 0.1f);
-
-                if (tileData.DestroySound != null)
-                {
-                    JuiceManager.Instance.PlaySfxWithPitch(tileData.DestroySound, 0.8f, 0.15f);
-                }
-            }
-        }
-
         private void DestroyTile()
         {
             if (tileCollider != null) tileCollider.enabled = false;
+
+            OnTileDestroyed?.Invoke(gridPosition);
 
             // 파괴 VFX 생성 (ObjectPoolManager 활용)
             if (tileData.DestroyParticlePrefab != null && JuiceManager.Instance != null)
@@ -120,6 +105,28 @@ namespace Dreamer.Tile
             }
         }
 
+        private void ApplyHitJuice()
+        {
+            // DOTween 피격 펀치 스케일 효과
+            transform.DOKill();
+            transform.localScale = originalScale;
+            transform.DOPunchScale(new Vector3(-0.15f, 0.15f, 0f), 0.12f, 5, 0.5f)
+                .OnComplete(() => transform.localScale = originalScale);
+
+            // 카메라 흔들림 & 히트 스톱
+            if (JuiceManager.Instance != null)
+            {
+                JuiceManager.Instance.ShakeCamera(tileData.CameraShakeIntensity);
+                JuiceManager.Instance.DoHitStop(0.03f, 0.1f);
+
+                if (tileData.DestroySound != null)
+                {
+                    JuiceManager.Instance.PlaySfxWithPitch(tileData.DestroySound, 0.8f, 0.15f);
+                }
+            }
+        }
+
+  
         private void TryDropItem()
         {
             if (tileData.DropItems == null || tileData.DropItems.Count == 0) return;

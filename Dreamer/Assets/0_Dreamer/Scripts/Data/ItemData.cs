@@ -27,6 +27,7 @@ namespace Dreamer.Data
         [field: SerializeField] public int DefenseBonus { get; private set; }
         [field: SerializeField] public int MaxHpBonus { get; private set; }
         [field: SerializeField] public float MoveSpeedBonus { get; private set; }
+        [field: SerializeField] public float CooldownBonus { get; private set; }
 
         [field: Header("드롭 정보")]
         [field: SerializeField][field: Range(0f, 100f)] public float DropChance { get; private set; } = 15f;

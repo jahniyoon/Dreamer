@@ -10,43 +10,50 @@ namespace Dreamer.Player
     {
         [Header("그리드 이동 설정")]
         [SerializeField] private float gridSize = 1f;
-        [SerializeField] private float moveDuration = 0.12f;
+        [SerializeField] private float moveDuration = 0.08f;
         [SerializeField] private LayerMask obstacleLayer;
 
         private PlayerVisual visual;
-        private PlayerCombat combat;
 
         public bool IsMoving { get; private set; }
         public float GridSize => gridSize;
+        public LayerMask ObstacleLayer => obstacleLayer;
+
+        /// <summary>
+        /// 단 1픽셀의 소수점 오차도 허용하지 않는 플레이어의 정수 논리 그리드 좌표
+        /// </summary>
+        public Vector2Int CurrentGridPos { get; private set; }
 
         private void Awake()
         {
             visual = GetComponent<PlayerVisual>();
-            combat = GetComponent<PlayerCombat>();
+            SyncGridPosFromTransform();
         }
 
         /// <summary>
-        /// 지정한 방향으로 그리드 1칸 이동 시도
+        /// Transform의 현재 위치를 기반으로 정수 논리 그리드 좌표 동기화
         /// </summary>
-        public bool TryGridMove(Vector2 direction)
+        public void SyncGridPosFromTransform()
         {
-            // 이동 중이거나 공격 중일 때 이동 차단
-            if (IsMoving || (combat != null && combat.IsAttacking)) return false;
+            CurrentGridPos = new Vector2Int(
+                Mathf.RoundToInt(transform.position.x / gridSize),
+                Mathf.RoundToInt(transform.position.y / gridSize)
+            );
+            transform.position = new Vector3(CurrentGridPos.x * gridSize, CurrentGridPos.y * gridSize, 0f);
+        }
 
-            Vector3 targetPosition = transform.position + (Vector3)(direction * gridSize);
-
-            // 장애물(벽/지층 등) 확인
-            RaycastHit2D hit = Physics2D.Raycast(transform.position, direction, gridSize, obstacleLayer);
-            if (hit.collider != null)
-            {
-                // 장애물 부딪힘 연출 (Juice)
-                transform.DOKill();
-                transform.DOMove(transform.position + (Vector3)(direction * 0.15f), 0.05f)
-                    .SetLoops(2, LoopType.Yoyo);
-                return false;
-            }
+        /// <summary>
+        /// 논리 그리드 좌표를 1칸 변경하고 해당 위치로 슬라이딩 이동
+        /// </summary>
+        public bool ExecuteGridMove(Vector2Int direction)
+        {
+            if (IsMoving || (direction.x == 0 && direction.y == 0)) return false;
 
             IsMoving = true;
+
+            // 이동 시작 즉시 논리 정수 좌표 변경 (연타 시 중복 오판 방지 핵심)
+            CurrentGridPos += direction;
+            Vector3 targetWorldPos = new Vector3(CurrentGridPos.x * gridSize, CurrentGridPos.y * gridSize, 0f);
 
             if (visual != null)
             {
@@ -54,21 +61,45 @@ namespace Dreamer.Player
                 visual.PlayMoveSquash();
             }
 
-            // 지정한 시간 동안 그리드 이동
-            transform.DOMove(targetPosition, moveDuration)
+            transform.DOKill();
+            transform.DOMove(targetWorldPos, moveDuration)
                 .SetEase(Ease.OutQuad)
                 .OnComplete(() =>
                 {
-                    // 정확한 그리드 좌표 정렬
-                    transform.position = new Vector3(
-                        Mathf.Round(transform.position.x),
-                        Mathf.Round(transform.position.y),
-                        0f
-                    );
+                    // 이동 완료 후 월드 위치를 정수 좌표에 완벽히 고정
+                    transform.position = targetWorldPos;
                     IsMoving = false;
                 });
 
             return true;
+        }
+
+        /// <summary>
+        /// 막힌 지층/벽 타격 시 제자리에서 튕기는 찌그러짐 쥬시 연출
+        /// </summary>
+        public void TriggerBumpJuice(Vector2Int bumpDirection)
+        {
+            if (IsMoving) return;
+
+            IsMoving = true;
+
+            if (visual != null && bumpDirection.x != 0)
+            {
+                visual.UpdateFacingDirection(bumpDirection.x);
+            }
+
+            Vector3 startWorldPos = new Vector3(CurrentGridPos.x * gridSize, CurrentGridPos.y * gridSize, 0f);
+            Vector3 bumpOffset = new Vector3(bumpDirection.x, bumpDirection.y, 0f).normalized * 0.1f;
+
+            transform.DOKill();
+            transform.DOMove(startWorldPos + bumpOffset, 0.035f)
+                .SetLoops(2, LoopType.Yoyo)
+                .OnComplete(() =>
+                {
+                    // 연출 종료 후 원점 보장 및 잠금 해제
+                    transform.position = startWorldPos;
+                    IsMoving = false;
+                });
         }
     }
 }

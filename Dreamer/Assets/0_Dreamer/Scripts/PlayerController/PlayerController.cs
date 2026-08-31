@@ -25,57 +25,76 @@ namespace Dreamer.Player
             Visual = GetComponent<PlayerVisual>();
             Stats = GetComponent<PlayerStatsHandler>();
         }
-        private void OnEnable()
-        {
-            if (InputHandler != null)
-            {
-                InputHandler.OnAttackInput += HandleAttack;
-            }
-        }
-
-        private void OnDisable()
-        {
-            if (InputHandler != null)
-            {
-                InputHandler.OnAttackInput -= HandleAttack;
-            }
-        }
 
         private void Update()
         {
-            ProcessGridMovement();
+            ProcessBumpCombatMovement();
         }
 
-        private void ProcessGridMovement()
+        /// <summary>
+        /// 방향 입력 발생 시: 1) 타격 실행 -> 2) 정수 그리드 장애물 검사 -> 3) 진입 또는 제자리 반동
+        /// </summary>
+        private void ProcessBumpCombatMovement()
         {
-            if (InputHandler == null || Movement == null) return;
+            if (InputHandler == null || Movement == null || Combat == null) return;
 
-            // 이동 중이거나 공격 중일 때는 새로운 이동 입력을 차단
-            if (Movement.IsMoving || (Combat != null && Combat.IsAttacking)) return;
+            // 이동 중이거나 공격 후딜레이 중 중복 실행 완전 차단
+            if (Movement.IsMoving || Combat.IsAttacking) return;
 
             Vector2 rawDir = InputHandler.RawInputDirection;
+            if (rawDir.magnitude < 0.3f) return;
 
-            // 수평 이동 시도 (우선순위: 수평)
-            if (Mathf.Abs(rawDir.x) > 0.5f)
+            Vector2Int targetDir = Vector2Int.zero;
+
+            // 5방향 정수 방향 추출
+            if (rawDir.y < -0.3f && Mathf.Abs(rawDir.x) > 0.3f)
             {
-                Vector2 targetDir = rawDir.x > 0 ? Vector2.right : Vector2.left;
-                Movement.TryGridMove(targetDir);
+                targetDir = new Vector2Int(rawDir.x > 0 ? 1 : -1, -1);
             }
-            // 수직 이동 시도 (하단 이동)
+            else if (Mathf.Abs(rawDir.x) > 0.5f)
+            {
+                targetDir = new Vector2Int(rawDir.x > 0 ? 1 : -1, 0);
+            }
             else if (rawDir.y < -0.5f)
             {
-                Movement.TryGridMove(Vector2.down);
+                targetDir = Vector2Int.down;
             }
-        }
 
-        private void HandleAttack(Vector2 attackDirection)
-        {
-            // 이동 중일 때는 공격 실행 차단
-            if (Movement != null && Movement.IsMoving) return;
+            if (targetDir == Vector2Int.zero) return;
 
-            if (Combat != null)
+            // 현재 플레이어의 고정 정수 논리 좌표 가져오기
+            Vector2Int originGridPos = Movement.CurrentGridPos;
+
+            // 1단계: 해당 방향으로 즉시 타격 실행 (지층 체력 감속)
+            Combat.TryAttack(targetDir, originGridPos, Movement.GridSize);
+
+            // 2단계: 대각선 이동 시 옆(가로) 타일 장애물 체크
+            if (targetDir.x != 0 && targetDir.y != 0)
             {
-                Combat.TryAttack(attackDirection);              
+                Vector2 sideCheckWorldPos = new Vector2((originGridPos.x + targetDir.x) * Movement.GridSize, originGridPos.y * Movement.GridSize);
+                Collider2D sideHit = Physics2D.OverlapCircle(sideCheckWorldPos, Movement.GridSize * 0.35f, Movement.ObstacleLayer);
+
+                if (sideHit != null)
+                {
+                    // 옆 타일이 막혀있으면 진행 불가 및 반동 찌그러짐
+                    Movement.TriggerBumpJuice(new Vector2Int(targetDir.x, 0));
+                    return;
+                }
+            }
+
+            // 3단계: 최종 목표 타일 장애물 체크 (타일 HP가 남아있거나 외벽인 경우)
+            Vector2 targetCheckWorldPos = new Vector2((originGridPos.x + targetDir.x) * Movement.GridSize, (originGridPos.y + targetDir.y) * Movement.GridSize);
+            Collider2D targetHit = Physics2D.OverlapCircle(targetCheckWorldPos, Movement.GridSize * 0.35f, Movement.ObstacleLayer);
+
+            if (targetHit != null)
+            {
+                // 지층이 한 번에 안 부서짐 -> 이동하지 않고 제자리 반동 찌그러짐
+                Movement.TriggerBumpJuice(targetDir);
+            }
+            else
+            {
+                // 지층이 부서져 빈 공간이 됨 -> 목표 칸으로 1칸 이동!
+                Movement.ExecuteGridMove(targetDir);
             }
         }
     }

@@ -15,8 +15,10 @@ namespace Dreamer.Player
         [SerializeField] private int baseAttack = 1;
         [SerializeField] private int baseDefense = 0;
         [SerializeField] private float baseMoveSpeed = 5f;
+        [SerializeField] private float attackCooldown = 0.2f;
 
-        public CalculatedPlayerStats CurrentStats { get; private set; }
+        [Header("현재 스탯 (Current Stats)")]
+        [field:SerializeField]public CalculatedPlayerStats CurrentStats { get; private set; }
         public int CurrentHp { get; private set; }
 
         public event Action<int, int> OnHpChanged; // (currentHp, maxHp)
@@ -30,7 +32,7 @@ namespace Dreamer.Player
         public void ResetStats()
         {
             CalculatedPlayerStats stats = new CalculatedPlayerStats();
-            stats.ResetToBase(baseMaxHp, baseAttack, baseDefense, baseMoveSpeed);
+            stats.ResetToBase(baseMaxHp, baseAttack, baseDefense, baseMoveSpeed, attackCooldown);
             CurrentStats = stats;
             CurrentHp = CurrentStats.MaxHp;
             OnHpChanged?.Invoke(CurrentHp, CurrentStats.MaxHp);

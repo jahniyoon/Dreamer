@@ -26,7 +26,7 @@ namespace Dreamer.Enemy
         {
             if (mapGenerator == null)
             {
-                mapGenerator = FindObjectOfType<Tile.TileGridMapGenerator>();
+                mapGenerator = GetComponent<Tile.TileGridMapGenerator>();
             }
         }
 

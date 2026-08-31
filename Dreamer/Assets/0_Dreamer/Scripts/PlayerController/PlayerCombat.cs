@@ -8,10 +8,9 @@ namespace Dreamer.Player
     public class PlayerCombat : MonoBehaviour
     {
         [Header("타격 및 지층 판정 설정")]
-        [SerializeField] private float attackRange = 0.8f;
         [SerializeField] private LayerMask destructibleTileLayer;
         [SerializeField] private LayerMask enemyLayer;
-        [SerializeField] private float attackCooldown = 0.25f;
+        [SerializeField] private float attackCooldown = 0.1f;
 
         private PlayerStatsHandler statsHandler;
         private PlayerVisual visualHandler;
@@ -25,48 +24,53 @@ namespace Dreamer.Player
             visualHandler = GetComponent<PlayerVisual>();
         }
 
-        public bool TryAttack(Vector2 attackDirection)
+        /// <summary>
+        /// 전달받은 정수 원점 좌표(originGridPos)와 방향(direction)을 기준으로 정확히 타격 실행
+        /// </summary>
+        public bool TryAttack(Vector2Int direction, Vector2Int originGridPos, float gridSize)
         {
-            if (Time.time < lastAttackTime + attackCooldown) return false;
-            Debug.Log("공격 시도");
+            if (Time.time < lastAttackTime + statsHandler.CurrentStats.AttackCooldown) return false;
+
             lastAttackTime = Time.time;
             IsAttacking = true;
 
-            // 비주얼 스쿼시 연출 요청
             if (visualHandler != null) visualHandler.PlayAttackSquash();
-
-            // 5방향 레이캐스트 타격 판정
-            Vector2 attackOrigin = transform.position;
-            RaycastHit2D enemyHit = Physics2D.Raycast(attackOrigin, attackDirection, attackRange, enemyLayer);
-            RaycastHit2D tileHit = Physics2D.Raycast(attackOrigin, attackDirection, attackRange, destructibleTileLayer);
 
             int attackPower = statsHandler != null ? statsHandler.CurrentStats.AttackPower : 1;
 
-            if (enemyHit.collider != null)
+            // 1. 대각선 공격 시: PC 옆(가로) 타일 부채꼴 휘두르기 데미지 적용
+            if (direction.x != 0 && direction.y != 0)
             {
-                Debug.Log($"[Combat] 적 타격! 피해량: {attackPower}");
-                // TODO: EnemyController에 데미지 전달
+                Vector2 sideWorldPos = new Vector2((originGridPos.x + direction.x) * gridSize, originGridPos.y * gridSize);
+                DamageTargetAtPosition(sideWorldPos, attackPower);
             }
 
-            if (tileHit.collider != null)
-            {
-                Debug.Log($"[Combat] 지층 타격! 위치: {tileHit.point}, 방향: {attackDirection}");
-                // TODO: TileInstance에 데미지 전달
-            }
+            // 2. 최종 목표 방향 타격 처리
+            Vector2 targetWorldPos = new Vector2((originGridPos.x + direction.x) * gridSize, (originGridPos.y + direction.y) * gridSize);
+            DamageTargetAtPosition(targetWorldPos, attackPower);
 
-            Invoke(nameof(ResetAttackState), attackCooldown * 0.8f);
+            Invoke(nameof(ResetAttackState), statsHandler.CurrentStats.AttackCooldown);
             return true;
+        }
+
+        private void DamageTargetAtPosition(Vector2 position, int damage)
+        {
+            Collider2D tileCol = Physics2D.OverlapCircle(position, 0.35f, destructibleTileLayer);
+            if (tileCol != null && tileCol.TryGetComponent<Tile.TileInstance>(out var tileInstance))
+            {
+                tileInstance.TakeDamage(damage);
+            }
+
+            Collider2D enemyCol = Physics2D.OverlapCircle(position, 0.35f, enemyLayer);
+            if (enemyCol != null)
+            {
+                Debug.Log($"[Combat] 💥 적 타격! 피해량: {damage}");
+            }
         }
 
         private void ResetAttackState()
         {
             IsAttacking = false;
-        }
-
-        private void OnDrawGizmosSelected()
-        {
-            Gizmos.color = Color.red;
-            Gizmos.DrawRay(transform.position, Vector2.down * attackRange);
         }
     }
 }
