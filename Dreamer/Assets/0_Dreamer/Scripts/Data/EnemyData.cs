@@ -5,6 +5,11 @@ using UnityEngine;
 
 namespace Dreamer.Data
 {
+    public enum EnemyType
+    {
+        Normal,     // 일반 적
+        Boss        // 보스 적
+    }
 
 
     [CreateAssetMenu(fileName = "NewEnemyData", menuName = "Data/EnemyData")]
@@ -13,7 +18,7 @@ namespace Dreamer.Data
         [field: Header("기본 정보")]
         [field: SerializeField] public string EnemyId { get; private set; }
         [field: SerializeField] public string EnemyName { get; private set; }
-        [field: SerializeField] public bool IsBoss { get; private set; } = false;
+        [field: SerializeField] public EnemyType EnemyType { get; private set; }
         [field: SerializeField] public Sprite EnemySprite { get; private set; }
 
         [field: Header("스탯")]
@@ -29,6 +34,9 @@ namespace Dreamer.Data
         [field: SerializeField] public AudioClip HitSound { get; private set; }
         [field: SerializeField] public AudioClip DeathSound { get; private set; }
         [field: SerializeField] public GameObject DeathVfxPrefab { get; private set; }
+
+        public bool IsBoss => EnemyType == EnemyType.Boss;
+
     }
 }
 

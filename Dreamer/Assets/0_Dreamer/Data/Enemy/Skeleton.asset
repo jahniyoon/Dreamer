@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c8363c82360396479dd64aa45b83bc1, type: 3}
+  m_Name: Skeleton
+  m_EditorClassIdentifier: Assembly-CSharp::Dreamer.Data.EnemyData
+  <EnemyId>k__BackingField: 
+  <EnemyName>k__BackingField: 
+  <IsBoss>k__BackingField: 0
+  <EnemySprite>k__BackingField: {fileID: 0}
+  <MaxHp>k__BackingField: 10
+  <AttackPower>k__BackingField: 2
+  <MoveSpeed>k__BackingField: 2.5
+  <PossibleDrops>k__BackingField: []
+  <DropRate>k__BackingField: 0.3
+  <HitSound>k__BackingField: {fileID: 0}
+  <DeathSound>k__BackingField: {fileID: 0}
+  <DeathVfxPrefab>k__BackingField: {fileID: 0}

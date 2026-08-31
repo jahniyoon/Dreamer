@@ -7,62 +7,75 @@ namespace Dreamer.Player
     /// 입력 수집, 이동 및 하위 컴포넌트(Stats, Visual, Combat)를 조율하는 메인 컨트롤러
     /// </summary>
     [RequireComponent(typeof(Rigidbody2D), typeof(Collider2D))]
-    [RequireComponent(typeof(PlayerStatsHandler), typeof(PlayerVisual), typeof(PlayerCombat))]
+    [RequireComponent(typeof(PlayerInputHandler), typeof(PlayerMove))]
+    [RequireComponent(typeof(PlayerCombat), typeof(PlayerVisual))]
     public class PlayerController : MonoBehaviour
     {
-        // 컴포넌트 참조 (Facade Pattern)
-        public PlayerStatsHandler Stats { get; private set; }
-        public PlayerVisual Visual { get; private set; }
+        public PlayerInputHandler InputHandler { get; private set; }
+        public PlayerMove Movement { get; private set; }
         public PlayerCombat Combat { get; private set; }
-
-        private Rigidbody2D rb;
-        public Vector2 LastInputDirection { get; private set; } = Vector2.down;
+        public PlayerVisual Visual { get; private set; }
+        public PlayerStatsHandler Stats { get; private set; }
 
         private void Awake()
         {
-            rb = GetComponent<Rigidbody2D>();
-            Stats = GetComponent<PlayerStatsHandler>();
-            Visual = GetComponent<PlayerVisual>();
+            InputHandler = GetComponent<PlayerInputHandler>();
+            Movement = GetComponent<PlayerMove>();
             Combat = GetComponent<PlayerCombat>();
+            Visual = GetComponent<PlayerVisual>();
+            Stats = GetComponent<PlayerStatsHandler>();
+        }
+        private void OnEnable()
+        {
+            if (InputHandler != null)
+            {
+                InputHandler.OnAttackInput += HandleAttack;
+            }
+        }
+
+        private void OnDisable()
+        {
+            if (InputHandler != null)
+            {
+                InputHandler.OnAttackInput -= HandleAttack;
+            }
         }
 
         private void Update()
         {
-            ProcessInput();
+            ProcessGridMovement();
         }
 
-        private void FixedUpdate()
+        private void ProcessGridMovement()
         {
-            // 이동 처리 (공격 중에는 이동 감속)
-            if (!Combat.IsAttacking && LastInputDirection.x != 0)
+            if (InputHandler == null || Movement == null) return;
+
+            // 이동 중이거나 공격 중일 때는 새로운 이동 입력을 차단
+            if (Movement.IsMoving || (Combat != null && Combat.IsAttacking)) return;
+
+            Vector2 rawDir = InputHandler.RawInputDirection;
+
+            // 수평 이동 시도 (우선순위: 수평)
+            if (Mathf.Abs(rawDir.x) > 0.5f)
             {
-                rb.linearVelocity = new Vector2(LastInputDirection.x * Stats.CurrentStats.MoveSpeed, rb.linearVelocity.y);
+                Vector2 targetDir = rawDir.x > 0 ? Vector2.right : Vector2.left;
+                Movement.TryGridMove(targetDir);
+            }
+            // 수직 이동 시도 (하단 이동)
+            else if (rawDir.y < -0.5f)
+            {
+                Movement.TryGridMove(Vector2.down);
             }
         }
 
-        private void ProcessInput()
+        private void HandleAttack(Vector2 attackDirection)
         {
-            float horizontal = Input.GetAxisRaw("Horizontal");
-            float vertical = Input.GetAxisRaw("Vertical");
+            // 이동 중일 때는 공격 실행 차단
+            if (Movement != null && Movement.IsMoving) return;
 
-            Vector2 rawDir = new Vector2(horizontal, vertical);
-
-            if (rawDir.magnitude > 0.1f)
+            if (Combat != null)
             {
-                // 5방향 정제 로직
-                if (vertical < -0.3f && horizontal < -0.3f) LastInputDirection = new Vector2(-1f, -1f).normalized;
-                else if (vertical < -0.3f && horizontal > 0.3f) LastInputDirection = new Vector2(1f, -1f).normalized;
-                else if (vertical < -0.3f) LastInputDirection = Vector2.down;
-                else if (horizontal < -0.3f) LastInputDirection = Vector2.left;
-                else if (horizontal > 0.3f) LastInputDirection = Vector2.right;
-
-                Visual.UpdateFacingDirection(horizontal);
-            }
-
-            // 공격 입력
-            if (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0))
-            {
-                Combat.TryAttack(LastInputDirection);
+                Combat.TryAttack(attackDirection);              
             }
         }
     }

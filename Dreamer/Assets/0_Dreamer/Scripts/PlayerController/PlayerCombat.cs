@@ -28,7 +28,7 @@ namespace Dreamer.Player
         public bool TryAttack(Vector2 attackDirection)
         {
             if (Time.time < lastAttackTime + attackCooldown) return false;
-
+            Debug.Log("공격 시도");
             lastAttackTime = Time.time;
             IsAttacking = true;
 
