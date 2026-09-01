@@ -35,6 +35,7 @@ namespace Dreamer.Tile
         [SerializeField] private Transform playerTransform;
 
         private int lowestGeneratedY = 0; // 현재 스폰 완료된 최하단 Y 그리드 좌표
+        private Transform mapParent;
 
         // 1. 화면에 떠있는 실시간 게임오브젝트 관리 (상하 화면 시야 30~50개 유지)
         private readonly Dictionary<Vector2Int, TileInstance> activeTiles = new Dictionary<Vector2Int, TileInstance>();
@@ -58,6 +59,11 @@ namespace Dreamer.Tile
         {
             TileInstance.OnTileDestroyed -= SetTileDestroyed;
         }
+        private void Awake()
+        {
+            mapParent = new GameObject("MapParent").transform;
+            mapParent.transform.parent = mapParent;
+        }
 
 
         private void Start()
@@ -67,7 +73,6 @@ namespace Dreamer.Tile
                 GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
                 if (playerObj != null) playerTransform = playerObj.transform;
             }
-
             // 초기 맵 동적 생성 (Y = 0 부터 -initialGenerateDepth 까지)
             GenerateRows(0, -initialGenerateDepth);
         }
@@ -313,7 +318,7 @@ namespace Dreamer.Tile
 
             if (ObjectPoolManager.Instance != null)
             {
-                tileObj = ObjectPoolManager.Instance.SpawnFromPool(tilePrefab, worldPos, Quaternion.identity, transform);               
+                tileObj = ObjectPoolManager.Instance.SpawnFromPool(tilePrefab, worldPos, Quaternion.identity, mapParent);
             }
             else
             {
@@ -338,7 +343,7 @@ namespace Dreamer.Tile
 
             if (ObjectPoolManager.Instance != null)
             {
-                wallObj = ObjectPoolManager.Instance.SpawnFromPool(wallPrefab, worldPos, Quaternion.identity, transform);
+                wallObj = ObjectPoolManager.Instance.SpawnFromPool(wallPrefab, worldPos, Quaternion.identity, mapParent);
             }
             else
             {

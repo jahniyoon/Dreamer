@@ -717,7 +717,91 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Dreamer.Enemy.EnemySpawner
   mapGenerator: {fileID: 977792683}
   globalSpawnRate: 0.15
-  enemySpawnRules: []
+  enemySpawnRules:
+  - ruleName: Digger
+    enemyData: {fileID: 11400000, guid: bd056f79594a9df468936dd8fb36edd9, type: 2}
+    enemyPrefab: {fileID: 3993380830720501968, guid: 16d0ff939d62cad45b7b294a72745b08, type: 3}
+    minDepth: 0
+    weightByDepth:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+  - ruleName: Chaser
+    enemyData: {fileID: 11400000, guid: bcb1144017e6ea54bb91058b90b9cfd2, type: 2}
+    enemyPrefab: {fileID: 3249028367022770865, guid: c2d567fcdaac10741920b34038fdc68f, type: 3}
+    minDepth: 15
+    weightByDepth:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+  - ruleName: Explosive
+    enemyData: {fileID: 11400000, guid: c7d73fe23340c1a4384d9d346f18c7bf, type: 2}
+    enemyPrefab: {fileID: 3141543562359452884, guid: b3083560b96d583419a97b388f05f749, type: 3}
+    minDepth: 50
+    weightByDepth:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
   bossConfigs: []
 --- !u!1 &1061454894
 GameObject:

@@ -11,8 +11,7 @@ namespace Dreamer.Player
     public class PlayerCombat : MonoBehaviour
     {
         [Header("타격 및 지층 판정 설정")]
-        [SerializeField] private LayerMask destructibleTileLayer;
-        [SerializeField] private LayerMask enemyLayer;
+        [SerializeField] private LayerMask targetLayer;
         [SerializeField] private float attackCooldown = 0.1f;
 
         private PlayerStatsHandler statsHandler;
@@ -68,15 +67,15 @@ namespace Dreamer.Player
         /// </summary>
         private bool DamageTargetAtPosition(Vector2 position, int damage)
         {
-            LayerMask targetLayers = destructibleTileLayer | enemyLayer;
-            Collider2D hit = Physics2D.OverlapCircle(position, 0.35f, targetLayers);
+            Collider2D hit = Physics2D.OverlapCircle(position, 0.35f, targetLayer);
 
             if (hit != null)
             {
                 // IDamageable 인터페이스 하나로 타일과 적 모두 일괄 
                 if (hit.TryGetComponent<IDamageable>(out var target))
                 {
-     
+
+                    // 곡괭이 내구도 마모 로직 적용
                     ApplyPickaxeWear(target);
 
                     if (!target.IsDead)

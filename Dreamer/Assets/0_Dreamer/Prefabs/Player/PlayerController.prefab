@@ -70,6 +70,7 @@ MonoBehaviour:
   baseDefense: 0
   baseMoveSpeed: 5
   attackCooldown: 0.2
+  <CurrentHp>k__BackingField: 0
   <CurrentStats>k__BackingField:
     <MaxHp>k__BackingField: 0
     <AttackPower>k__BackingField: 0
@@ -105,12 +106,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f85defb6cfc1d14ab314664926715c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Dreamer.Player.PlayerCombat
-  destructibleTileLayer:
+  targetLayer:
     serializedVersion: 2
-    m_Bits: 512
-  enemyLayer:
-    serializedVersion: 2
-    m_Bits: 1024
+    m_Bits: 33280
   attackCooldown: 0.2
 --- !u!114 &7615778528889417191
 MonoBehaviour:

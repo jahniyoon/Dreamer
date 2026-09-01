@@ -19,6 +19,7 @@ namespace Dreamer.Enemy
 
         [Header("보스 스폰 마일스톤 설정")]
         [SerializeField] private BossSpawnConfig[] bossConfigs;
+        Transform enemyParent;
 
         private readonly HashSet<int> spawnedBossDepths = new HashSet<int>();
 
@@ -28,6 +29,8 @@ namespace Dreamer.Enemy
             {
                 mapGenerator = GetComponent<Tile.TileGridMapGenerator>();
             }
+            enemyParent = new GameObject("EnemyParent").transform;
+            enemyParent.parent = transform;
         }
 
         private void OnEnable()
@@ -56,7 +59,7 @@ namespace Dreamer.Enemy
             // 1. 보스 등장 심도 체크
             if (CheckAndSpawnBoss(currentDepth, yCoord))
             {
-                return; // 보스 방 영역에는 일반 적 스폰 중단
+                return;
             }
 
             // 2. 일반 적 스폰 확률 체크
@@ -64,22 +67,22 @@ namespace Dreamer.Enemy
 
             // 3. 해당 깊이에 적합한 적 종류 추첨
             EnemySpawnRule selectedRule = SelectEnemyRuleByDepth(currentDepth);
-            if (selectedRule == null || selectedRule.EnemyPrefab == null) return;
+            if (selectedRule == null || selectedRule.EnemyPrefab == null)
+                return;
 
             // 4. 해당 행의 가로 타일 중 무작위 1개 위치 선택 후 적 스폰
             if (rowPositions != null && rowPositions.Count > 0)
             {
                 int randomIndex = UnityEngine.Random.Range(0, rowPositions.Count);
                 Vector2Int spawnGridPos = rowPositions[randomIndex];
-                Vector3 spawnWorldPos = new Vector3(spawnGridPos.x * mapGenerator.TileSize, spawnGridPos.y * mapGenerator.TileSize, 0f);
 
-                SpawnEnemyInstance(selectedRule.EnemyPrefab, spawnWorldPos);
+                float tileSize = mapGenerator != null ? mapGenerator.TileSize : 1f;
+                Vector3 spawnWorldPos = new Vector3(spawnGridPos.x * tileSize, spawnGridPos.y * tileSize, 0f);
+
+                SpawnEnemyInstance(selectedRule, spawnGridPos, spawnWorldPos);
             }
         }
 
-        /// <summary>
-        /// 특정 심도에 도달했는지 확인하고 보스 방을 비운 후 보스 스폰
-        /// </summary>
         private bool CheckAndSpawnBoss(int currentDepth, int yCoord)
         {
             if (bossConfigs == null || bossConfigs.Length == 0) return false;
@@ -92,15 +95,14 @@ namespace Dreamer.Enemy
                 {
                     spawnedBossDepths.Add(currentDepth);
 
-                    // A. 보스 아레나 타일 강제 제거 (공간 확보)
                     Vector2Int centerGridPos = new Vector2Int(0, yCoord);
-                    mapGenerator.ClearTileArea(centerGridPos, config.ArenaSize);
+                    if (mapGenerator != null) mapGenerator.ClearTileArea(centerGridPos, config.ArenaSize);
 
-                    // B. 보스 인스턴스 스폰
                     if (config.BossPrefab != null)
                     {
-                        Vector3 bossWorldPos = new Vector3(0f, yCoord * mapGenerator.TileSize, 0f);
-                        SpawnEnemyInstance(config.BossPrefab, bossWorldPos);
+                        float tileSize = mapGenerator != null ? mapGenerator.TileSize : 1f;
+                        Vector3 bossWorldPos = new Vector3(0f, yCoord * tileSize, 0f);
+                        SpawnEnemyInstance(null, centerGridPos, bossWorldPos, config.BossPrefab);
                         Debug.Log($"[EnemySpawner] ⚔️ 보스 출현! [{config.BossName}] 깊이: {currentDepth}M");
                     }
 
@@ -110,24 +112,38 @@ namespace Dreamer.Enemy
 
             return false;
         }
-
-        /// <summary>
-        /// ObjectPoolManager를 활용한 적 인스턴스 스폰
-        /// </summary>
-        private void SpawnEnemyInstance(GameObject prefab, Vector3 worldPos)
+        private void SpawnEnemyInstance(EnemySpawnRule rule, Vector2Int gridPos, Vector3 worldPos, GameObject overridePrefab = null)
         {
+            GameObject prefab = overridePrefab != null ? overridePrefab : rule?.EnemyPrefab;
             if (prefab == null) return;
+
+            // 스폰할 위치의 암석 타일을 먼저 비워주어 적이 암석 타일과 겹치는 현상 완전 방지
+            if (mapGenerator != null)
+            {
+                mapGenerator.ClearTileArea(gridPos, Vector2Int.one);
+            }
+
+            GameObject enemyObj = null;
 
             if (ObjectPoolManager.Instance != null)
             {
-                ObjectPoolManager.Instance.SpawnFromPool(prefab, worldPos, Quaternion.identity, transform);
+                enemyObj = ObjectPoolManager.Instance.SpawnFromPool(prefab, worldPos, Quaternion.identity, enemyParent);
             }
             else
             {
-                Instantiate(prefab, worldPos, Quaternion.identity, transform);
+                enemyObj = Instantiate(prefab, worldPos, Quaternion.identity, enemyParent);
+            }
+
+            if (enemyObj != null)
+            {
+                if (enemyObj.TryGetComponent<EnemyBase>(out var enemy))
+                {
+                    // 데이터 및 그리드 좌표 초기화
+                    enemy.InitEnemy(rule != null ? rule.EnemyData : null, gridPos);
+                    Debug.Log($"[EnemySpawner] 👾 적 스폰 성공! 종류: {enemyObj.name}, 위치: {gridPos}");
+                }
             }
         }
-
         /// <summary>
         /// 깊이 가중치 무작위 추첨 알고리즘
         /// </summary>

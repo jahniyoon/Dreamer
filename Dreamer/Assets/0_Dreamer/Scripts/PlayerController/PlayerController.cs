@@ -1,3 +1,4 @@
+using Dreamer.Core;
 using Dreamer.Tile;
 using UnityEngine;
 
@@ -66,37 +67,41 @@ namespace Dreamer.Player
             // 현재 플레이어의 고정 정수 논리 좌표 가져오기
             Vector2Int originGridPos = Movement.CurrentGridPos;
 
-            // 1단계: 해당 방향으로 즉시 타격 실행 (지층 체력 감속)
-            Combat.TryAttack(targetDir, originGridPos, Movement.GridSize);
+            // 1단계: 해당 방향으로 즉시 타격 실행 (공격 쿨타임/실패 시 즉시 중단)
+            if (!Combat.TryAttack(targetDir, originGridPos, Movement.GridSize))
+            {
+                return;
+            }
 
-            // 2단계: 대각선 이동 시 옆(가로) 타일 장애물 체크
+            // 2단계: 대각선 이동 시 옆(가로) 타일 장애물/미파괴 타일 체크
             if (targetDir.x != 0 && targetDir.y != 0)
             {
                 Vector2 sideCheckWorldPos = new Vector2((originGridPos.x + targetDir.x) * Movement.GridSize, originGridPos.y * Movement.GridSize);
-                Collider2D sideHit = Physics2D.OverlapCircle(sideCheckWorldPos, Movement.GridSize * 0.35f, Movement.ObstacleLayer);
-
-                if (sideHit != null)
+                if (IsPositionBlocked(sideCheckWorldPos))
                 {
-                    // 옆 타일이 막혀있으면 진행 불가 및 반동 찌그러짐
+                    // 옆 타일 체력이 남아있거나 벽/적이 있으면 진행 불가 -> 제자리 반동 찌그러짐
                     Movement.TriggerBumpJuice(new Vector2Int(targetDir.x, 0));
+                    TurnManager.DispatchPlayerTurn(); // 턴 통보
                     return;
                 }
             }
 
-            // 3단계: 최종 목표 타일 장애물 체크 (타일 HP가 남아있거나 외벽인 경우)
+            // 3단계: 최종 목표 타일 장애물 체크 (체력이 남아있는 지층 타일, 적, 외벽인 경우)
             Vector2 targetCheckWorldPos = new Vector2((originGridPos.x + targetDir.x) * Movement.GridSize, (originGridPos.y + targetDir.y) * Movement.GridSize);
-            Collider2D targetHit = Physics2D.OverlapCircle(targetCheckWorldPos, Movement.GridSize * 0.35f, Movement.ObstacleLayer);
 
-            if (targetHit != null)
+            if (IsPositionBlocked(targetCheckWorldPos))
             {
-                // 지층이 한 번에 안 부서짐 -> 이동하지 않고 제자리 반동 찌그러짐
+                // 지층 HP가 아직 남아있거나 적/벽에 막힘 -> 이동하지 않고 제자리 반동 찌그러짐 연출!
                 Movement.TriggerBumpJuice(targetDir);
             }
             else
             {
-                // 지층이 부서져 빈 공간이 됨 -> 목표 칸으로 1칸 이동!
+                // 지층/적이 제거되어 비어있음 -> 목표 칸으로 1칸 정상 이동!
                 Movement.ExecuteGridMove(targetDir);
             }
+
+            // 플레이어의 이동/공격 판정 완료 후 턴 이벤트 발송 (적들이 플레이어의 신규 위치 참조)
+            TurnManager.DispatchPlayerTurn();
         }
         /// <summary>
         /// 플레이어 아래쪽 방향으로 연속 탐색하여 빈 공간(파괴된 타일) 수만큼 즉시 낙하 처리

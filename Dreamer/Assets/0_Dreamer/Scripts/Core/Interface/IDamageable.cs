@@ -7,8 +7,11 @@ namespace Dreamer.Core
     /// </summary>
     public interface IDamageable
     {
+        // 체력
         int CurrentHp { get; }
+        // 죽은지 여부
         bool IsDead { get; }
+        // 곡괭이에 데미지를 주는 수치
         int Hardness { get; }
         void TakeDamage(int damage);
     }
