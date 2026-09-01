@@ -20,6 +20,7 @@ namespace Dreamer.Player
         [field: Header("현재 스탯 (Current Stats)")]
         [field: SerializeField] public int CurrentHp { get; private set; }
         [field: SerializeField] public CalculatedPlayerStats CurrentStats { get; private set; }
+        private PlayerVisual visualHandler;
 
         public event Action<int, int> OnHpChanged; // (currentHp, maxHp)
         public event Action OnPlayerDied;
@@ -27,6 +28,7 @@ namespace Dreamer.Player
         private void Awake()
         {
             ResetStats();
+            visualHandler = GetComponent<PlayerVisual>();
         }
 
         public void ResetStats()
@@ -57,6 +59,7 @@ namespace Dreamer.Player
             {
                 OnPlayerDied?.Invoke();
             }
+            visualHandler.PlayHitFlash();
         }
     }
 }

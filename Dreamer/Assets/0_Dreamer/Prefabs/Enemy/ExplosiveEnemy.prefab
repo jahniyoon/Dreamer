@@ -47,6 +47,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb8466491c9e2874caa2f2b846ac08e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Dreamer.Enemy.ExplosiveEnemy
+  spriteRenderer: {fileID: 1329728150150873438}
   enemyData: {fileID: 11400000, guid: c7d73fe23340c1a4384d9d346f18c7bf, type: 2}
   gridSize: 1
   activationDistance: 7
@@ -57,6 +58,7 @@ MonoBehaviour:
   destructibleTileLayer:
     serializedVersion: 2
     m_Bits: 512
+  hitFlashColor: {r: 2.5, g: 0.3, b: 0.3, a: 1}
   highHardness: 8
   fuseTurns: 2
   explosiveDamage: 50
@@ -191,7 +193,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: -876546973899608171, guid: 2c9a441f0b147bc449b5286af53c33a4, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -214,12 +216,12 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 21300000, guid: 4d892f471307e45419aa839c10b3a74a, type: 3}
-  m_Color: {r: 0.3773585, g: 0, b: 0.15871859, a: 1}
+  m_Sprite: {fileID: 21300000, guid: 49906ad1d06fc3445a116ca87d3fc1c5, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 0.2, y: 0.2}
+  m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1

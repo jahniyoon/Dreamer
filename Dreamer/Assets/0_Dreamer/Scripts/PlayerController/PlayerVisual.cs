@@ -59,5 +59,20 @@ namespace Dreamer.Player
                         .SetEase(Ease.InQuad);
                 });
         }
+
+
+        public void PlayHitFlash()
+        {
+            DOTween.Kill(this);
+            spriteRenderer.material.SetInt("_Flash", 1);
+
+            // 0.08초 후 플래시 끄기 (_FlashAmount = 0) 
+            DOVirtual.DelayedCall(0.08f, () =>
+            {
+                spriteRenderer.material.SetInt("_Flash", 0);
+
+            }).SetTarget(this);
+        }
+
     }
 }

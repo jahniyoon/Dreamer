@@ -3,6 +3,7 @@ using Dreamer.Core;
 using Dreamer.Data;
 using Dreamer.Player;
 using Dreamer.Tile;
+using System.Collections;
 using UnityEngine;
 
 
@@ -14,17 +15,24 @@ namespace Dreamer.Enemy
     [RequireComponent(typeof(Collider2D))]
     public abstract class EnemyBase : MonoBehaviour, IDamageable
     {
-        [Header("기본 적 데이터")]
+        [SerializeField] protected SpriteRenderer spriteRenderer;
+
+        [Header("▶ 기본 적 데이터")]
+
         [SerializeField] protected EnemyData enemyData;
         [SerializeField] protected float gridSize = 1f;
         [SerializeField] protected float activationDistance = 7f; // 플레이어와의 시야 감지 거리
         [SerializeField] protected bool isFlying = false; // 공중 비행 적 여부 (true면 공중에 떠있어도 낙하하지 않음)
         [SerializeField] protected LayerMask obstacleLayer;
         [SerializeField] protected LayerMask destructibleTileLayer;
+        [Header("▶ 피격 연출 설정")]
+        [SerializeField] protected Color hitFlashColor = new Color(2.5f, 0.3f, 0.3f, 1f); // 피격 순간 강렬하게 튀는 반짝임 색상
 
-        protected SpriteRenderer spriteRenderer;
-        protected Collider2D enemyCollider;
+
+
         protected PlayerController player;
+        protected Collider2D enemyCollider;
+
 
         protected int currentHp;
         protected bool isDead;
@@ -40,19 +48,8 @@ namespace Dreamer.Enemy
 
         protected virtual void Awake()
         {
-            spriteRenderer = GetComponent<SpriteRenderer>();
             enemyCollider = GetComponent<Collider2D>();
 
-  
-            if (TryGetComponent<Rigidbody2D>(out var rb))
-            {
-                rb.bodyType = RigidbodyType2D.Kinematic;
-            }
-            else
-            {
-                rb = gameObject.AddComponent<Rigidbody2D>();
-                rb.bodyType = RigidbodyType2D.Kinematic;
-            }
         }
 
         protected virtual void OnEnable()
@@ -272,6 +269,10 @@ namespace Dreamer.Enemy
             transform.DOKill();
             transform.DOPunchScale(new Vector3(-0.15f, 0.15f, 0f), 0.1f);
 
+            // 피격 백색 플래시(White Flash) 연출
+            TriggerHitFlash();
+
+
             if (enemyData != null && enemyData.HitSound != null && JuiceManager.Instance != null)
             {
                 JuiceManager.Instance.PlaySfxWithPitch(enemyData.HitSound, 1f, 0.1f);
@@ -281,6 +282,21 @@ namespace Dreamer.Enemy
             {
                 Die();
             }
+        }
+
+
+
+        protected void TriggerHitFlash()
+        {
+            DOTween.Kill(this);
+            spriteRenderer.material.SetInt("_Flash", 1);
+
+            // 0.08초 후 플래시 끄기 (_FlashAmount = 0) 
+            DOVirtual.DelayedCall(0.08f, () =>
+            {
+                spriteRenderer.material.SetInt("_Flash", 0);
+
+            }).SetTarget(this);
         }
 
         protected virtual void Die()
