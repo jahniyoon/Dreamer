@@ -17,9 +17,9 @@ namespace Dreamer.Player
         [SerializeField] private float baseMoveSpeed = 5f;
         [SerializeField] private float attackCooldown = 0.2f;
 
-        [Header("현재 스탯 (Current Stats)")]
-        [field:SerializeField]public CalculatedPlayerStats CurrentStats { get; private set; }
-        public int CurrentHp { get; private set; }
+        [field: Header("현재 스탯 (Current Stats)")]
+        [field: SerializeField] public int CurrentHp { get; private set; }
+        [field: SerializeField] public CalculatedPlayerStats CurrentStats { get; private set; }
 
         public event Action<int, int> OnHpChanged; // (currentHp, maxHp)
         public event Action OnPlayerDied;

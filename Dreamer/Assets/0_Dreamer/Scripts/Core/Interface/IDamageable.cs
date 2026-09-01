@@ -9,6 +9,7 @@ namespace Dreamer.Core
     {
         int CurrentHp { get; }
         bool IsDead { get; }
+        int Hardness { get; }
         void TakeDamage(int damage);
     }
 }

@@ -20,6 +20,7 @@ namespace Dreamer.Data
         [field: SerializeField] public TileType TileType { get; private set; }
         [field: SerializeField] public string TileName { get; private set; }
         [field: SerializeField] public int MaxHp { get; private set; } = 1;               // 부수는데 필요한 타격 횟수
+        [field: SerializeField] public int TileHardness { get; private set; } = 1;               // 곡괭이에 주는 데미지
         [field: SerializeField] public Sprite TileSprite { get; private set; }
         [field: SerializeField] public Color TileColor { get; private set; } = Color.white;
 

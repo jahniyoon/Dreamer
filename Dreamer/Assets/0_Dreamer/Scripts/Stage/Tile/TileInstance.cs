@@ -23,6 +23,7 @@ namespace Dreamer.Tile
         public int CurrentHp => currentHp;
         public Vector2Int GridPosition => gridPosition;
         public bool IsDead => currentHp <= 0;
+        public int Hardness => tileData != null ? tileData.TileHardness : 0;
 
         /// <summary>
         ///  타일 파괴 시 좌표를 통보하는 정적 이벤트

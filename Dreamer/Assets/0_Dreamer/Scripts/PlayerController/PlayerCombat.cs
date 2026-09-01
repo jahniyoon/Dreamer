@@ -1,5 +1,8 @@
-using UnityEngine;
 using Dreamer.Core;
+using Dreamer.Data;
+using Dreamer.Tile;
+using UnityEngine;
+
 namespace Dreamer.Player
 {
     /// <summary>
@@ -14,6 +17,8 @@ namespace Dreamer.Player
 
         private PlayerStatsHandler statsHandler;
         private PlayerVisual visualHandler;
+        private PlayerSkillHandler skillHandler;
+
         private float lastAttackTime;
 
         public bool IsAttacking { get; private set; }
@@ -22,6 +27,7 @@ namespace Dreamer.Player
         {
             statsHandler = GetComponent<PlayerStatsHandler>();
             visualHandler = GetComponent<PlayerVisual>();
+            skillHandler = GetComponent<PlayerSkillHandler>();
         }
         /// <summary>
         /// 전달받은 정수 원점 좌표(originGridPos)와 방향(direction)을 기준으로 정확히 타격 실행
@@ -70,6 +76,9 @@ namespace Dreamer.Player
                 // IDamageable 인터페이스 하나로 타일과 적 모두 일괄 
                 if (hit.TryGetComponent<IDamageable>(out var target))
                 {
+     
+                    ApplyPickaxeWear(target);
+
                     if (!target.IsDead)
                     {
                         target.TakeDamage(damage);
@@ -80,6 +89,35 @@ namespace Dreamer.Player
 
             return false;
         }
+
+        /// <summary>
+        /// [곡괭이 내구도 마모 로직]
+        /// 내구도 마모량 = Mathf.Max(0, 암석 단단함 - 곡괭이 강도)
+        /// 곡괭이 보호막 스킬(IsInvincible) 동작 중엔 마모 0
+        /// </summary>
+        public void ApplyPickaxeWear(IDamageable damageable)
+        {
+            // 보호막 활성화 중이면 내구도 마모 100% 무효화
+            if (skillHandler != null && skillHandler.IsInvincible) return;
+
+            int tileHardness = damageable.Hardness;
+            int pickaxeDefense = statsHandler != null ? statsHandler.CurrentStats.Defense : 0;
+
+            int wearDamage = Mathf.Max(0, tileHardness - pickaxeDefense);
+
+            if (wearDamage > 0 && statsHandler != null)
+            {
+                statsHandler.TakeDamage(wearDamage);
+
+                // 마모 피드백 연출 (카메라 살짝 흔들림 & SFX)
+                if (JuiceManager.Instance != null)
+                {
+                    JuiceManager.Instance.ShakeCamera(0.1f * wearDamage);
+                }
+            }
+        }
+
+
         private void ResetAttackState()
         {
             IsAttacking = false;
