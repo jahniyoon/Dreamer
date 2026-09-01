@@ -13,7 +13,6 @@ namespace Dreamer.Core
 
         public static void DispatchPlayerTurn()
         {
-            Debug.Log("이동 턴 실행");
             OnPlayerTurnExecuted?.Invoke();
         }
     }

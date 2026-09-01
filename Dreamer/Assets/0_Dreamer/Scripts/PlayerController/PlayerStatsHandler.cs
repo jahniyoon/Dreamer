@@ -67,5 +67,10 @@ namespace Dreamer.Player
                 DamageTextManager.Instance.SpawnDamageText(transform.position, damage, isPlayerDamage: true);
             }
         }
+        public void Heal(int amount)
+        {
+            CurrentHp = Mathf.Min(CurrentStats.MaxHp, CurrentHp + amount);
+            OnHpChanged?.Invoke(CurrentHp, CurrentStats.MaxHp);
+        }
     }
 }
