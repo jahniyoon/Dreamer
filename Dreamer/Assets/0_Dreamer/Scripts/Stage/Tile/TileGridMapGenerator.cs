@@ -344,6 +344,7 @@ namespace Dreamer.Tile
             if (ObjectPoolManager.Instance != null)
             {
                 wallObj = ObjectPoolManager.Instance.SpawnFromPool(wallPrefab, worldPos, Quaternion.identity, mapParent);
+
             }
             else
             {

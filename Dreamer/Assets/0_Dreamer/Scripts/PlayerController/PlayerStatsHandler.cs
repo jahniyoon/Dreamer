@@ -1,4 +1,5 @@
 using Dreamer.Data;
+using Dreamer.UI;
 using System;
 using UnityEngine;
 
@@ -60,6 +61,11 @@ namespace Dreamer.Player
                 OnPlayerDied?.Invoke();
             }
             visualHandler.PlayHitFlash();
+
+            if (DamageTextManager.Instance != null)
+            {
+                DamageTextManager.Instance.SpawnDamageText(transform.position, damage, isPlayerDamage: true);
+            }
         }
     }
 }

@@ -3,6 +3,7 @@ using Dreamer.Core;
 using Dreamer.Data;
 using Dreamer.Player;
 using Dreamer.Tile;
+using Dreamer.UI;
 using System.Collections;
 using UnityEngine;
 
@@ -231,6 +232,8 @@ namespace Dreamer.Enemy
             }
 
             Debug.Log($"[Enemy] ⚔️ 적({gameObject.name})이 플레이어를 공격했습니다!");
+
+            
         }
 
         /// <summary>
@@ -281,6 +284,11 @@ namespace Dreamer.Enemy
             if (currentHp <= 0)
             {
                 Die();
+            }
+
+            if (DamageTextManager.Instance != null)
+            {
+                DamageTextManager.Instance.SpawnDamageText(transform.position, damage, isPlayerDamage: false);
             }
         }
 

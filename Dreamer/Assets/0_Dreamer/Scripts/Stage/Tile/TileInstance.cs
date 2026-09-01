@@ -1,6 +1,7 @@
 using DG.Tweening;
 using Dreamer.Core;
 using Dreamer.Data;
+using Dreamer.UI;
 using UnityEngine;
 namespace Dreamer.Tile
 {
@@ -77,6 +78,10 @@ namespace Dreamer.Tile
             if (currentHp <= 0)
             {
                 DestroyTile();
+            }
+            if (DamageTextManager.Instance != null)
+            {
+                DamageTextManager.Instance.SpawnDamageText(transform.position, damage, isPlayerDamage: false);
             }
         }
 
