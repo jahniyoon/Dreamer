@@ -1,4 +1,5 @@
 using DG.Tweening;
+using Dreamer.Core;
 using System;
 using TMPro;
 using UnityEngine;
@@ -7,7 +8,7 @@ using UnityEngine.UI;
 
 namespace Dreamer.UI
 {
-    public class InGameHUDUI : UIObject
+    public class UIInGameHUD : UIObject
     {
         [Header("체력바 UI (이중 잔상 체력바)")]
         [SerializeField] private Transform healthBarTransform;        // 전면 체력바 (빨강 - 즉시 차감)
@@ -21,6 +22,18 @@ namespace Dreamer.UI
 
         private int displayedDepth = -1;
         private Tween delayedHealthTween;
+
+        protected override void SubscribeEvents()
+        {
+            base.SubscribeEvents();
+            TurnManager.OnPlayerTurnExecuted += OnPlayerMoved;
+        }
+        protected override void UnsubscribeEvents()
+        {
+            base.UnsubscribeEvents();
+            TurnManager.OnPlayerTurnExecuted -= OnPlayerMoved;
+
+        }
 
         /// <summary>
         /// UIManager에서 호출해주는 이중 잔상 체력바 연출
@@ -68,6 +81,16 @@ namespace Dreamer.UI
         }
 
         /// <summary>
+        /// 플레이어가 이동을 완료했을 때 외부(PlayerMove 등)에서 호출하여 심도 UI 갱신
+        /// </summary>
+        public void OnPlayerMoved()
+        {
+            var depth = Mathf.Max(0, Mathf.Abs(TurnManager.CurrentPlayerPosition.y));
+            SetDepth(depth);
+        }
+
+
+        /// <summary>
         /// UIManager에서 호출해주는 심도(M) 텍스트 연출
         /// </summary>
         public void SetDepth(int depth)
@@ -85,6 +108,8 @@ namespace Dreamer.UI
                 depthText.transform.DOPunchScale(new Vector3(0.1f, 0.1f, 0f), 0.1f);
             }
         }
+
+     
 
         private void OnDestroy()
         {

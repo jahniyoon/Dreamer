@@ -306,6 +306,11 @@ namespace Dreamer.Enemy
 
             }).SetTarget(this);
         }
+        public void Kill()
+        {
+            currentHp = 0;
+            Die();
+        }
 
         protected virtual void Die()
         {

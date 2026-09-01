@@ -10,9 +10,19 @@ namespace Dreamer.Item
     {
         public static PlayerInventory Instance { get; private set; }
 
-        public int IronCount { get; private set; }
-        public int DiamondCount { get; private set; }
-        public int GoldCount { get; private set; }
+
+        [field:Header("보유 재화")]
+        [field :SerializeField]public int IronCount { get; private set; }
+        [field :SerializeField]public int DiamondCount { get; private set; }
+        [field :SerializeField]public int GoldCount { get; private set; }
+        [field :SerializeField]public int TotalIronCount { get; private set; }
+        [field :SerializeField]public int TotalDiamondCount { get; private set; }
+        [field :SerializeField]public int TotalGoldCount { get; private set; }
+        [field:Header("보유 아이템")]
+        [field :SerializeField]public string[] ItemIDs { get; private set; }
+
+        [field: Header("최고기록")]
+        [field: SerializeField] public int BestDepth { get; private set; }
 
         /// <summary>
         /// 자원 보유 수량이 변경될 때 수신받는 이벤트 (철, 다이아, 금)
@@ -65,6 +75,28 @@ namespace Dreamer.Item
 
             OnResourcesChanged?.Invoke(IronCount, DiamondCount, GoldCount);
             Debug.Log($"[Resource] 💎 자원 습득! type: {type}, 현재 (철:{IronCount}, 다이아:{DiamondCount}, 금:{GoldCount})");
+        }
+
+        public int GetResourceCount(OreType type)
+        {
+            return type switch
+            {
+                OreType.Iron => IronCount,
+                OreType.Diamond => DiamondCount,
+                OreType.Gold => GoldCount,
+                _ => 0,
+            };
+        }
+        public void CalcurateResource()
+        {
+            TotalIronCount += IronCount;
+            TotalDiamondCount += DiamondCount;
+            TotalGoldCount += GoldCount;
+
+            IronCount = 0;
+            DiamondCount = 0;
+            GoldCount = 0;
+            Debug.Log($"[Resource] 💎 총 자원 계산 완료! 현재 (철:{TotalIronCount}, 다이아:{TotalDiamondCount}, 금:{TotalGoldCount})");
         }
 
         /// <summary>

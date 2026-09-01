@@ -130,8 +130,11 @@ namespace Dreamer.Item
             {
                 JuiceManager.Instance.PlaySfxWithPitch(collectSfx, 1.1f, 0.1f);
             }
+            Kill(); // 아이템 풀 반환 또는 비활성화
 
-            // 올바른 예 (자기 자신 인스턴스만 반납)
+        }
+        public void Kill()
+        {
             if (ObjectPoolManager.Instance != null)
             {
                 ObjectPoolManager.Instance.ReturnToPool(gameObject, gameObject);

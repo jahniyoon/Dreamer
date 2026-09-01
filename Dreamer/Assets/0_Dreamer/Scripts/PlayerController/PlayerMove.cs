@@ -1,4 +1,5 @@
 using DG.Tweening;
+using Dreamer.Core;
 using UnityEngine;
 
 namespace Dreamer.Player
@@ -39,6 +40,7 @@ namespace Dreamer.Player
                 Mathf.RoundToInt(transform.position.x / gridSize),
                 Mathf.RoundToInt(transform.position.y / gridSize)
             );
+            TurnManager.UpdatePlayerPosition(CurrentGridPos); // Update the player's position in the TurnManager
             transform.position = new Vector3(CurrentGridPos.x * gridSize, CurrentGridPos.y * gridSize, 0f);
         }
 
@@ -53,6 +55,8 @@ namespace Dreamer.Player
 
             // 이동 시작 즉시 논리 정수 좌표 변경 (연타 시 중복 오판 방지 핵심)
             CurrentGridPos += direction;
+            TurnManager.UpdatePlayerPosition(CurrentGridPos); // Update the player's position in the TurnManager
+
             Vector3 targetWorldPos = new Vector3(CurrentGridPos.x * gridSize, CurrentGridPos.y * gridSize, 0f);
 
             if (visual != null)
@@ -84,6 +88,8 @@ namespace Dreamer.Player
 
             // 정수 그리드 Y 좌표 차감
             CurrentGridPos += Vector2Int.down * fallDistance;
+            TurnManager.UpdatePlayerPosition(CurrentGridPos); // Update the player's position in the TurnManager
+
             Vector3 targetWorldPos = new Vector3(CurrentGridPos.x * gridSize, CurrentGridPos.y * gridSize, 0f);
 
             // 낙하 거리에 비례한 자연스러운 낙하 시간 계산 (가속 느낌)

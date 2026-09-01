@@ -3,7 +3,7 @@ using UnityEngine;
 namespace Dreamer.UI
 {
 
-    public class UIObject : MonoBehaviour
+    public abstract class UIObject : MonoBehaviour
     {
         protected float fadeDuration = 0.25f;
         protected Ease showEase = Ease.OutQuad;
@@ -19,6 +19,21 @@ namespace Dreamer.UI
             canvasGroup = GetComponent<CanvasGroup>();
         }
 
+        private void OnEnable()
+        {
+            SubscribeEvents();
+        }
+
+        private void OnDisable()
+        {
+            UnsubscribeEvents();
+        }
+
+
+        protected virtual void SubscribeEvents() { }
+
+
+        protected virtual void UnsubscribeEvents() { }
         /// <summary>
         /// UI를 서서히 밝혀주며 상호작용을 활성화합니다.
         /// </summary>

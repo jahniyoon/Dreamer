@@ -53,6 +53,7 @@ namespace Dreamer.Item
             if (mapGenerator != null)
             {
                 mapGenerator.OnRowGenerated += HandleRowGenerated;
+                mapGenerator.OnMapReset += HandleMapReset;
             }
         }
 
@@ -61,7 +62,26 @@ namespace Dreamer.Item
             if (mapGenerator != null)
             {
                 mapGenerator.OnRowGenerated -= HandleRowGenerated;
+                mapGenerator.OnMapReset -= HandleMapReset;
             }
+        }
+
+        /// <summary>
+        /// 맵 리셋 시 필드에 남아있는 모든 아이템 회수
+        /// </summary>
+        private void HandleMapReset()
+        {
+            FieldItem[] activeItems = GetComponentsInChildren<FieldItem>(true);
+
+            for (int i = 0; i < activeItems.Length; i++)
+            {
+                if (activeItems[i] != null && activeItems[i].gameObject.activeSelf)
+                {
+                    activeItems[i].Kill();
+                }
+            }
+
+            Debug.Log("[ItemSpawner] 💎 필드 자원/아이템 리셋 완료!");
         }
 
         private void HandleRowGenerated(int yCoord, List<Vector2Int> rowPositions)

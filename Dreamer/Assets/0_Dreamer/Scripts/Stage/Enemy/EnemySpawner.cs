@@ -1,3 +1,4 @@
+using DG.Tweening;
 using Dreamer.Core;
 using System.Collections.Generic;
 using UnityEngine;
@@ -38,6 +39,7 @@ namespace Dreamer.Enemy
             if (mapGenerator != null)
             {
                 mapGenerator.OnRowGenerated += HandleRowGenerated;
+                mapGenerator.OnMapReset += HandleMapReset;
             }
         }
 
@@ -46,9 +48,32 @@ namespace Dreamer.Enemy
             if (mapGenerator != null)
             {
                 mapGenerator.OnRowGenerated -= HandleRowGenerated;
+                mapGenerator.OnMapReset -= HandleMapReset;
             }
         }
+        /// <summary>
+        /// 맵 리셋 시 활성화되어 있던 모든 적들을 풀로 회수하고 보스 스폰 기록 초기화
+        /// </summary>
+        private void HandleMapReset()
+        {
+            if (enemyParent != null)
+            {
+                // enemyParent 하위의 모든 활성화된 적 개체 탐색
+                EnemyBase[] activeEnemies = enemyParent.GetComponentsInChildren<EnemyBase>(true);
 
+                for (int i = 0; i < activeEnemies.Length; i++)
+                {
+                    if (activeEnemies[i] != null && activeEnemies[i].gameObject.activeSelf)
+                    {
+                        activeEnemies[i].Kill();
+                    }
+                }
+            }
+
+            // 보스 출현 심도 기록 초기화
+            spawnedBossDepths.Clear();
+            Debug.Log("[EnemySpawner] 👾 적 및 보스 스폰 기록 완전 리셋 완료!");
+        }
         /// <summary>
         /// TileGridMapGenerator에서 새로운 행이 스폰될 때 호출되는 이벤트 핸들러
         /// </summary>

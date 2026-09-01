@@ -43,7 +43,7 @@ namespace Dreamer.Player
         /// </summary>
         private void ProcessBumpCombatMovement()
         {
-            if (InputHandler == null || Movement == null || Combat == null) return;
+            if (InputHandler == null || Movement == null || Combat == null || !GameFlowManager.Instance.IsGameRunning) return;
 
             // 이동 중이거나 공격 후딜레이 중 중복 실행 완전 차단
             if (Movement.IsMoving || Combat.IsAttacking) return;

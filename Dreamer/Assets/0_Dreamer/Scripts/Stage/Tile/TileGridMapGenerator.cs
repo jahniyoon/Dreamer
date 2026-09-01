@@ -32,7 +32,7 @@ namespace Dreamer.Tile
         [SerializeField] private TileInstance wallPrefab;         // 파괴 불가능한 양옆 벽 프리팹
 
         [Header("추적 대상 (플레이어 또는 스크롤 카메라)")]
-        [SerializeField] private Transform playerTransform;
+        [SerializeField] private Transform targetTransform;
 
         private int lowestGeneratedY = 0; // 현재 스폰 완료된 최하단 Y 그리드 좌표
         private Transform mapParent;
@@ -45,6 +45,7 @@ namespace Dreamer.Tile
 
         // 외부(EnemySpawner 등)에서 신규 행 생성 완료 시 구독 가능한 이벤트
         public event Action<int, List<Vector2Int>> OnRowGenerated;
+        public event Action OnMapReset;
 
         public int MaxTargetDepth => maxTargetDepth;
         public int MapWidth => mapWidth;
@@ -68,24 +69,68 @@ namespace Dreamer.Tile
 
         private void Start()
         {
-            if (playerTransform == null)
+            if (targetTransform == null)
             {
                 GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
-                if (playerObj != null) playerTransform = playerObj.transform;
+                if (playerObj != null) targetTransform = playerObj.transform;
             }
-            // 초기 맵 동적 생성 (Y = 0 부터 -initialGenerateDepth 까지)
-            GenerateRows(0, -initialGenerateDepth);
+          
         }
 
         private void Update()
         {
-            if (playerTransform == null) return;
+            if (targetTransform == null) return;
 
-            int targetCurrentY = Mathf.RoundToInt(playerTransform.position.y);
+            int targetCurrentY = Mathf.RoundToInt(targetTransform.position.y);
 
             // 상하 양방향 실시간 시야 유지 (하강 및 리플레이 스크롤 모두 지원)
             MaintainActiveWindow(targetCurrentY);
         }
+
+        /// <summary>
+        /// 씬 재시작 없이 맵을 완전히 리셋하고 초기 상태로 재시작하는 메서드
+        /// </summary>
+        public void ResetAndInitializeMap()
+        {
+            // 1. 현재 씬에 켜져있는 모든 지층 타일 풀로 회수
+            foreach (var kvp in activeTiles)
+            {
+                if (kvp.Value != null)
+                {
+                    if (ObjectPoolManager.Instance != null)
+                        ObjectPoolManager.Instance.ReturnToPool(tilePrefab, kvp.Value);
+                    else
+                        Destroy(kvp.Value.gameObject);
+                }
+            }
+            activeTiles.Clear();
+
+            // 2. 현재 씬에 켜져있는 모든 외벽 타일 풀로 회수
+            foreach (var kvp in activeWalls)
+            {
+                if (kvp.Value != null)
+                {
+                    if (ObjectPoolManager.Instance != null)
+                        ObjectPoolManager.Instance.ReturnToPool(wallPrefab, kvp.Value);
+                    else
+                        Destroy(kvp.Value.gameObject);
+                }
+            }
+            activeWalls.Clear();
+
+            // 3. 지층 영구 파괴 데이터 및 높이 기록 완전 초기화
+            mapDataStore.Clear();
+            lowestGeneratedY = 0;
+
+            OnMapReset?.Invoke();
+
+
+            // 4. Y = 0 부터 -initialGenerateDepth 까지 신규 맵 즉시 생성
+            GenerateRows(0, -initialGenerateDepth);
+
+            Debug.Log("[TileGridMapGenerator] 🗺️ 맵 데이터 및 타일 오브젝트 리셋 완료!");
+        }
+
 
         /// <summary>
         /// [핵심] 추적 대상(targetY)을 기준으로 상하 양방향 시야 범위를 동적 복원 및 회수
@@ -131,7 +176,7 @@ namespace Dreamer.Tile
         /// </summary>
         public void SetTrackingTarget(Transform newTarget)
         {
-            playerTransform = newTarget;
+            targetTransform = newTarget;
         }
 
         /// <summary>

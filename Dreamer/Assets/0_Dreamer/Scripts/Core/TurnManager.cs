@@ -9,11 +9,17 @@ namespace Dreamer.Core
     /// </summary>
     public static class TurnManager
     {
+        public static Vector2Int CurrentPlayerPosition { get; set; }
         public static event Action OnPlayerTurnExecuted;
 
         public static void DispatchPlayerTurn()
         {
             OnPlayerTurnExecuted?.Invoke();
+        }
+        public static void UpdatePlayerPosition(Vector2Int newPosition)
+        {
+            CurrentPlayerPosition = newPosition;
+
         }
     }
 

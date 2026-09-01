@@ -22,13 +22,13 @@ namespace Dreamer.Player
         [field: SerializeField] public int CurrentHp { get; private set; }
         [field: SerializeField] public CalculatedPlayerStats CurrentStats { get; private set; }
         private PlayerVisual visualHandler;
+        public bool IsDied => CurrentHp <= 0;   
 
         public event Action<int, int> OnHpChanged; // (currentHp, maxHp)
         public event Action OnPlayerDied;
 
         private void Awake()
         {
-            ResetStats();
             visualHandler = GetComponent<PlayerVisual>();
         }
 
@@ -51,6 +51,8 @@ namespace Dreamer.Player
 
         public void TakeDamage(int damage)
         {
+            if (IsDied)
+                return;
             int actualDamage = Mathf.Max(1, damage - CurrentStats.Defense);
             CurrentHp = Mathf.Max(0, CurrentHp - actualDamage);
 
