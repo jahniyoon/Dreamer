@@ -53,6 +53,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1fbfd5f446ea8294da221595aee9e7ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Dreamer.Player.PlayerController
+  <InputHandler>k__BackingField: {fileID: 7615778528889417191}
+  <Movement>k__BackingField: {fileID: 8324360134953111597}
+  <Combat>k__BackingField: {fileID: 1235198269858411817}
+  <Visual>k__BackingField: {fileID: 7481615004876486006}
+  <Stats>k__BackingField: {fileID: 4373374338635822329}
 --- !u!114 &4373374338635822329
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -363,7 +368,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: 21300000, guid: 497eb45aa4af03d4f87cfe69aab5b0c2, type: 3}
-  m_Color: {r: 1, g: 0.8684461, b: 0.3254717, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

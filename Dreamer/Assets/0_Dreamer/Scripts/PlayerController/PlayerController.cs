@@ -13,10 +13,15 @@ namespace Dreamer.Player
     [RequireComponent(typeof(PlayerCombat), typeof(PlayerVisual))]
     public class PlayerController : MonoBehaviour
     {
+        [field: SerializeField]
         public PlayerInputHandler InputHandler { get; private set; }
+        [field: SerializeField]
         public PlayerMove Movement { get; private set; }
+        [field: SerializeField]
         public PlayerCombat Combat { get; private set; }
+        [field: SerializeField]
         public PlayerVisual Visual { get; private set; }
+        [field: SerializeField]
         public PlayerStatsHandler Stats { get; private set; }
 
         private void Awake()
@@ -157,7 +162,7 @@ namespace Dreamer.Player
                 // 지층 타일인 경우 CurrentHp를 직접 검사 (체력이 1 이상 남아있으면 무조건 막힘)
                 if (hit.TryGetComponent<TileInstance>(out var tileInstance))
                 {
-                    return tileInstance.CurrentHp > 0;
+                    return tileInstance.IsBlock;
                 }
 
                 // 플레이어 자신이나 트리거가 아닌 외벽/장애물이면 막힘 판정

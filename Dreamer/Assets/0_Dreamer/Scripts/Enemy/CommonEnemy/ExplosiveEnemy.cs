@@ -111,9 +111,9 @@ namespace Dreamer.Enemy
                 {
                     Vector2 targetWorldPos = new Vector2((gridPos.x + x) * gridSize, (gridPos.y + y) * gridSize);
                     Collider2D hit = Physics2D.OverlapCircle(targetWorldPos, gridSize * 0.4f, obstacleLayer | destructibleTileLayer);
-                    if(hit.gameObject == this.gameObject) continue;
                     if (hit != null && hit.TryGetComponent<IDamageable>(out var damageable))
                     {
+                        if (hit.gameObject == this.gameObject) continue;
                         damageable.TakeDamage(explosiveDamage);
                     }
                 }

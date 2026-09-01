@@ -62,7 +62,7 @@ namespace Dreamer.Tile
         private void Awake()
         {
             mapParent = new GameObject("MapParent").transform;
-            mapParent.transform.parent = mapParent;
+            mapParent.transform.parent = transform;
         }
 
 
