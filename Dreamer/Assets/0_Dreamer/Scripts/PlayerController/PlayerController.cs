@@ -25,6 +25,8 @@ namespace Dreamer.Player
         public PlayerStatsHandler Stats { get; private set; }
         [field: SerializeField]
         public PickaxeSwingController Pickaxe { get; private set; }
+        [field: SerializeField]
+        public PlayerSkillHandler Skill { get; private set; }
 
         private void Awake()
         {
@@ -34,6 +36,7 @@ namespace Dreamer.Player
             Visual = GetComponent<PlayerVisual>();
             Stats = GetComponent<PlayerStatsHandler>();
             Pickaxe = GetComponent<PickaxeSwingController>();
+            Skill = GetComponent<PlayerSkillHandler>();
         }
 
         private void Update()

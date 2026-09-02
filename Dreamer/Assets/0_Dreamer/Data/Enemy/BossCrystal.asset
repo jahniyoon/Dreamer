@@ -16,7 +16,7 @@ MonoBehaviour:
   <EnemyName>k__BackingField: Crystal
   <EnemyType>k__BackingField: 1
   <EnemySprite>k__BackingField: {fileID: 21300000, guid: 135c7b28b3732ed4fb27c4dc23f86110, type: 3}
-  <MaxHp>k__BackingField: 50
+  <MaxHp>k__BackingField: 100
   <AttackPower>k__BackingField: 5
   <MoveSpeed>k__BackingField: 2.5
   <PossibleDrops>k__BackingField: []

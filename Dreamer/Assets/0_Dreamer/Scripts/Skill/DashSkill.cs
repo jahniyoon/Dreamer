@@ -17,6 +17,7 @@ namespace Dreamer.Skill
         {
             if (!IsReady || user.Movement.IsMoving) return false;
 
+            onExcuteSkill?.Invoke();
             LastCastTime = Time.time;
 
             // 이동 방향 추출 (기본값: 아래)

@@ -17,9 +17,9 @@ MonoBehaviour:
   <ItemIcon>k__BackingField: {fileID: 21300000, guid: d2c35252d2cf8924f93be9d8628196c1, type: 3}
   <Description>k__BackingField: Crafted from the core of the Crystal Golem boss found
     deep below.
-  <BaseAttack>k__BackingField: 130
-  <BaseDefense>k__BackingField: 12
-  <BaseMaxHp>k__BackingField: 500
+  <BaseAttack>k__BackingField: 20
+  <BaseDefense>k__BackingField: 4
+  <BaseMaxHp>k__BackingField: 70
   <BaseLightRange>k__BackingField: 16
   <PriceType>k__BackingField: 2
   <PriceValue>k__BackingField: 250

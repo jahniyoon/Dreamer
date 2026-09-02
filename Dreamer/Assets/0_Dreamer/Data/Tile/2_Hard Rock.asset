@@ -15,7 +15,7 @@ MonoBehaviour:
   <TileType>k__BackingField: 2
   <TileName>k__BackingField: Hard Rock
   <MaxHp>k__BackingField: 5
-  <TileHardness>k__BackingField: 5
+  <TileHardness>k__BackingField: 7
   <TileSprite>k__BackingField: {fileID: 21300000, guid: ecb32e7fb1a2e7549a80b20397b5c202, type: 3}
   <TileColor>k__BackingField: {r: 0.2264151, g: 0.14898759, b: 0.10359559, a: 1}
   <DestroyParticlePrefab>k__BackingField: {fileID: 0}

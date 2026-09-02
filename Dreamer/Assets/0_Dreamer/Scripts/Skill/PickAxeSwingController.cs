@@ -17,6 +17,7 @@ namespace Dreamer.Player
     {
         [Header("곡괭이 Transform (플레이어 손 위치에 자식으로 배치)")]
         [SerializeField] private Transform pickaxeTransform;
+        [SerializeField] private Transform broken;
         [SerializeField] private Transform handTransform;
 
         [Header("휘두르기 연출 설정")]
@@ -69,6 +70,14 @@ namespace Dreamer.Player
             }
         }
 
+        public void ResetPickAxe(bool isBroken = false)
+        {
+            pickaxeTransform.localPosition = defaultLocalPos;
+            pickaxeTransform.localRotation = defaultLocalRot;
+
+            pickaxeTransform.gameObject.SetActive(!isBroken);
+            broken.gameObject.SetActive(isBroken);
+        }
         /// <summary>
         /// 입력 방향 Vector2를 받아 5방향 휘두르기 실행
         /// </summary>

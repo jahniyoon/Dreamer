@@ -15,4 +15,8 @@ public class UITitle : UIObject
         Hide();
         UIManager.Instance.UpgradeUI.Show();
     }
+    public void ResetButton()
+    {
+        SaveManager.Instance.ResetSaveData();
+    }
 }

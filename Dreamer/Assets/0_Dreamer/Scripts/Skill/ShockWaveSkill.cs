@@ -18,6 +18,7 @@ namespace Dreamer.Skill
             if (!IsReady) return false;
 
             LastCastTime = Time.time;
+            onExcuteSkill?.Invoke();
 
             Vector2Int centerGridPos = user.Movement.CurrentGridPos;
             float gridSize = user.Movement.GridSize;

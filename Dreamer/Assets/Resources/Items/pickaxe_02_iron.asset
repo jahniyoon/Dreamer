@@ -17,8 +17,8 @@ MonoBehaviour:
   <ItemIcon>k__BackingField: {fileID: 21300000, guid: e9ef9b641e2ebe5408d9c8a6e72686fe, type: 3}
   <Description>k__BackingField: A sharpened iron pickaxe that effortlessly shatters
     solid rocks.
-  <BaseAttack>k__BackingField: 25
-  <BaseDefense>k__BackingField: 2
+  <BaseAttack>k__BackingField: 10
+  <BaseDefense>k__BackingField: 1
   <BaseMaxHp>k__BackingField: 150
   <BaseLightRange>k__BackingField: 11.5
   <PriceType>k__BackingField: 0

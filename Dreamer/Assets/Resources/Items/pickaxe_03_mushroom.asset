@@ -17,7 +17,7 @@ MonoBehaviour:
   <ItemIcon>k__BackingField: {fileID: 21300000, guid: 762aa1fdef760ac478aa929a688cc8ee, type: 3}
   <Description>k__BackingField: Spore-infused head offers expanded vision in dark
     subterranean zones.
-  <BaseAttack>k__BackingField: 20
+  <BaseAttack>k__BackingField: 10
   <BaseDefense>k__BackingField: 1
   <BaseMaxHp>k__BackingField: 180
   <BaseLightRange>k__BackingField: 18

@@ -1,7 +1,6 @@
 using DG.Tweening;
 using Dreamer.Core;
 using UnityEngine;
-using static TreeEditor.TreeEditorHelper;
 
 namespace Dreamer.Item
 {
@@ -14,7 +13,8 @@ namespace Dreamer.Item
         Mushroom = 3,
 
         RepairKit = 10,  // 소모품: 곡괭이 수리
-        SparePickaxe = 11// 소모품: 곡괭이 즉시 수리
+        SparePickaxe = 11,// 소모품: 곡괭이 즉시 수리
+        Chest = 12// 소모품: 곡괭이 즉시 수리
     }
 
     /// <summary>

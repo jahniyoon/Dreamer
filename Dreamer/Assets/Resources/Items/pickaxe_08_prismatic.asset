@@ -17,9 +17,9 @@ MonoBehaviour:
   <ItemIcon>k__BackingField: {fileID: 21300000, guid: 476fc1556aa395342811ed4350afb7f3, type: 3}
   <Description>k__BackingField: An endgame pickaxe encapsulating all legendary elemental
     crystals.
-  <BaseAttack>k__BackingField: 200
-  <BaseDefense>k__BackingField: 20
-  <BaseMaxHp>k__BackingField: 800
+  <BaseAttack>k__BackingField: 100
+  <BaseDefense>k__BackingField: 3
+  <BaseMaxHp>k__BackingField: 50
   <BaseLightRange>k__BackingField: 20
   <PriceType>k__BackingField: 1
   <PriceValue>k__BackingField: 500

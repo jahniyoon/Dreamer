@@ -97,13 +97,12 @@ namespace Dreamer.UI
             // 3. 이름 및 능력치 표시
             if (pickaxeNameText != null)
             {
-                pickaxeNameText.text = isUnlocked ? currentItem.ItemName : "??? <size=30%>(Unlock Pickaxe)</size>";
+                pickaxeNameText.text = isUnlocked ? currentItem.ItemName : "???";
             }
 
             if (pickaxeStatsText != null)
             {
-                pickaxeStatsText.text = $"Attack: {currentItem.BaseAttack} | HP: {currentItem.BaseMaxHp}" +
-                                        $"Defense: {currentItem.BaseDefense}";
+                pickaxeStatsText.text = $"Atk: {currentItem.BaseAttack} | HP: {currentItem.BaseMaxHp} | Def: {currentItem.BaseDefense}";
             }
             if(priceText != null)
             {

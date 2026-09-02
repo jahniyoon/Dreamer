@@ -81,6 +81,7 @@ namespace Dreamer.Core
             Player.transform.position = PlayerTitlePoint.position;
             Player.Movement.SyncGridPosFromTransform();            
             Player.Stats.ResetStats();
+            Player.Pickaxe.ResetPickAxe();
             AudioManager.Instance.PlayBGM("BGM_Title");
         }
         public void StartGame()
@@ -162,6 +163,7 @@ namespace Dreamer.Core
             if (IsGameOver) return;
             AudioManager.Instance.PlaySFX("BrokenPickAxe");
             AudioManager.Instance.PlayBGM("GameOver", loop : false);
+            Player.Pickaxe.ResetPickAxe(true);
 
             SetGameState(GameState.GameOver);
             JuiceManager.Instance.ZoomCamera();

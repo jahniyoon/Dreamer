@@ -2,6 +2,7 @@ using DG.Tweening;
 using Dreamer.Core;
 using Dreamer.Data;
 using Dreamer.Enemy;
+using Dreamer.Gameplay;
 using NUnit.Framework;
 using System.Collections;
 using UnityEngine;
@@ -151,7 +152,7 @@ namespace Dreamer.Enemy
 
         protected override void Die()
         {
-            AudioManager.Instance.PlayBGM("BGM_Title");
+            AudioManager.Instance.PlaySFX(Data.DeathSound);
 
             Debug.Log($"[GiantBlockBoss] 🏆 보스 처치 완료!");
             isDead = true;
@@ -183,13 +184,20 @@ namespace Dreamer.Enemy
             if(PickAxePrefab != null)
             {
                 var chest = Instantiate(PickAxePrefab);
-                chest.transform.position = transform.position;
+                var pos = new Vector3(transform.position.x, transform.position.y + 1, 0);
+                if (chest.TryGetComponent<ChestItem>(out ChestItem chestObj))
+                {
+                    chestObj.InitItem(Item.OreType.Chest, 0, Vector2Int.zero);
+                }
+                chest.transform.position = pos;
                 chest.transform.localScale = Vector3.one * 3f;
             }
 
             // [Step 3] 연출 완료 후 풀 반납 처리
             dieSequence.OnComplete(() =>
             {
+                AudioManager.Instance.PlayBGM("BGM_Title");
+
                 if (ObjectPoolManager.Instance != null)
                 {
                     ObjectPoolManager.Instance.ReturnToPool(originInstanceID, gameObject);

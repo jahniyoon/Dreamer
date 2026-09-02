@@ -3,7 +3,9 @@ using Dreamer.Data;
 using Dreamer.Player;
 using Dreamer.Tile;
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Events;
 
 
 namespace Dreamer.Skill
@@ -23,9 +25,11 @@ namespace Dreamer.Skill
         }
 
         public bool IsReady => Time.time >= LastCastTime + Data.Cooldown;
+        public float Cooldown => Data.Cooldown;
         public float RemainingCooldown => Mathf.Max(0f, (LastCastTime + Data.Cooldown) - Time.time);
 
         public abstract bool Execute(PlayerSkillHandler user);
+        public UnityEvent onExcuteSkill;
     }
 
  

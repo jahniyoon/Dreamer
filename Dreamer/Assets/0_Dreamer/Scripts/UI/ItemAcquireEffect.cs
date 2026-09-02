@@ -1,4 +1,5 @@
 using DG.Tweening;
+using Dreamer.Core;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -31,6 +32,7 @@ namespace Dreamer.UI
         {
             if (icon == null) return;
 
+            AudioManager.Instance.PlaySFX("ChestOpen");
             // 1. 초기화
             gameObject.SetActive(true);
             itemIconImage.sprite = icon;
@@ -44,14 +46,14 @@ namespace Dreamer.UI
             Sequence seq = DOTween.Sequence();
 
             // [1단계] 반짝! 뿅 나타나면서 살짝 커졌다가 정사이즈 (Pop & Flash)
-            seq.Append(container.DOScale(1.3f, 0.2f).SetEase(Ease.OutBack));
-            seq.Append(container.DOScale(1.0f, 0.1f));
+            seq.Append(container.DOScale(1.3f, 0.6f).SetEase(Ease.OutBack));
+            seq.Append(container.DOScale(1.0f, 0.3f));
 
             // [2단계] 위로 두둥실 떠오름
-            seq.Append(container.DOAnchorPosY(initialPos.y + 80f, 0.6f).SetEase(Ease.OutQuad));
+            seq.Append(container.DOAnchorPosY(initialPos.y + 80f, 1.5f).SetEase(Ease.OutQuad));
 
             // [3단계] 위로 떠오르면서 자연스럽게 사라짐 (Fade Out)
-            seq.Join(canvasGroup.DOFade(0f, 0.5f).SetDelay(0.1f));
+            seq.Join(canvasGroup.DOFade(0f, 1f).SetDelay(0.3f));
 
             // [4단계] 완료 후 비활성화
             seq.OnComplete(() =>

@@ -23,10 +23,10 @@ namespace Dreamer.Player
         [field: SerializeField] public int CurrentHp { get; private set; }
         [field: SerializeField] public CalculatedPlayerStats CurrentStats { get; private set; }
         private PlayerVisual visualHandler;
-        public bool IsDead => CurrentHp <= 0;   
+        public bool IsDead => CurrentHp <= 0;
         public int Hardness => 0; // 플레이어는 곡괭이로 데미지를 받지 않으므로 0으로 설정 
         public event Action<int, int> OnHpChanged; // (currentHp, maxHp)
-        public event Action<ItemData> OnPickaxeChanged; 
+        public event Action<ItemData> OnPickaxeChanged;
         public event Action OnPlayerDied;
 
         private void Awake()
@@ -46,9 +46,17 @@ namespace Dreamer.Player
             int finalAttack = baseAttack;
             int finalDefense = baseDefense;
             ItemData currentPickaxe = ItemDatabase.Instance?.GetItemByID(save.EquippedPickaxeId);
+            
+            if (currentPickaxe != null)
+            {
+                finalMaxHp = currentPickaxe.BaseMaxHp;
+                finalAttack = currentPickaxe.BaseAttack;
+                finalDefense = currentPickaxe.BaseDefense;
+            }
 
             if (save != null && um != null)
             {
+
                 // 각 스탯의 baseValue(기본 증가 단위 수치)를 전달
                 int hpBonus = Mathf.RoundToInt(um.GetStatValue(UpgradeType.MaxHp, save.MaxHpLevel, currentPickaxe.BaseMaxHp));         // 예: 레벨당 +20
                 int attackBonus = Mathf.RoundToInt(um.GetStatValue(UpgradeType.PickaxePower, save.PickaxePowerLevel, currentPickaxe.BaseAttack)); // 예: 레벨당 +1
@@ -59,7 +67,7 @@ namespace Dreamer.Player
                 finalDefense += defenseBonus;
             }
 
-            stats.ResetToBase(finalMaxHp, finalAttack, finalDefense,  attackCooldown);
+            stats.ResetToBase(finalMaxHp, finalAttack, finalDefense, attackCooldown);
             CurrentStats = stats;
             CurrentHp = CurrentStats.MaxHp;
 

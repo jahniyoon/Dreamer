@@ -17,9 +17,9 @@ MonoBehaviour:
   <ItemIcon>k__BackingField: {fileID: 21300000, guid: bf32ed862a6a5884a938a023f32a563b, type: 3}
   <Description>k__BackingField: A simple oak pickaxe provided when you first enter
     the mine.
-  <BaseAttack>k__BackingField: 10
+  <BaseAttack>k__BackingField: 1
   <BaseDefense>k__BackingField: 0
-  <BaseMaxHp>k__BackingField: 100
+  <BaseMaxHp>k__BackingField: 50
   <BaseLightRange>k__BackingField: 10
   <PriceType>k__BackingField: 0
   <PriceValue>k__BackingField: 0

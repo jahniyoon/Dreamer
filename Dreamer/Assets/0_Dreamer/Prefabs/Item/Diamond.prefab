@@ -109,7 +109,7 @@ MonoBehaviour:
   amount: 1
   collectRadius: 0.45
   spriteRenderer: {fileID: 6898790137987722428}
-  collectSfx: {fileID: 0}
+  collectSfx: Gold
 --- !u!61 &3902020197920736454
 BoxCollider2D:
   m_ObjectHideFlags: 0

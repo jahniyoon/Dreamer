@@ -1,6 +1,7 @@
 using Dreamer.Data;
 using Dreamer.Skill;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Dreamer.Player
 {
@@ -18,6 +19,9 @@ namespace Dreamer.Player
         [SerializeField] private SkillData skillSlotAData;
         [SerializeField] private SkillData skillSlotBData;
         [SerializeField] private SkillData skillSlotCData;
+        public UnityEvent activeASkillEvent = new();
+        public UnityEvent activeBSkillEvent = new();
+        public UnityEvent activeCSkillEvent = new();
 
         public SkillBase SkillA { get; private set; }
         public SkillBase SkillB { get; private set; }
@@ -67,16 +71,16 @@ namespace Dreamer.Player
             }
         }
 
-        private void HandleSkillA()
+        public void HandleSkillA()
         {
             UseSkillA();
         }
 
-        private void HandleSkillB()
+        public void HandleSkillB()
         {
             UseSkillB();
         }
-        private void HandleSkillC()
+        public void HandleSkillC()
         {
             UseSkillC();
         }
@@ -88,9 +92,21 @@ namespace Dreamer.Player
             if (skillSlotCData != null) SkillC = CreateSkillInstance(skillSlotCData);
         }
 
-        public bool UseSkillA() => SkillA != null && SkillA.Execute(this);
-        public bool UseSkillB() => SkillB != null && SkillB.Execute(this);
-        public bool UseSkillC() => SkillC != null && SkillC.Execute(this);
+        public bool UseSkillA()
+        {
+            activeASkillEvent?.Invoke();
+            return SkillA != null && SkillA.Execute(this);
+        }
+        public bool UseSkillB()
+        {
+            activeBSkillEvent?.Invoke();
+         return   SkillB != null && SkillB.Execute(this);
+        }
+        public bool UseSkillC()
+        {
+            activeCSkillEvent?.Invoke();
+            return SkillC != null && SkillC.Execute(this);
+        }
 
         public void SetInvincible(bool invincible)
         {

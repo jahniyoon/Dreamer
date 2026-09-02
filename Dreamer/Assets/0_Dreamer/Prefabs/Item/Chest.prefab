@@ -96,7 +96,7 @@ MonoBehaviour:
   amount: 1
   collectRadius: 0.45
   spriteRenderer: {fileID: 7543140070471364450}
-  collectSfx: {fileID: 0}
+  collectSfx: ChestOpen
   rewardItem: {fileID: 0}
   openChestSprite: {fileID: 21300000, guid: 6cb74fdf417f927499275f6825b79f00, type: 3}
 --- !u!212 &7543140070471364450

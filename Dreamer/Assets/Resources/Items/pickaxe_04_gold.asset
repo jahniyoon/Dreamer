@@ -17,8 +17,8 @@ MonoBehaviour:
   <ItemIcon>k__BackingField: {fileID: 21300000, guid: 5560e81db17a1e0408227a07ccc06c5a, type: 3}
   <Description>k__BackingField: A luxurious golden pickaxe that noticeably boosts
     miner survivability.
-  <BaseAttack>k__BackingField: 40
-  <BaseDefense>k__BackingField: 5
+  <BaseAttack>k__BackingField: 15
+  <BaseDefense>k__BackingField: 2
   <BaseMaxHp>k__BackingField: 300
   <BaseLightRange>k__BackingField: 13
   <PriceType>k__BackingField: 1

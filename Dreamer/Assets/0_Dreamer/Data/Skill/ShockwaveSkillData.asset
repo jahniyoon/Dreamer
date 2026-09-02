@@ -19,7 +19,7 @@ MonoBehaviour:
     \uD55C \uBC88\uC5D0 \uD30C\uAD34\uD558\uACE0 \uAC15\uB825\uD55C \uC9C0\uC9C4
     \uD53C\uD574\uB97C \uC785\uD799\uB2C8\uB2E4."
   <Cooldown>k__BackingField: 5
-  <Duration>k__BackingField: 0
+  <Duration>k__BackingField: 0.1
   <DamageMultiplier>k__BackingField: 2
   <RangeRadius>k__BackingField: 1.5
   <VfxPrefab>k__BackingField: {fileID: 0}

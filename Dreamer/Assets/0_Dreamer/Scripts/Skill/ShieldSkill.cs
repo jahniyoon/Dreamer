@@ -18,6 +18,7 @@ namespace Dreamer.Skill
         public override bool Execute(PlayerSkillHandler user)
         {
             if (!IsReady) return false;
+            onExcuteSkill?.Invoke();
 
             LastCastTime = Time.time;
             user.StartCoroutine(ExecuteShieldRoutine(user));

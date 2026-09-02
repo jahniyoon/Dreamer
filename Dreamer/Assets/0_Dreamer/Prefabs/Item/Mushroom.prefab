@@ -109,7 +109,7 @@ MonoBehaviour:
   amount: 5
   collectRadius: 0.45
   spriteRenderer: {fileID: 7509594287274865713}
-  collectSfx: EatMushroom.wav
+  collectSfx: EatMushroom
 --- !u!61 &1508176483840967573
 BoxCollider2D:
   m_ObjectHideFlags: 0
