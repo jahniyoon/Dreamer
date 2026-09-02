@@ -8,11 +8,13 @@ namespace Dreamer.Item
 
     public enum OreType
     {
-        Iron,       // 철 (최대 내구도 강화용)
-        Gold,       // 금 (강도/방어력 강화용)
-        Diamond,    // 다이아몬드 (공격력 강화용)
-        RepairKit,  // 소모품: 곡괭이 즉시 수리
-        SparePickaxe// 소모품: 1회 부활 예비 곡괭이
+        Iron = 0,       // 철 (최대 내구도 강화용)
+        Gold = 1,       // 금 (강도/방어력 강화용)
+        Diamond = 2,    // 다이아몬드 (공격력 강화용)
+        Mushroom = 3,
+
+        RepairKit = 10,  // 소모품: 곡괭이 수리
+        SparePickaxe = 11// 소모품: 곡괭이 즉시 수리
     }
 
     /// <summary>

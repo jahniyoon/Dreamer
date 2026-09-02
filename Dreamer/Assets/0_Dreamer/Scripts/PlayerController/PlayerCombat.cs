@@ -33,7 +33,7 @@ namespace Dreamer.Player
         /// </summary>
         public bool TryAttack(Vector2Int direction, Vector2Int originGridPos, float gridSize)
         {
-            if (Time.time < lastAttackTime + statsHandler.CurrentStats.AttackCooldown) return false;
+            if (Time.time < lastAttackTime + statsHandler.CurrentStats.LightRange) return false;
 
             lastAttackTime = Time.time;
             IsAttacking = true;
@@ -58,7 +58,7 @@ namespace Dreamer.Player
                 DamageTargetAtPosition(targetWorldPos, attackPower);
             }
 
-            Invoke(nameof(ResetAttackState), statsHandler.CurrentStats.AttackCooldown);
+            Invoke(nameof(ResetAttackState), statsHandler.CurrentStats.LightRange);
             return true;
         }
 

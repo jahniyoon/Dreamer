@@ -2,6 +2,7 @@ using Dreamer.Core;
 using Dreamer.Data;
 using Dreamer.UI;
 using System;
+using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 
 namespace Dreamer.Player
@@ -33,12 +34,34 @@ namespace Dreamer.Player
             visualHandler = GetComponent<PlayerVisual>();
         }
 
+
         public void ResetStats()
         {
             CalculatedPlayerStats stats = new CalculatedPlayerStats();
-            stats.ResetToBase(baseMaxHp, baseAttack, baseDefense, baseMoveSpeed, attackCooldown);
+
+            SaveData save = SaveManager.Instance != null ? SaveManager.Instance.Data : null;
+            UpgradeManager um = UpgradeManager.Instance;
+
+            int finalMaxHp = baseMaxHp;
+            int finalAttack = baseAttack;
+            float finalMoveSpeed = baseMoveSpeed;
+
+            if (save != null && um != null)
+            {
+                // 각 스탯의 baseValue(기본 증가 단위 수치)를 전달
+                int hpBonus = Mathf.RoundToInt(um.GetStatValue(UpgradeType.MaxHp, save.MaxHpLevel, 20f));         // 예: 레벨당 +20
+                int attackBonus = Mathf.RoundToInt(um.GetStatValue(UpgradeType.PickaxePower, save.PickaxePowerLevel, 1f)); // 예: 레벨당 +1
+                float speedBonus = um.GetStatValue(UpgradeType.MoveSpeed, save.MoveSpeedLevel, 0.5f);            // 예: 레벨당 +0.5
+
+                finalMaxHp += hpBonus;
+                finalAttack += attackBonus;
+                finalMoveSpeed += speedBonus;
+            }
+
+            stats.ResetToBase(finalMaxHp, finalAttack, baseDefense, finalMoveSpeed, attackCooldown);
             CurrentStats = stats;
             CurrentHp = CurrentStats.MaxHp;
+
             OnHpChanged?.Invoke(CurrentHp, CurrentStats.MaxHp);
         }
 
@@ -72,6 +95,12 @@ namespace Dreamer.Player
         }
         public void Heal(int amount)
         {
+            CurrentHp = Mathf.Min(CurrentStats.MaxHp, CurrentHp + amount);
+            OnHpChanged?.Invoke(CurrentHp, CurrentStats.MaxHp);
+        }
+        public void HealRatio(float ratio)
+        {
+            var amount = Mathf.RoundToInt(CurrentStats.MaxHp * ratio);
             CurrentHp = Mathf.Min(CurrentStats.MaxHp, CurrentHp + amount);
             OnHpChanged?.Invoke(CurrentHp, CurrentStats.MaxHp);
         }

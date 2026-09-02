@@ -10,4 +10,9 @@ public class UITitle : UIObject
         Hide();
         GameFlowManager.Instance.StartGame();
     }
+    public void UpgradeButton()
+    {
+        Hide();
+        UIManager.Instance.UpgradeUI.Show();
+    }
 }

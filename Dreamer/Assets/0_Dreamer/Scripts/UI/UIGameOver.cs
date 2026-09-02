@@ -44,10 +44,13 @@ namespace Dreamer.UI
 
             gameOverText.text = $"{depthAbs}<size=60%>m</size>";
 
-            float bestScore = PlayerInventory.Instance.BestDepth;
+            float bestScore = SaveManager.Instance.Data.BestDeapth;
             bool newRecord = depthAbs < bestScore;
             bestScoreText.gameObject.SetActive(!newRecord);
             bestScoreText.text = $"But Your Best Depth is {bestScore}<size=7\r\n0%>m...</size> \r\n";
+
+            if(newRecord)
+                SaveManager.Instance.Data.BestDeapth = depthAbs;
 
 
             for (int i = 0; i < itemTexts.Length; i++)

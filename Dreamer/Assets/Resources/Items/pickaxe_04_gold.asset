@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ab45290b0224564faa6a4594b6987b5, type: 3}
+  m_Name: pickaxe_04_gold
+  m_EditorClassIdentifier: Assembly-CSharp::Dreamer.Data.ItemData
+  <ItemId>k__BackingField: pickaxe_04_gold
+  <ItemName>k__BackingField: Gilded Miner Pickaxe
+  <ItemIcon>k__BackingField: {fileID: 21300000, guid: 5560e81db17a1e0408227a07ccc06c5a, type: 3}
+  <Description>k__BackingField: A luxurious golden pickaxe that noticeably boosts
+    miner survivability.
+  <BaseAttack>k__BackingField: 40
+  <BaseDefense>k__BackingField: 5
+  <BaseMaxHp>k__BackingField: 300
+  <BaseLightRange>k__BackingField: 13
+  <PriceType>k__BackingField: 1
+  <PriceValue>k__BackingField: 80

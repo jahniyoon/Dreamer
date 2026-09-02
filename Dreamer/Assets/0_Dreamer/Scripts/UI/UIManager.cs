@@ -15,6 +15,7 @@ namespace Dreamer.UI
 
         [Header("하위 HUD / Panel UI 참조")]
         [field: SerializeField] public UITitle TitleUI {  get; set; }
+        [field: SerializeField] public UIObject UpgradeUI {  get; set; }
         [field: SerializeField] public UIInGameHUD InGameHUDUI { get; set; }
         [field: SerializeField] public UIObject GameOverUI { get; set; }
 

@@ -1,15 +1,16 @@
 using DG.Tweening;
 using Dreamer.Core;
+using Dreamer.Item;
 using Dreamer.Player;
 using Dreamer.Tile;
 using Dreamer.UI;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine.InputSystem;
-using UnityEngine;
-using UnityEngine.SceneManagement;
 using Unity.Cinemachine;
+using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 namespace Dreamer.Core
 {
@@ -78,7 +79,7 @@ namespace Dreamer.Core
             Time.timeScale = 1f;
             // 스폰 포지션으로 옮겨주기
             Player.transform.position = PlayerTitlePoint.position;
-            Player.Movement.SyncGridPosFromTransform();
+            Player.Movement.SyncGridPosFromTransform();            
             Player.Stats.ResetStats();
         }
         public void StartGame()
@@ -150,9 +151,11 @@ namespace Dreamer.Core
             UIManager.Instance.InGameHUDUI.Hide();
             UIManager.Instance.GameOverUI.Show();
 
+            // 세이브 바로하고
+            PlayerInventory.Instance.CalcurateResource();
+
             yield return new WaitForSeconds(2f);
             JuiceManager.Instance.ResetZoom();
-
             while (true)
             {
                 if (Input.anyKeyDown)
