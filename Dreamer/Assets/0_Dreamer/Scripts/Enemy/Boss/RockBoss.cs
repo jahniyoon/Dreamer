@@ -122,6 +122,9 @@ namespace Dreamer.Enemy
 
             // 부딪히는 순간 카메라 셰이크
             JuiceManager.Instance?.ShakeCamera(2);
+            AudioManager.Instance.PlaySFX("BossAttack");
+
+
             // 2. 솟구치기: 위쪽(플레이어 방향)으로 강하게 돌진하며 들이받기 (0.7유닛 위로 솟구침)
             spriteRenderer.transform.DOMoveY(originalPos.y + 0.7f, 0.25f)
                 .SetEase(Ease.OutBack) // 충격감을 살려주는 튕김 이징

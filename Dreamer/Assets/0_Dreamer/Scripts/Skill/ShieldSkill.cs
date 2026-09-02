@@ -27,6 +27,7 @@ namespace Dreamer.Skill
         private IEnumerator ExecuteShieldRoutine(PlayerSkillHandler user)
         {
             user.SetInvincible(true);
+            AudioManager.Instance.PlaySFX("ShieldSkill");
 
             // 보호막 VFX 스폰 및 플레이어 추적 배치
             GameObject shieldVfx = null;

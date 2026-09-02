@@ -31,8 +31,8 @@ namespace Dreamer.Data
         [field: SerializeField][field: Range(0f, 1f)] public float DropRate { get; private set; } = 0.3f;
 
         [field: Header("피드백 연출")]
-        [field: SerializeField] public AudioClip HitSound { get; private set; }
-        [field: SerializeField] public AudioClip DeathSound { get; private set; }
+        [field: SerializeField] public string HitSound { get; private set; }
+        [field: SerializeField] public string DeathSound { get; private set; }
         [field: SerializeField] public GameObject DeathVfxPrefab { get; private set; }
 
         public bool IsBoss => EnemyType == EnemyType.Boss;

@@ -170,6 +170,7 @@ namespace Dreamer.Enemy
 
             // 부딪히는 순간 카메라 셰이크
             JuiceManager.Instance?.ShakeCamera(2f);
+            AudioManager.Instance.PlaySFX("BossAttack");
 
             // 2. 솟구치기 (플레이어 방향)
             spriteRenderer.transform.DOMoveY(originalPos.y + 0.7f, 0.25f)

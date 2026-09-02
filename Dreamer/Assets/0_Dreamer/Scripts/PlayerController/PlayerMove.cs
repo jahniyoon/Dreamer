@@ -64,6 +64,7 @@ namespace Dreamer.Player
                 visual.UpdateFacingDirection(direction.x);
                 visual.PlayMoveSquash();
             }
+            AudioManager.Instance.PlaySFX("FootStep");
 
             transform.DOKill();
             transform.DOMove(targetWorldPos, moveDuration)

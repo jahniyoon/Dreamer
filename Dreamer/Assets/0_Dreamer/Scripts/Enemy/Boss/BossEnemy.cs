@@ -20,6 +20,7 @@ namespace Dreamer.Enemy
         [SerializeField] protected int bossHeight = 9; // mapHeight와 동일하게 설정 (한 행 전체)
         [SerializeField] protected float attackInterval = 3f; // 공격 패턴 주기
         [SerializeField] protected float triggerDistanceY = 3f; // 3칸 거리 남았을 때 감지
+        public GameObject PickAxePrefab;
 
         protected bool isBossActivated = false; // 보스전 시작 여부
 
@@ -104,6 +105,8 @@ namespace Dreamer.Enemy
         /// </summary>
         private void ActivateBoss()
         {
+            AudioManager.Instance.PlayBGM("BGM_Boss");
+
             isBossActivated = true;
             attackTimer = 0f;
             SetDarker(0);
@@ -148,6 +151,8 @@ namespace Dreamer.Enemy
 
         protected override void Die()
         {
+            AudioManager.Instance.PlayBGM("BGM_Title");
+
             Debug.Log($"[GiantBlockBoss] 🏆 보스 처치 완료!");
             isDead = true;
             CurrentState = EnemyState.Dead;
@@ -174,6 +179,13 @@ namespace Dreamer.Enemy
 
             // [Step 2] 찌그러진 상태에서 살짝 반동하며 완전히 꺼지듯 작아지면서 사라짐 (0.25초)
             dieSequence.Append(transform.DOScale(Vector3.zero, 0.25f).SetEase(Ease.InBack));
+
+            if(PickAxePrefab != null)
+            {
+                var chest = Instantiate(PickAxePrefab);
+                chest.transform.position = transform.position;
+                chest.transform.localScale = Vector3.one * 3f;
+            }
 
             // [Step 3] 연출 완료 후 풀 반납 처리
             dieSequence.OnComplete(() =>

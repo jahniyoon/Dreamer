@@ -36,10 +36,10 @@ namespace JH
             if (save == null) return;
 
             // 1. 상단 재화 UI 갱신
-            if (ironText != null) ironText.text = $"철: {save.IronCount}";
-            if (diamondText != null) diamondText.text = $"다이아: {save.DiamondCount}";
-            if (goldText != null) goldText.text = $"금: {save.GoldCount}";
-            if (mushroomText != null) mushroomText.text = $"버섯: {save.MushroomCount}";
+            if (ironText != null) ironText.text = $"{save.IronCount}";
+            if (diamondText != null) diamondText.text = $"{save.DiamondCount}";
+            if (goldText != null) goldText.text = $"{save.GoldCount}";
+            if (mushroomText != null) mushroomText.text = $"{save.MushroomCount}";
 
             // 2. 착용 장비 정보 조회
             ItemData equippedPickaxe = ItemDatabase.Instance?.GetItemByID(save.EquippedPickaxeId);

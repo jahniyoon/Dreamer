@@ -22,6 +22,7 @@ namespace Dreamer.Skill
             Vector2Int centerGridPos = user.Movement.CurrentGridPos;
             float gridSize = user.Movement.GridSize;
             int attackPower = Mathf.RoundToInt(user.StatsHandler.CurrentStats.AttackPower * Data.DamageMultiplier);
+            AudioManager.Instance.PlaySFX("ExplosionSkill");
 
             // 주변 3x3 범위 타격
             for (int x = -1; x <= 1; x++)

@@ -9,15 +9,13 @@ namespace Dreamer.Data
         [field: SerializeField] public int MaxHp { get; private set; }
         [field: SerializeField] public int AttackPower { get; private set; }
         [field: SerializeField] public int Defense { get; private set; }
-        [field: SerializeField] public float MoveSpeed { get; private set; }
         [field: SerializeField] public float LightRange { get; private set; }
 
-        public void ResetToBase(int baseHp, int baseAtk, int baseDef, float baseSpeed, float baseLight)
+        public void ResetToBase(int baseHp, int baseAtk, int baseDef, float baseLight)
         {
             MaxHp = baseHp;
             AttackPower = baseAtk;
             Defense = baseDef;
-            MoveSpeed = baseSpeed;
             LightRange = baseLight;
         }
 

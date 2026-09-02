@@ -37,16 +37,5 @@ namespace Dreamer.Data
             };
         }
 
-        private string GetOreIconTag(OreType type)
-        {
-            return type switch
-            {
-                OreType.Iron => "<sprite name=\"iron\">",
-                OreType.Diamond => "<sprite name=\"diamond\">",
-                OreType.Gold => "<sprite name=\"gold\">",
-                OreType.Mushroom => "<sprite name=\"mushroom\">",
-                _ => ""
-            };
-        }
     }
 }

@@ -106,7 +106,7 @@ namespace Dreamer.UI
 
 
                 // 텍스트 살짝 툭 튀어나오는 연출
-                depthText.transform.localScale = Vector3.zero;
+                depthText.transform.localScale = Vector3.one;
                 depthText.transform.DOKill();
                 depthText.transform.DOPunchScale(new Vector3(0.1f, 0.1f, 0f), 0.1f);
             }

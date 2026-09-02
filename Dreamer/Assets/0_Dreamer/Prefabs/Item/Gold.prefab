@@ -106,10 +106,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Dreamer.Item.FieldItem
   oreType: 1
-  amount: 1
+  amount: 5
   collectRadius: 0.45
   spriteRenderer: {fileID: 2667652010564224907}
-  collectSfx: {fileID: 0}
+  collectSfx: Gold
 --- !u!61 &1224564230408990438
 BoxCollider2D:
   m_ObjectHideFlags: 0

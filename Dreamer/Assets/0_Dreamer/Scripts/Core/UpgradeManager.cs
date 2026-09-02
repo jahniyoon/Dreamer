@@ -27,7 +27,7 @@ namespace Dreamer.Core
             {
                 UpgradeType.PickaxePower => (level - 1) * baseValue,    // 파괴력: 레벨당 +2 (다이아)
                 UpgradeType.MaxHp => (level - 1) * baseValue,         // 최대 체력: 레벨당 +25 (골드)
-                UpgradeType.MoveSpeed => (level - 1) * baseValue,     // 이동 속도: 레벨당 +0.5 (철)
+                UpgradeType.Defense => (level - 1) * baseValue,     // 이동 속도: 레벨당 +0.5 (철)
                 UpgradeType.LightRadius => (level - 1) * baseValue,   // 암전 시야: 레벨당 +1.5 (버섯)
                 _ => 0f
             };
@@ -47,7 +47,7 @@ namespace Dreamer.Core
             OreType matchingOre = save.GetMatchingOreType(type);
 
             // 2. 해당 광석 차감 시도
-            if (save.ConsumeResource(matchingOre, cost))
+            if (PlayerInventory.Instance.ConsumeResources(matchingOre, cost));
             {
                 save.SetCurrentLevel(type, currentLevel + 1);
 

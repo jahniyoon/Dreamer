@@ -27,7 +27,7 @@ namespace Dreamer.Data
 
         [field: Header("파괴 피드백 (Juice)")]
         [field: SerializeField] public GameObject DestroyParticlePrefab { get; private set; }
-        [field: SerializeField] public AudioClip DestroySound { get; private set; }
+        [field: SerializeField] public string DestroySound { get; private set; }
         [field: SerializeField] public float CameraShakeIntensity { get; private set; } = 0.2f;
 
         [field: Header("지층 드롭 테이블")]

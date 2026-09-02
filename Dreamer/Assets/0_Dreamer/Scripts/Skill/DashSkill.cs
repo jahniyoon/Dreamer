@@ -32,6 +32,7 @@ namespace Dreamer.Skill
 
         private IEnumerator ExecuteDashRoutine(PlayerSkillHandler user, Vector2Int direction)
         {
+            AudioManager.Instance.PlaySFX("DashSkill");
             int dashDistance = 3; // 기본 돌진 칸 수
             float gridSize = user.Movement.GridSize;
             int attackPower = Mathf.RoundToInt(user.StatsHandler.CurrentStats.AttackPower * Data.DamageMultiplier);

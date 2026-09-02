@@ -38,11 +38,26 @@ namespace Dreamer.Item
                 return;
             }
         }
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.F1))
+            {
+                ConsumeResources(OreType.Iron, 1000);
+            }
+            if (Input.GetKeyDown(KeyCode.F2))
+            {
+                ConsumeResources(OreType.Gold, 1000);
+            }
+            if (Input.GetKeyDown(KeyCode.F3))
+            {
+                ConsumeResources(OreType.Diamond, 1000);
+            }
 
+        }
         public void LoadSaveData()
         {
             // 초기 UI 갱신 이벤트 통보
-            OnResourcesChanged?.Invoke(IronCount, DiamondCount, GoldCount, MushroomCount);
+            UpdateInventory();
         }
 
         /// <summary>
@@ -76,7 +91,7 @@ namespace Dreamer.Item
                     break;
             }
 
-            OnResourcesChanged?.Invoke(IronCount, DiamondCount, GoldCount, MushroomCount);
+            UpdateInventory();
             Debug.Log($"[Resource] 💎 자원 습득! type: {type}, 현재 (철:{IronCount}, 다이아:{DiamondCount}, 금:{GoldCount}), 버섯:{MushroomCount}");
         }
 
@@ -108,21 +123,25 @@ namespace Dreamer.Item
             // 계산 모두 하고 저장
             SaveManager.Instance.SaveGame();
             Debug.Log($"[Resource] 💎 총 자원 계산 완료! 현재 (철:{save.IronCount}, 다이아:{save.DiamondCount}, 금:{save.GoldCount}), 버섯:{save.MushroomCount}");
+            UpdateInventory();
         }
 
         /// <summary>
         /// 정비소 업그레이드 시 자원 소모
         /// </summary>
-        public bool ConsumeResources(int iron, int diamond, int gold)
+        public bool ConsumeResources(OreType type, int amount)
         {
-            if (IronCount < iron || DiamondCount < diamond || GoldCount < gold) return false;
+            var save = SaveManager.Instance.Data;
+            bool result = save.ConsumeResource(type, amount);
 
-            IronCount -= iron;
-            DiamondCount -= diamond;
-            GoldCount -= gold;
+            UpdateInventory();
+            return result;
+        }
 
+        public void UpdateInventory()
+        {
             OnResourcesChanged?.Invoke(IronCount, DiamondCount, GoldCount, MushroomCount);
-            return true;
+
         }
     }
 }

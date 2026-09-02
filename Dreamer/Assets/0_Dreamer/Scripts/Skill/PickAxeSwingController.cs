@@ -1,4 +1,6 @@
 using DG.Tweening;
+using Dreamer.Core;
+using Dreamer.Data;
 using UnityEngine;
 namespace Dreamer.Player
 {
@@ -26,6 +28,38 @@ namespace Dreamer.Player
         private Vector3 defaultLocalPos;
         private Quaternion defaultLocalRot;
 
+        [Header("곡괭이 SpriteRenderer 참조")]
+        [SerializeField] private SpriteRenderer pickaxeSpriteRenderer;
+        private PlayerController Player;
+
+        private void OnEnable()
+        {
+            // 오브젝트 활성화 시 또는 게임 시작 시 현재 착용 중인 곡괭이 이미지로 갱신
+            Player.Stats.OnPickaxeChanged += UpdatePickaxeSprite;
+        }
+        private void OnDisable()
+        {
+            Player.Stats.OnPickaxeChanged -= UpdatePickaxeSprite;
+        }
+
+        /// <summary>
+        /// 세이브 데이터에 지정된 착용 곡괭이 ID 기반으로 스프라이트 이미지 즉시 교체
+        /// </summary>
+        public void UpdatePickaxeSprite(ItemData item)
+        {
+            Debug.Log(item.ItemId + " 교체");
+   
+            if (item != null && item.ItemIcon != null)
+            {
+                // 2. 곡괭이 이미지 교체
+                pickaxeSpriteRenderer.sprite = item.ItemIcon;
+            }
+        }
+        private void Awake()
+        {
+            Player = GetComponent<PlayerController>();
+        }
+
         private void Start()
         {
             if (pickaxeTransform != null)
@@ -44,6 +78,7 @@ namespace Dreamer.Player
 
             SwingDirection dir = CalculateSwingDirection(inputDir);
             ExecuteSwingMotion(dir);
+            AudioManager.Instance.PlaySFX("SwingPick");
         }
 
         private SwingDirection CalculateSwingDirection(Vector2 dir)

@@ -17,7 +17,6 @@ namespace Dreamer.Player
         [SerializeField] private int baseMaxHp = 100;
         [SerializeField] private int baseAttack = 1;
         [SerializeField] private int baseDefense = 0;
-        [SerializeField] private float baseMoveSpeed = 5f;
         [SerializeField] private float attackCooldown = 0.2f;
 
         [field: Header("현재 스탯 (Current Stats)")]
@@ -27,6 +26,7 @@ namespace Dreamer.Player
         public bool IsDead => CurrentHp <= 0;   
         public int Hardness => 0; // 플레이어는 곡괭이로 데미지를 받지 않으므로 0으로 설정 
         public event Action<int, int> OnHpChanged; // (currentHp, maxHp)
+        public event Action<ItemData> OnPickaxeChanged; 
         public event Action OnPlayerDied;
 
         private void Awake()
@@ -44,25 +44,27 @@ namespace Dreamer.Player
 
             int finalMaxHp = baseMaxHp;
             int finalAttack = baseAttack;
-            float finalMoveSpeed = baseMoveSpeed;
+            int finalDefense = baseDefense;
+            ItemData currentPickaxe = ItemDatabase.Instance?.GetItemByID(save.EquippedPickaxeId);
 
             if (save != null && um != null)
             {
                 // 각 스탯의 baseValue(기본 증가 단위 수치)를 전달
-                int hpBonus = Mathf.RoundToInt(um.GetStatValue(UpgradeType.MaxHp, save.MaxHpLevel, 20f));         // 예: 레벨당 +20
-                int attackBonus = Mathf.RoundToInt(um.GetStatValue(UpgradeType.PickaxePower, save.PickaxePowerLevel, 1f)); // 예: 레벨당 +1
-                float speedBonus = um.GetStatValue(UpgradeType.MoveSpeed, save.MoveSpeedLevel, 0.5f);            // 예: 레벨당 +0.5
+                int hpBonus = Mathf.RoundToInt(um.GetStatValue(UpgradeType.MaxHp, save.MaxHpLevel, currentPickaxe.BaseMaxHp));         // 예: 레벨당 +20
+                int attackBonus = Mathf.RoundToInt(um.GetStatValue(UpgradeType.PickaxePower, save.PickaxePowerLevel, currentPickaxe.BaseAttack)); // 예: 레벨당 +1
+                int defenseBonus = Mathf.RoundToInt(um.GetStatValue(UpgradeType.Defense, save.DefenseLevel, currentPickaxe.BaseDefense));            // 예: 레벨당 +0.5
 
                 finalMaxHp += hpBonus;
                 finalAttack += attackBonus;
-                finalMoveSpeed += speedBonus;
+                finalDefense += defenseBonus;
             }
 
-            stats.ResetToBase(finalMaxHp, finalAttack, baseDefense, finalMoveSpeed, attackCooldown);
+            stats.ResetToBase(finalMaxHp, finalAttack, finalDefense,  attackCooldown);
             CurrentStats = stats;
             CurrentHp = CurrentStats.MaxHp;
 
             OnHpChanged?.Invoke(CurrentHp, CurrentStats.MaxHp);
+            OnPickaxeChanged?.Invoke(currentPickaxe);
         }
 
         public void ApplyEquipment(ItemData item)

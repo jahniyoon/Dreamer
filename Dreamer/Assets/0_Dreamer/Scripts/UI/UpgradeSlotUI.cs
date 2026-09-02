@@ -74,7 +74,7 @@ namespace Dreamer.UI
             {
                 UpgradeType.PickaxePower => pickaxe.BaseAttack,
                 UpgradeType.MaxHp => pickaxe.BaseMaxHp,
-                UpgradeType.MoveSpeed => 0.5f,
+                UpgradeType.Defense => 0.5f,
                 UpgradeType.LightRadius => pickaxe.BaseLightRange,
                 _ => 1f
             };

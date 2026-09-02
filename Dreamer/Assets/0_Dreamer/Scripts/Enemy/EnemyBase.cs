@@ -288,9 +288,9 @@ namespace Dreamer.Enemy
             TriggerHitFlash();
 
 
-            if (enemyData != null && enemyData.HitSound != null && JuiceManager.Instance != null)
+            if (enemyData != null)
             {
-                JuiceManager.Instance.PlaySfxWithPitch(enemyData.HitSound, 1f, 0.1f);
+             AudioManager.Instance.PlaySFX(enemyData.HitSound);
             }
 
             if (currentHp <= 0)
@@ -347,6 +347,11 @@ namespace Dreamer.Enemy
             {
                 JuiceManager.Instance.SpawnVfx(enemyData.DeathVfxPrefab, transform.position, 1.5f);
             }
+            if (enemyData != null)
+            {
+                AudioManager.Instance.PlaySFX(enemyData.DeathSound);
+            }
+
 
             if (ObjectPoolManager.Instance != null)
             {

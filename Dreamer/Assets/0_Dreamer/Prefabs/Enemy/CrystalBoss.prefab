@@ -125,6 +125,7 @@ MonoBehaviour:
   bossHeight: 9
   attackInterval: 3
   triggerDistanceY: 3
+  PickAxePrefab: {fileID: 2761267656697954633, guid: f91939d60f330d04d87241a3b9d815ea, type: 3}
   crystalWallPrefab: {fileID: 3141543562359452884, guid: 79dfd902a323dc345965b9cff67b6160, type: 3}
   smallGolemPrefab: {fileID: 3249028367022770865, guid: 11ced9b65a174f844a7a78b577e4c62d, type: 3}
   cameraShakeIntensity: 0.5

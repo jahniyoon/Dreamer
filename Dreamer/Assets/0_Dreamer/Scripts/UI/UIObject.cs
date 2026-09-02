@@ -1,4 +1,5 @@
 using DG.Tweening;
+using Dreamer.Core;
 using UnityEngine;
 namespace Dreamer.UI
 {
@@ -39,6 +40,7 @@ namespace Dreamer.UI
         /// </summary>
         public virtual void Show()
         {
+            AudioManager.Instance.PlaySFX("Open");
             if (canvasGroup == null) canvasGroup = GetComponent<CanvasGroup>();
 
             // 이전 실행 중인 트윈 제거

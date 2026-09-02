@@ -81,26 +81,49 @@ namespace Dreamer.Core
             Player.transform.position = PlayerTitlePoint.position;
             Player.Movement.SyncGridPosFromTransform();            
             Player.Stats.ResetStats();
+            AudioManager.Instance.PlayBGM("BGM_Title");
         }
         public void StartGame()
         {
             Time.timeScale = 1f;
 
             Map.ResetAndInitializeMap();
-
             Sequence seq = DOTween.Sequence();
-            float duration = 1f;
+            float duration = 1.2f; // 높은 곳에서 떨어지니 1.2초 정도로 조금 더 여유있게!
+
+            // 현재 위치와 목표 위치
+            Vector3 startPos = Player.transform.position;
+            Vector3 targetPos = PlayerSpawnPoint.position;
+
+            // 자기 키(약 1.5 ~ 2 units) 고려해서 시작 높이보다 확실히 위로 뜨는 Jump Power
+            float jumpHeight = 1f; // 자기 키 이상 솟구치는 높이
+            AudioManager.Instance.PlaySFX("Jump");
+
+            // 1. 점프 이동 (높은 고도차를 고려하여 jumpPower 조정)
             seq.Append(
                 Player.transform
                     .DOJump(
-                         PlayerSpawnPoint.position,
-                        3,
-                        1,
-                        duration
+                        targetPos,
+                        jumpPower: (startPos.y - targetPos.y) + jumpHeight, // 💡 낙하 고도차 + 솟구칠 높이 합산!
+                        numJumps: 1,
+                        duration: duration
                     )
-                    .SetEase(Ease.OutQuad)
+                    .SetEase(Ease.Linear) // 또는 Ease.OutQuad
             );
 
+            // 2. 공중에서 역동적으로 360도 백덤블링 (공중 회전)
+            seq.Join(
+                Player.transform
+                    .DORotate(new Vector3(0, 0, 360f), duration, RotateMode.FastBeyond360)
+                    .SetEase(Ease.OutCubic) // 시작 시 빠르게 돌다가 착지 직전 자세 잡는 찰진 느낌
+            );
+
+            // 3. 착지 시 회전 각도 및 포지션 깔끔 정렬 (안전장치)
+            seq.OnComplete(() =>
+            {
+                Player.transform.rotation = Quaternion.identity;
+                Player.transform.position = targetPos;
+            });
             StartCoroutine(StartGameRoutine(duration));
 
 
@@ -137,7 +160,8 @@ namespace Dreamer.Core
         public void TriggerGameOver()
         {
             if (IsGameOver) return;
-
+            AudioManager.Instance.PlaySFX("BrokenPickAxe");
+            AudioManager.Instance.PlayBGM("GameOver", loop : false);
 
             SetGameState(GameState.GameOver);
             JuiceManager.Instance.ZoomCamera();

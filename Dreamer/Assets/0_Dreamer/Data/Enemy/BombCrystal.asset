@@ -21,6 +21,6 @@ MonoBehaviour:
   <MoveSpeed>k__BackingField: 2.5
   <PossibleDrops>k__BackingField: []
   <DropRate>k__BackingField: 0.3
-  <HitSound>k__BackingField: {fileID: 0}
-  <DeathSound>k__BackingField: {fileID: 0}
+  <HitSound>k__BackingField: Enemy
+  <DeathSound>k__BackingField: EnemyDie
   <DeathVfxPrefab>k__BackingField: {fileID: 0}

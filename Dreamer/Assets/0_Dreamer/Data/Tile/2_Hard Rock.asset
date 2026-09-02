@@ -16,10 +16,10 @@ MonoBehaviour:
   <TileName>k__BackingField: Hard Rock
   <MaxHp>k__BackingField: 5
   <TileHardness>k__BackingField: 5
-  <TileSprite>k__BackingField: {fileID: 21300000, guid: 0606f7ab4aaca7542bb68920d2381598, type: 3}
-  <TileColor>k__BackingField: {r: 0, g: 0.17708935, b: 0.41568628, a: 1}
+  <TileSprite>k__BackingField: {fileID: 21300000, guid: ecb32e7fb1a2e7549a80b20397b5c202, type: 3}
+  <TileColor>k__BackingField: {r: 0.2264151, g: 0.14898759, b: 0.10359559, a: 1}
   <DestroyParticlePrefab>k__BackingField: {fileID: 0}
-  <DestroySound>k__BackingField: {fileID: 0}
+  <DestroySound>k__BackingField: Stone
   <CameraShakeIntensity>k__BackingField: 0.2
   <DropItems>k__BackingField: []
   <ItemDropRate>k__BackingField: 0.05

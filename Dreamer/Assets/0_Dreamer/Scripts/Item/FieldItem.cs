@@ -29,8 +29,8 @@ namespace Dreamer.Item
         [SerializeField] private float collectRadius = 0.45f; // 플레이어가 같은 위치(타일)에 도달하여 획득되는 거리
 
         [Header("아이템 스프라이트 / SFX")]
-        [SerializeField] private SpriteRenderer spriteRenderer;
-        [SerializeField] private AudioClip collectSfx;
+        [SerializeField] protected SpriteRenderer spriteRenderer;
+        [SerializeField] private string collectSfx;
 
         private Transform playerTransform;
         private bool isBeingCollected;
@@ -52,7 +52,8 @@ namespace Dreamer.Item
             }
         }
 
-        public void InitItem(OreType type, int itemAmount, Vector2Int initialGridPos)
+
+        public virtual void InitItem(OreType type, int itemAmount, Vector2Int initialGridPos)
         {
             oreType = type;
             amount = itemAmount;
@@ -105,7 +106,7 @@ namespace Dreamer.Item
         /// <summary>
         /// 플레이어가 같은 위치에 들어왔을 때 톡! 튀어오르며 흡수되는 찰진 연출
         /// </summary>
-        private void TriggerCollectEffect()
+        protected virtual void TriggerCollectEffect()
         {
             isBeingCollected = true;
             idleFloatTween?.Kill();
@@ -119,7 +120,7 @@ namespace Dreamer.Item
             seq.OnComplete(CollectItem);
         }
 
-        private void CollectItem()
+        protected virtual void CollectItem()
         {
             // 플레이어 자원 매니저에 자원 추가
             if (PlayerInventory.Instance != null)
@@ -128,10 +129,7 @@ namespace Dreamer.Item
             }
 
             // 사운드 및 이펙트 연출
-            if (JuiceManager.Instance != null && collectSfx != null)
-            {
-                JuiceManager.Instance.PlaySfxWithPitch(collectSfx, 1.1f, 0.1f);
-            }
+            AudioManager.Instance.PlaySFX(collectSfx);
             Kill(); // 아이템 풀 반환 또는 비활성화
          
         }

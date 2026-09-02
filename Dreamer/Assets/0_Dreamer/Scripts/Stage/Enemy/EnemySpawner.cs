@@ -112,31 +112,40 @@ namespace Dreamer.Enemy
         private bool CheckAndSpawnBoss(int currentDepth, int yCoord)
         {
             if (bossConfigs == null || bossConfigs.Length == 0) return false;
+            if (spawnedBossDepths.Contains(currentDepth)) return false;
 
+            // 1. 현재 깊이(TriggerDepth) 조건에 맞는 모든 보스 Config를 리스트로 수집
+            List<BossSpawnConfig> validConfigs = new List<BossSpawnConfig>();
             for (int i = 0; i < bossConfigs.Length; i++)
             {
-                BossSpawnConfig config = bossConfigs[i];
-
-                if (config.TriggerDepth == currentDepth && !spawnedBossDepths.Contains(currentDepth))
+                if (bossConfigs[i].TriggerDepth == currentDepth)
                 {
-                    spawnedBossDepths.Add(currentDepth);
-
-                    Vector2Int centerGridPos = new Vector2Int(0, yCoord);
-                    if (mapGenerator != null) mapGenerator.ClearTileArea(centerGridPos, config.ArenaSize);
-
-                    if (config.BossPrefab != null)
-                    {
-                        float tileSize = mapGenerator != null ? mapGenerator.TileSize : 1f;
-                        Vector3 bossWorldPos = new Vector3(0f, yCoord * tileSize, 0f);
-                        SpawnEnemyInstance(new EnemySpawnData(config.BossData, config.BossPrefab), centerGridPos, bossWorldPos);
-                        Debug.Log($"[EnemySpawner] ⚔️ 보스 출현! [{config.BossName}] 깊이: {currentDepth}M");
-                    }
-
-                    return true;
+                    validConfigs.Add(bossConfigs[i]);
                 }
             }
 
-            return false;
+            // 조건에 맞는 보스가 없으면 종료
+            if (validConfigs.Count == 0) return false;
+
+            // 2. 수집된 보스 중 무작위(Random) 1종 선택!
+            int randomIndex = UnityEngine.Random.Range(0, validConfigs.Count);
+            BossSpawnConfig selectedConfig = validConfigs[randomIndex];
+
+            // 3. 보스 출현 처리 (동일 깊이 중복 생성 방지)
+            spawnedBossDepths.Add(currentDepth);
+
+            Vector2Int centerGridPos = new Vector2Int(0, yCoord);
+            if (mapGenerator != null) mapGenerator.ClearTileArea(centerGridPos, selectedConfig.ArenaSize);
+
+            if (selectedConfig.BossPrefab != null)
+            {
+                float tileSize = mapGenerator != null ? mapGenerator.TileSize : 1f;
+                Vector3 bossWorldPos = new Vector3(0f, yCoord * tileSize, 0f);
+                SpawnEnemyInstance(new EnemySpawnData(selectedConfig.BossData, selectedConfig.BossPrefab), centerGridPos, bossWorldPos);
+                Debug.Log($"[EnemySpawner] ⚔️ 랜덤 보스 출현! [{selectedConfig.BossName}] 깊이: {currentDepth}M (후보 중 {randomIndex + 1}번째)");
+            }
+
+            return true;
         }
         private void SpawnEnemyInstance(EnemySpawnData rule, Vector2Int gridPos, Vector3 worldPos)
         {

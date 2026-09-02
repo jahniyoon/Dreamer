@@ -17,7 +17,7 @@ namespace Dreamer.Data
         // 업그레이드 스탯 레벨 (기본 1레벨)
         [field: SerializeField] public int PickaxePowerLevel { get; private set; } = 1;  // 곡괭이 파괴력
         [field: SerializeField] public int MaxHpLevel { get; private set; } = 1;         // 최대 체력
-        [field: SerializeField] public int MoveSpeedLevel { get; private set; } = 1;     // 이동 속도
+        [field: SerializeField] public int DefenseLevel { get; private set; } = 1;     // 방어력
         [field: SerializeField] public int LightRadiusLevel { get; private set; } = 1;   // 암전 해제/시야 범위
 
         // 3. 착용 중인 장비 아이템 ID (기본값 설정 가능)
@@ -111,7 +111,7 @@ namespace Dreamer.Data
             {
                 UpgradeType.PickaxePower => OreType.Diamond,
                 UpgradeType.MaxHp => OreType.Gold,
-                UpgradeType.MoveSpeed => OreType.Iron,
+                UpgradeType.Defense => OreType.Iron,
                 UpgradeType.LightRadius => OreType.Mushroom,
                 _ => OreType.Iron
             };
@@ -123,7 +123,7 @@ namespace Dreamer.Data
             {
                 UpgradeType.PickaxePower => PickaxePowerLevel,
                 UpgradeType.MaxHp => MaxHpLevel,
-                UpgradeType.MoveSpeed => MoveSpeedLevel,
+                UpgradeType.Defense => DefenseLevel,
                 UpgradeType.LightRadius => LightRadiusLevel,
                 _ => 1
             };
@@ -135,7 +135,7 @@ namespace Dreamer.Data
             {
                 case UpgradeType.PickaxePower: PickaxePowerLevel = newLevel; break;
                 case UpgradeType.MaxHp: MaxHpLevel = newLevel; break;
-                case UpgradeType.MoveSpeed: MoveSpeedLevel = newLevel; break;
+                case UpgradeType.Defense: DefenseLevel = newLevel; break;
                 case UpgradeType.LightRadius: LightRadiusLevel = newLevel; break;
             }
         }
@@ -147,7 +147,7 @@ namespace Dreamer.Data
     {
         PickaxePower,
         MaxHp,
-        MoveSpeed,
+        Defense,
         LightRadius
     }
 }

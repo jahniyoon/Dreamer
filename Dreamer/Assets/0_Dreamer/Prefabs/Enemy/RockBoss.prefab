@@ -125,6 +125,7 @@ MonoBehaviour:
   bossHeight: 9
   attackInterval: 3
   triggerDistanceY: 3
+  PickAxePrefab: {fileID: 2761267656697954633, guid: f91939d60f330d04d87241a3b9d815ea, type: 3}
   fallingRockPrefab: {fileID: 3819940122846278612, guid: a245b2ecbf4460d46844cc11b4b15277, type: 3}
   rockSpawnPoints:
   - {fileID: 947470464195414667}

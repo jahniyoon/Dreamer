@@ -184,7 +184,7 @@ namespace Dreamer.UI
             else
             {
                 // 미해금인 경우 -> 자원 차감 후 구매 처리
-                if (save.ConsumeResource(currentItem.PriceType, currentItem.PriceValue))
+                if (PlayerInventory.Instance.ConsumeResources(currentItem.PriceType, currentItem.PriceValue))
                 {
                     save.UnlockPickaxe(currentItem.ItemId);
                     save.EquipItem(currentItem); // 구매 시 자동 장착

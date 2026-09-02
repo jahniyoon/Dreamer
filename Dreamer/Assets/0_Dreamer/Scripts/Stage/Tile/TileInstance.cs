@@ -132,7 +132,7 @@ namespace Dreamer.Tile
 
                 if (tileData.DestroySound != null)
                 {
-                    JuiceManager.Instance.PlaySfxWithPitch(tileData.DestroySound, 0.8f, 0.15f);
+                    AudioManager.Instance.PlaySFX(tileData.DestroySound);
                 }
             }
         }

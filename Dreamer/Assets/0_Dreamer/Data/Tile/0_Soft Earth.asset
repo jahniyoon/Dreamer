@@ -16,10 +16,10 @@ MonoBehaviour:
   <TileName>k__BackingField: Soft Earth
   <MaxHp>k__BackingField: 1
   <TileHardness>k__BackingField: 1
-  <TileSprite>k__BackingField: {fileID: 21300000, guid: 0606f7ab4aaca7542bb68920d2381598, type: 3}
-  <TileColor>k__BackingField: {r: 1, g: 0.9413762, b: 0.8254717, a: 1}
+  <TileSprite>k__BackingField: {fileID: 21300000, guid: ecb32e7fb1a2e7549a80b20397b5c202, type: 3}
+  <TileColor>k__BackingField: {r: 0.3484336, g: 0.5471698, b: 0.50093037, a: 1}
   <DestroyParticlePrefab>k__BackingField: {fileID: 0}
-  <DestroySound>k__BackingField: {fileID: 0}
+  <DestroySound>k__BackingField: Sand
   <CameraShakeIntensity>k__BackingField: 0.2
   <DropItems>k__BackingField: []
   <ItemDropRate>k__BackingField: 0.05
