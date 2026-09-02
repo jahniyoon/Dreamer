@@ -29,12 +29,18 @@ namespace Dreamer.Enemy
         [Header("▶ 피격 연출 설정")]
         [SerializeField] protected Color hitFlashColor = new Color(2.5f, 0.3f, 0.3f, 1f); // 피격 순간 강렬하게 튀는 반짝임 색상
 
+        private bool isSleep = false;
 
 
         protected PlayerController player;
         protected Collider2D enemyCollider;
 
-
+        public void Sleep(bool enable)
+        {
+            isSleep = enable;
+            if (enemyCollider != null)
+            { enemyCollider.enabled = enable; }
+        }
         protected int currentHp;
         protected bool isDead;
         protected Vector2Int gridPos;
@@ -146,7 +152,7 @@ namespace Dreamer.Enemy
         /// </summary>
         private void HandlePlayerTurn()
         {
-            if (CurrentState != EnemyState.Active || isDead) return;
+            if (CurrentState != EnemyState.Active || isDead || isSleep) return;
 
             // 1. 공중에 떠있으면 아래 지층 바닥까지 낙하 (비행 적 제외)
             CheckAndApplyGravity();
@@ -224,8 +230,8 @@ namespace Dreamer.Enemy
             if (player == null) return;
 
             // 제자리 타격 펀치 연출
-            transform.DOKill();
-            transform.DOPunchScale(new Vector3(0.25f, 0.25f, 0f), 0.12f);
+            ResetRenderPosition();
+            spriteRenderer.transform.DOPunchScale(new Vector3(0.25f, 0.25f, 0f), 0.12f);
 
             if (player.TryGetComponent<Dreamer.Player.PlayerStatsHandler>(out var stats))
             {
@@ -240,7 +246,7 @@ namespace Dreamer.Enemy
 
             Debug.Log($"[Enemy] ⚔️ 적({gameObject.name})이 플레이어를 공격했습니다!");
 
-            
+
         }
 
         /// <summary>
@@ -274,10 +280,9 @@ namespace Dreamer.Enemy
             if (isDead) return;
 
             currentHp -= damage;
-
+            ResetRenderPosition();
             // 히트 피드백 (스케일 펀치)
-            transform.DOKill();
-            transform.DOPunchScale(new Vector3(-0.15f, 0.15f, 0f), 0.1f);
+            spriteRenderer.transform.DOPunchScale(new Vector3(-0.15f, 0.15f, 0f), 0.1f);
 
             // 피격 백색 플래시(White Flash) 연출
             TriggerHitFlash();
@@ -351,6 +356,12 @@ namespace Dreamer.Enemy
             {
                 gameObject.SetActive(false);
             }
+        }
+
+        private void ResetRenderPosition()
+        {
+            spriteRenderer.transform.DOKill();
+            spriteRenderer.transform.localPosition = Vector3.zero;
         }
     }
 

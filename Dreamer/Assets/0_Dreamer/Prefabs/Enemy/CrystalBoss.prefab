@@ -71,10 +71,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1065499177274072077}
-  - component: {fileID: 1935489220013893541}
+  - component: {fileID: 5362545531563782739}
   - component: {fileID: 8396039930834146012}
   m_Layer: 15
-  m_Name: RockBoss
+  m_Name: CrystalBoss
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -97,7 +97,7 @@ Transform:
   - {fileID: 5568143487538573321}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1935489220013893541
+--- !u!114 &5362545531563782739
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -106,11 +106,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 3104063007881889148}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f9028ce9083daf241956f5c985ed1e5a, type: 3}
+  m_Script: {fileID: 11500000, guid: ebd8e32ab5f284349b4b17ba27ecb050, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Dreamer.Enemy.RockBoss
+  m_EditorClassIdentifier: Assembly-CSharp::Dreamer.Enemy.CrystalBoss
   spriteRenderer: {fileID: 1526207922518024859}
-  enemyData: {fileID: 11400000, guid: 5d5e083de5cfbe6429607171fdc2477a, type: 2}
+  enemyData: {fileID: 11400000, guid: af3064b242d8edb4e801d86745932403, type: 2}
   gridSize: 1
   activationDistance: 7
   isFlying: 1
@@ -125,11 +125,8 @@ MonoBehaviour:
   bossHeight: 9
   attackInterval: 3
   triggerDistanceY: 3
-  fallingRockPrefab: {fileID: 3819940122846278612, guid: a245b2ecbf4460d46844cc11b4b15277, type: 3}
-  rockSpawnPoints:
-  - {fileID: 947470464195414667}
-  - {fileID: 4896524657034700636}
-  - {fileID: 8558360297023503003}
+  crystalWallPrefab: {fileID: 3141543562359452884, guid: 79dfd902a323dc345965b9cff67b6160, type: 3}
+  smallGolemPrefab: {fileID: 3249028367022770865, guid: 11ced9b65a174f844a7a78b577e4c62d, type: 3}
   cameraShakeIntensity: 0.5
 --- !u!61 &8396039930834146012
 BoxCollider2D:
@@ -356,7 +353,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 4
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 21300000, guid: 45af1330e5cd15b4b9b42abcc2d83c61, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 135c7b28b3732ed4fb27c4dc23f86110, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

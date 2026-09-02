@@ -98,7 +98,7 @@ namespace Dreamer.Core
             // Ease.OutBack을 적용하여 targetFoV보다 더 넘어갔다가(1.6) 다시 돌아오는(2.0) 텐션 연출
             DOTween.To(() => cam.Lens.OrthographicSize,
                        x => cam.Lens.OrthographicSize = x,
-                       targetFoV,
+                       target,
                        duration)
                    .SetEase(Ease.OutBack)
                    .SetTarget(cam);

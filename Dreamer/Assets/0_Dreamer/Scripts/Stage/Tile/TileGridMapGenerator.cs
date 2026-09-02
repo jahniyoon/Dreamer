@@ -13,6 +13,10 @@ namespace Dreamer.Tile
     /// </summary>
     public class TileGridMapGenerator : MonoBehaviour
     {
+        // 싱글톤 참조용 static 인스턴스 (선택 사항)
+        public static TileGridMapGenerator Instance { get; private set; }
+
+
         [Header("심도 목표 설정")]
         [SerializeField] private int maxTargetDepth = 1655;     // 최대 목표 심도 (정규화 커브 1.0 지점)
 
@@ -62,6 +66,10 @@ namespace Dreamer.Tile
         }
         private void Awake()
         {
+
+
+            if (Instance == null) Instance = this;
+
             mapParent = new GameObject("MapParent").transform;
             mapParent.transform.parent = transform;
         }
@@ -430,6 +438,48 @@ namespace Dreamer.Tile
 
             return defaultFallbackTile;
         }
+
+        #region Helper Methods for Enemy AI & Boss Mechanics
+
+        /// <summary>
+        /// 월드 좌표(Vector3)를 그리드 좌표(Vector2Int)로 변환
+        /// </summary>
+        public Vector2Int WorldToGridPos(Vector3 worldPos)
+        {
+            int x = Mathf.RoundToInt(worldPos.x / tileSize);
+            int y = Mathf.RoundToInt(worldPos.y / tileSize);
+            return new Vector2Int(x, y);
+        }
+
+        /// <summary>
+        /// 그리드 좌표(Vector2Int)를 월드 좌표(Vector3)로 변환
+        /// </summary>
+        public Vector3 GridToWorldPos(Vector2Int gridPos)
+        {
+            return new Vector3(gridPos.x * tileSize, gridPos.y * tileSize, 0f);
+        }
+
+        /// <summary>
+        /// 해당 그리드 좌표가 비어있는(채굴되었거나 타일이 없는) 칸인지 확인
+        /// </summary>
+        public bool IsEmptyTile(Vector2Int gridPos)
+        {
+            // 1. 양옆 외벽 한계선을 넘어선 외곽지역이면 비어있지 않은 것으로 취급 (벽)
+            int halfWidth = mapWidth / 2;
+            if (gridPos.x < -halfWidth || gridPos.x > halfWidth) return false;
+
+            // 2. mapDataStore에 등록되어 있는 지층 데이터 확인
+            if (mapDataStore.TryGetValue(gridPos, out var gridData))
+            {
+                // 타일이 파괴되었으면 비어있는 칸!
+                return gridData.IsDestroyed;
+            }
+
+            // 3. 지층 데이터에 아직 생성조차 안 된 미개척 빈 공간일 경우 true
+            return true;
+        }
+
+        #endregion
     }
 }
 

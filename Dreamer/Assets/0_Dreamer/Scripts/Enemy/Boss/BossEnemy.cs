@@ -143,9 +143,6 @@ namespace Dreamer.Enemy
         {
             base.TakeDamage(damage);
 
-            // 피격 시 붉은색 플래시나 펀치 스케일 연출
-            transform.DOPunchScale(new Vector3(0f, 0.15f, 0f), 0.15f);
-
             // 보스 HP UI 업데이트 통보 가능
         }
 

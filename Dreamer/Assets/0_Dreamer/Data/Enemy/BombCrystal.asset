@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0c8363c82360396479dd64aa45b83bc1, type: 3}
-  m_Name: BossRock
+  m_Name: BombCrystal
   m_EditorClassIdentifier: Assembly-CSharp::Dreamer.Data.EnemyData
-  <EnemyId>k__BackingField: B_Rock
-  <EnemyName>k__BackingField: Rock
-  <EnemyType>k__BackingField: 1
-  <EnemySprite>k__BackingField: {fileID: 21300000, guid: 45af1330e5cd15b4b9b42abcc2d83c61, type: 3}
-  <MaxHp>k__BackingField: 50
-  <AttackPower>k__BackingField: 5
+  <EnemyId>k__BackingField: E_Bomb
+  <EnemyName>k__BackingField: Bomb Crystal
+  <EnemyType>k__BackingField: 0
+  <EnemySprite>k__BackingField: {fileID: 21300000, guid: 76caa23b1875256419862b90057bc09a, type: 3}
+  <MaxHp>k__BackingField: 1
+  <AttackPower>k__BackingField: 50
   <MoveSpeed>k__BackingField: 2.5
   <PossibleDrops>k__BackingField: []
   <DropRate>k__BackingField: 0.3

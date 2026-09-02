@@ -113,7 +113,8 @@ namespace Dreamer.Enemy
                     Collider2D hit = Physics2D.OverlapCircle(targetWorldPos, gridSize * 0.4f, obstacleLayer | destructibleTileLayer);
                     if (hit != null && hit.TryGetComponent<IDamageable>(out var damageable))
                     {
-                        if (hit.gameObject == this.gameObject) continue;
+                        // 적들끼리는 폭발하지 않도록 하게한다.
+                        if (hit.CompareTag("Enemy")) continue;
                         damageable.TakeDamage(explosiveDamage);
                     }
                 }

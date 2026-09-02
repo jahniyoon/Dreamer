@@ -61,6 +61,7 @@ namespace Dreamer.UI
                 }
 
                 // C. 피격 쥬시 (UI 찌그러짐 펀치 연출)
+                healthBarTransform.localScale = Vector3.one;
                 healthBarTransform.DOKill();
                 healthBarTransform.DOPunchScale(new Vector3(0.12f, 0.12f, 0f), 0.15f);
             }
@@ -103,7 +104,9 @@ namespace Dreamer.UI
             {
                 depthText.text = $"{displayedDepth}<size=60%>m</size>";
 
+
                 // 텍스트 살짝 툭 튀어나오는 연출
+                depthText.transform.localScale = Vector3.zero;
                 depthText.transform.DOKill();
                 depthText.transform.DOPunchScale(new Vector3(0.1f, 0.1f, 0f), 0.1f);
             }

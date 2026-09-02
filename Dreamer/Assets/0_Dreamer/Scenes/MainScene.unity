@@ -1330,7 +1330,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Dreamer.Core.JuiceManager
   cam: {fileID: 769090572}
   lockCam: {fileID: 769090576}
-  zoonIn: 2.5
+  zoonIn: 3
   defaultFOV: 9.7
   impulseSource: {fileID: 661044478}
   sfxAudioSource: {fileID: 0}
@@ -2374,10 +2374,15 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 4
   bossConfigs:
-  - bossName: GiantBoss
+  - bossName: Crystal Boss
+    bossData: {fileID: 11400000, guid: af3064b242d8edb4e801d86745932403, type: 2}
+    bossPrefab: {fileID: 3104063007881889148, guid: 795e3cb52fea1fb45b89db35ea949ce4, type: 3}
+    triggerDepth: 20
+    arenaSize: {x: 9, y: 9}
+  - bossName: Rock Boss
     bossData: {fileID: 11400000, guid: 5d5e083de5cfbe6429607171fdc2477a, type: 2}
     bossPrefab: {fileID: 3104063007881889148, guid: b87f316fdc5621c4dbd0940c0e470012, type: 3}
-    triggerDepth: 20
+    triggerDepth: 50
     arenaSize: {x: 9, y: 9}
 --- !u!114 &977792685
 MonoBehaviour:
