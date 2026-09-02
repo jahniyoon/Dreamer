@@ -107,7 +107,7 @@ namespace Dreamer.Player
                     if (visual != null) visual.PlayMoveSquash();
                     if (Dreamer.Core.JuiceManager.Instance != null)
                     {
-                        Dreamer.Core.JuiceManager.Instance.ShakeCamera(0.15f * fallDistance);
+                        Dreamer.Core.JuiceManager.Instance.ShakeCamera(0.05f * fallDistance);
                     }
                 });
         }

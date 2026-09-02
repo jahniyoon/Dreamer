@@ -136,7 +136,11 @@ namespace Dreamer.Core
         public void TriggerGameOver()
         {
             if (IsGameOver) return;
+
+
             SetGameState(GameState.GameOver);
+            JuiceManager.Instance.ZoomCamera();
+            JuiceManager.Instance.DoHitStop(1, 0.1f);
 
             StartCoroutine(GameOverRoutine());
         }
@@ -147,6 +151,8 @@ namespace Dreamer.Core
             UIManager.Instance.GameOverUI.Show();
 
             yield return new WaitForSeconds(2f);
+            JuiceManager.Instance.ResetZoom();
+
             while (true)
             {
                 if (Input.anyKeyDown)

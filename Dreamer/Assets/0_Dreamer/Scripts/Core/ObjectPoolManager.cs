@@ -211,8 +211,12 @@ namespace Dreamer.Core
         public void ReturnToPool(GameObject prefab, GameObject instance)
         {
             if (prefab == null || instance == null) return;
-
-            int key = prefab.GetInstanceID();
+            ReturnToPool(prefab.GetInstanceID(), instance);
+            
+        }
+        public void ReturnToPool(int id, GameObject instance)
+        {
+            int key = id;
             instance.SetActive(false);
 
             // 반환 시 원래 생성되었던 Pool Container 하위로 원복

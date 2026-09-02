@@ -1328,6 +1328,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79684897500cd4047acdb6cf80e2e91f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Dreamer.Core.JuiceManager
+  cam: {fileID: 769090572}
+  lockCam: {fileID: 769090576}
+  zoonIn: 2.5
+  defaultFOV: 9.7
   impulseSource: {fileID: 661044478}
   sfxAudioSource: {fileID: 0}
 --- !u!4 &661044477
@@ -1359,7 +1363,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Unity.Cinemachine::Unity.Cinemachine.CinemachineImpulseSource
   ImpulseDefinition:
     ImpulseChannel: 1
-    ImpulseShape: 2
+    ImpulseShape: 3
     CustomImpulseShape:
       serializedVersion: 2
       m_Curve: []
@@ -1397,7 +1401,7 @@ MonoBehaviour:
     DissipationMode: 2
     DissipationDistance: 100
     PropagationSpeed: 343
-  DefaultVelocity: {x: 0, y: 0.07, z: 0}
+  DefaultVelocity: {x: 0, y: 0.2, z: 0}
 --- !u!1 &769090571
 GameObject:
   m_ObjectHideFlags: 0
@@ -2371,6 +2375,7 @@ MonoBehaviour:
       m_RotationOrder: 4
   bossConfigs:
   - bossName: GiantBoss
+    bossData: {fileID: 11400000, guid: 5d5e083de5cfbe6429607171fdc2477a, type: 2}
     bossPrefab: {fileID: 3104063007881889148, guid: b87f316fdc5621c4dbd0940c0e470012, type: 3}
     triggerDepth: 20
     arenaSize: {x: 9, y: 9}

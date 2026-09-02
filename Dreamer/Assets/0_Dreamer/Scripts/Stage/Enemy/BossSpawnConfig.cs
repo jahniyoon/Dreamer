@@ -1,3 +1,4 @@
+using Dreamer.Data;
 using UnityEngine;
 namespace Dreamer.Enemy
 {
@@ -8,6 +9,7 @@ namespace Dreamer.Enemy
     public class BossSpawnConfig
     {
         [SerializeField] private string bossName = "Boss Encounter";
+        [SerializeField] private EnemyData bossData;
         [SerializeField] private GameObject bossPrefab;
         [SerializeField] private int triggerDepth = 500;            // 보스가 등장할 심도 (절대 깊이 M)
         [SerializeField] private Vector2Int arenaSize = new Vector2Int(5, 4); // 보스 방을 비울 영역 (가로, 세로)
@@ -16,6 +18,7 @@ namespace Dreamer.Enemy
         public GameObject BossPrefab => bossPrefab;
         public int TriggerDepth => triggerDepth;
         public Vector2Int ArenaSize => arenaSize;
+        public EnemyData BossData => bossData;
     }
 
 }

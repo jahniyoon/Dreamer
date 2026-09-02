@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections;
 using Unity.Cinemachine;
 using UnityEngine;
@@ -12,7 +13,12 @@ namespace Dreamer.Core
     {
         public static JuiceManager Instance { get; private set; }
 
-        [Header("카메라 연출")]
+        [Header("카메라 연출 : 줌인")]
+        [SerializeField] private CinemachineCamera cam;
+        [SerializeField] private LockCameraX lockCam;
+        [SerializeField] private float zoonIn = 2.5f;
+        [SerializeField] private float defaultFOV = 9.7f;
+        [Header("카메라 연출 : 임펄스")]
         [SerializeField] private CinemachineImpulseSource impulseSource;
 
         [Header("사운드 설정")]
@@ -72,6 +78,33 @@ namespace Dreamer.Core
             {
                 impulseSource.GenerateImpulse(force);
             }
+        }
+        public void ResetZoom()
+        {
+            ZoomCamera(defaultFOV, 0.1f, true);
+        }
+        public void ZoomCamera(float targetFoV = -1, float duration = 0.5f, bool useLockCam = false)
+        {
+            if (cam == null) return;
+            var target = targetFoV < 0 ? zoonIn : targetFoV;
+            // 기존 진행 중인 카메라 트윈 정지
+            DOTween.Kill(cam);
+            
+            if (lockCam != null)
+            {
+                lockCam.enabled = useLockCam;
+            }
+
+            // Ease.OutBack을 적용하여 targetFoV보다 더 넘어갔다가(1.6) 다시 돌아오는(2.0) 텐션 연출
+            DOTween.To(() => cam.Lens.OrthographicSize,
+                       x => cam.Lens.OrthographicSize = x,
+                       targetFoV,
+                       duration)
+                   .SetEase(Ease.OutBack)
+                   .SetTarget(cam);
+                  
+
+   
         }
 
         /// <summary>

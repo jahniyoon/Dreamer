@@ -1,5 +1,6 @@
 using DG.Tweening;
 using Dreamer.Core;
+using Dreamer.Data;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -104,7 +105,7 @@ namespace Dreamer.Enemy
                 float tileSize = mapGenerator != null ? mapGenerator.TileSize : 1f;
                 Vector3 spawnWorldPos = new Vector3(spawnGridPos.x * tileSize, spawnGridPos.y * tileSize, 0f);
 
-                SpawnEnemyInstance(selectedRule, spawnGridPos, spawnWorldPos);
+                SpawnEnemyInstance(new EnemySpawnData(selectedRule.EnemyData, selectedRule.EnemyPrefab), spawnGridPos, spawnWorldPos);
             }
         }
 
@@ -127,7 +128,7 @@ namespace Dreamer.Enemy
                     {
                         float tileSize = mapGenerator != null ? mapGenerator.TileSize : 1f;
                         Vector3 bossWorldPos = new Vector3(0f, yCoord * tileSize, 0f);
-                        SpawnEnemyInstance(null, centerGridPos, bossWorldPos, config.BossPrefab);
+                        SpawnEnemyInstance(new EnemySpawnData(config.BossData, config.BossPrefab), centerGridPos, bossWorldPos);
                         Debug.Log($"[EnemySpawner] ⚔️ 보스 출현! [{config.BossName}] 깊이: {currentDepth}M");
                     }
 
@@ -137,9 +138,9 @@ namespace Dreamer.Enemy
 
             return false;
         }
-        private void SpawnEnemyInstance(EnemySpawnRule rule, Vector2Int gridPos, Vector3 worldPos, GameObject overridePrefab = null)
+        private void SpawnEnemyInstance(EnemySpawnData rule, Vector2Int gridPos, Vector3 worldPos)
         {
-            GameObject prefab = overridePrefab != null ? overridePrefab : rule?.EnemyPrefab;
+            GameObject prefab = rule.Prefab;
             if (prefab == null) return;
 
             // 스폰할 위치의 암석 타일을 먼저 비워주어 적이 암석 타일과 겹치는 현상 완전 방지
@@ -164,7 +165,7 @@ namespace Dreamer.Enemy
                 if (enemyObj.TryGetComponent<EnemyBase>(out var enemy))
                 {
                     // 데이터 및 그리드 좌표 초기화
-                    enemy.InitEnemy(rule != null ? rule.EnemyData : null, gridPos);
+                    enemy.InitEnemy(rule.EnemyData, gridPos, prefab.GetInstanceID());
                     Debug.Log($"[EnemySpawner] 👾 적 스폰 성공! 종류: {enemyObj.name}, 위치: {gridPos}");
                 }
             }
@@ -203,6 +204,17 @@ namespace Dreamer.Enemy
             }
 
             return null;
+        }
+    }
+
+    public class EnemySpawnData
+    {
+        public EnemyData EnemyData;
+        public GameObject Prefab;
+        public EnemySpawnData(EnemyData data, GameObject prefab)
+        {
+            EnemyData = data;
+            Prefab = prefab;
         }
     }
 }

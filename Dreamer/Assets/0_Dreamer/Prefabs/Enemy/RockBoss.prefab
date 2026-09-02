@@ -31,6 +31,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 5568143487538573321}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2937602339156572387
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5026118525042903328}
+  m_Layer: 0
+  m_Name: SpawnPoint RR
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5026118525042903328
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2937602339156572387}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 5, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5568143487538573321}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3104063007881889148
 GameObject:
   m_ObjectHideFlags: 0
@@ -40,10 +71,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1065499177274072077}
-  - component: {fileID: 8655745987642936359}
+  - component: {fileID: 1935489220013893541}
   - component: {fileID: 8396039930834146012}
   m_Layer: 15
-  m_Name: GiantBoss
+  m_Name: RockBoss
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -66,7 +97,7 @@ Transform:
   - {fileID: 5568143487538573321}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8655745987642936359
+--- !u!114 &1935489220013893541
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -75,9 +106,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 3104063007881889148}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5b716440be0fbbb4db9084916f449a19, type: 3}
+  m_Script: {fileID: 11500000, guid: f9028ce9083daf241956f5c985ed1e5a, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Dreamer.Enemy.GiantBlockBoss
+  m_EditorClassIdentifier: Assembly-CSharp::Dreamer.Enemy.RockBoss
   spriteRenderer: {fileID: 1526207922518024859}
   enemyData: {fileID: 11400000, guid: 5d5e083de5cfbe6429607171fdc2477a, type: 2}
   gridSize: 1
@@ -90,15 +121,16 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 512
   hitFlashColor: {r: 1, g: 1, b: 1, a: 1}
-  bossName: Deep Earth Core
   bossWidth: 9
   bossHeight: 9
   attackInterval: 3
-  fallingRockPrefab: {fileID: 0}
+  triggerDistanceY: 3
+  fallingRockPrefab: {fileID: 3819940122846278612, guid: a245b2ecbf4460d46844cc11b4b15277, type: 3}
   rockSpawnPoints:
   - {fileID: 947470464195414667}
   - {fileID: 4896524657034700636}
   - {fileID: 8558360297023503003}
+  cameraShakeIntensity: 0.5
 --- !u!61 &8396039930834146012
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -174,9 +206,11 @@ Transform:
   m_LocalScale: {x: 0.11111112, y: 0.11111112, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 5026118525042903328}
   - {fileID: 947470464195414667}
   - {fileID: 4896524657034700636}
   - {fileID: 8558360297023503003}
+  - {fileID: 2382625483614780427}
   m_Father: {fileID: 1065499177274072077}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4288377855977812573
@@ -299,7 +333,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: -876546973899608171, guid: 2c9a441f0b147bc449b5286af53c33a4, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -320,7 +354,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 3
+  m_SortingOrder: 4
   m_MaskInteraction: 0
   m_Sprite: {fileID: 21300000, guid: 45af1330e5cd15b4b9b42abcc2d83c61, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -332,3 +366,34 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!1 &5715144929025908897
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2382625483614780427}
+  m_Layer: 0
+  m_Name: SpawnPoint LL
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2382625483614780427
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5715144929025908897}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -5, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5568143487538573321}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

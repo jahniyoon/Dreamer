@@ -51,7 +51,7 @@ namespace Dreamer.Enemy
             lifetimeTimer += Time.deltaTime;
             if (lifetimeTimer >= maxLifetime)
             {
-                ReturnSelfToPool();
+                gameObject.SetActive(false);
             }
         }
 
@@ -70,16 +70,12 @@ namespace Dreamer.Enemy
                     damageable.TakeDamage(damage);
                     Debug.Log($"[FallingRock] 💥 낙석이 플레이어에게 {damage} 데미지 부여!");
                 }
+                gameObject.SetActive(false);
 
-                // 충돌 완료 후 회수
-                ReturnSelfToPool();
+
             }
         }
 
-        private void ReturnSelfToPool()
-        {
-         
-                gameObject.SetActive(false);
-        }
+
     }
 }

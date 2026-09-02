@@ -1,3 +1,4 @@
+using Dreamer.Core;
 using Dreamer.Data;
 using Dreamer.UI;
 using System;
@@ -9,7 +10,7 @@ namespace Dreamer.Player
     /// <summary>
     /// 플레이어의 스탯 연산, 체력 관리 및 장비 스탯 합산을 전담하는 컴포넌트
     /// </summary>
-    public class PlayerStatsHandler : MonoBehaviour
+    public class PlayerStatsHandler : MonoBehaviour, IDamageable
     {
         [Header("기본 스탯 (Base Stats)")]
         [SerializeField] private int baseMaxHp = 100;
@@ -22,8 +23,8 @@ namespace Dreamer.Player
         [field: SerializeField] public int CurrentHp { get; private set; }
         [field: SerializeField] public CalculatedPlayerStats CurrentStats { get; private set; }
         private PlayerVisual visualHandler;
-        public bool IsDied => CurrentHp <= 0;   
-
+        public bool IsDead => CurrentHp <= 0;   
+        public int Hardness => 0; // 플레이어는 곡괭이로 데미지를 받지 않으므로 0으로 설정 
         public event Action<int, int> OnHpChanged; // (currentHp, maxHp)
         public event Action OnPlayerDied;
 
@@ -51,7 +52,7 @@ namespace Dreamer.Player
 
         public void TakeDamage(int damage)
         {
-            if (IsDied)
+            if (IsDead)
                 return;
             int actualDamage = Mathf.Max(1, damage - CurrentStats.Defense);
             CurrentHp = Mathf.Max(0, CurrentHp - actualDamage);

@@ -46,6 +46,7 @@ namespace Dreamer.Enemy
         public virtual int Hardness => 1; // 기본 단단함 (자폭 적 등에서 오버라이드)
         public virtual bool IsFlying => isFlying; // 비행 여부
         public Vector2Int GridPos => gridPos;
+        protected int originInstanceID;
 
         protected virtual void Awake()
         {
@@ -55,15 +56,15 @@ namespace Dreamer.Enemy
 
         protected virtual void OnEnable()
         {
-            TurnManager.OnPlayerTurnExecuted += HandlePlayerTurn;
+            TurnManager.OnPlayerTurnExecuted += TurnUpdate;
         }
 
         protected virtual void OnDisable()
         {
-            TurnManager.OnPlayerTurnExecuted -= HandlePlayerTurn;
+            TurnManager.OnPlayerTurnExecuted -= TurnUpdate;
         }
 
-        public virtual void InitEnemy(EnemyData data, Vector2Int initialGridPos)
+        public virtual void InitEnemy(EnemyData data, Vector2Int initialGridPos, int originID = -1)
         {
             enemyData = data;
             gridPos = initialGridPos;
@@ -71,6 +72,7 @@ namespace Dreamer.Enemy
 
             if (enemyData != null)
             {
+                originInstanceID = originID != -1 ? originID : this.gameObject.GetInstanceID();
                 currentHp = enemyData.MaxHp;
                 if (spriteRenderer != null && enemyData.EnemySprite != null)
                 {
@@ -132,6 +134,11 @@ namespace Dreamer.Enemy
         protected virtual void OnActivated()
         {
             // 활성화 순간 visual 쥬시 연출 등
+        }
+        protected virtual void TurnUpdate()
+        {
+            // 턴 기반 업데이트 (필요 시 오버라이드)
+            HandlePlayerTurn();
         }
 
         /// <summary>
@@ -306,6 +313,18 @@ namespace Dreamer.Enemy
 
             }).SetTarget(this);
         }
+        protected void SetDarker(float targetRatio = 1f, float duration = 0.3f)
+        {
+            if (spriteRenderer == null || spriteRenderer.material == null) return;
+
+            Material mat = spriteRenderer.material;
+
+            // 기존 진행 중인 _Darker 트윈이 있다면 중단하여 현재 수치 유지
+            mat.DOKill();
+
+            // 현재 매티리얼의 _Darker 값에서 targetRatio까지 duration 동안 부드럽게 이동
+            mat.DOFloat(targetRatio, "_Darker", duration).SetEase(Ease.OutQuad);
+        }
         public void Kill()
         {
             currentHp = 0;
@@ -326,7 +345,7 @@ namespace Dreamer.Enemy
 
             if (ObjectPoolManager.Instance != null)
             {
-                ObjectPoolManager.Instance.ReturnToPool(gameObject, gameObject);
+                ObjectPoolManager.Instance.ReturnToPool(originInstanceID, gameObject);
             }
             else
             {
