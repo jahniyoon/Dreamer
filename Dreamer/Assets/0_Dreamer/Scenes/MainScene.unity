@@ -394,7 +394,6 @@ MonoBehaviour:
   <TitleUI>k__BackingField: {fileID: 413215480}
   <InGameHUDUI>k__BackingField: {fileID: 1305570503}
   <GameOverUI>k__BackingField: {fileID: 1682881204}
-  <PausePanel>k__BackingField: {fileID: 0}
   player: {fileID: 7619700853210802120}
 --- !u!1 &256418945
 GameObject:
@@ -2198,19 +2197,28 @@ MonoBehaviour:
       m_RotationOrder: 4
   - ruleName: Medium Rock
     tileData: {fileID: 11400000, guid: c89676ae47aeff24ca86a18a413e555d, type: 2}
-    minDepth: 15
+    minDepth: 20
     weightByDepth:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
-        time: 0
-        value: 1
-        inSlope: -0.006120866
-        outSlope: -0.006120866
+        time: -0.01821518
+        value: 0.50476074
+        inSlope: 3.6954112
+        outSlope: 3.6954112
         tangentMode: 0
         weightedMode: 0
         inWeight: 0
-        outWeight: 0.30943897
+        outWeight: 0.10920879
+      - serializedVersion: 3
+        time: 0.33396587
+        value: 1
+        inSlope: -0.05564508
+        outSlope: -0.05564508
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.367133
+        outWeight: 0.059273757
       - serializedVersion: 3
         time: 0.8
         value: 0
@@ -2230,20 +2238,29 @@ MonoBehaviour:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
-        time: 0
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 34
+        time: -0.01821518
+        value: 0.50476074
+        inSlope: 3.6954112
+        outSlope: 3.6954112
+        tangentMode: 0
         weightedMode: 0
         inWeight: 0
-        outWeight: 0
+        outWeight: 0.10920879
       - serializedVersion: 3
-        time: 1
+        time: 0.33396587
         value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 34
+        inSlope: -0.05564508
+        outSlope: -0.05564508
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.367133
+        outWeight: 0.059273757
+      - serializedVersion: 3
+        time: 0.8
+        value: 0
+        inSlope: Infinity
+        outSlope: Infinity
+        tangentMode: 0
         weightedMode: 0
         inWeight: 0
         outWeight: 0
@@ -2252,7 +2269,7 @@ MonoBehaviour:
       m_RotationOrder: 4
   tilePrefab: {fileID: 7517113222047015647, guid: 1999fa55300c36a4ab63b789f131a0f0, type: 3}
   wallPrefab: {fileID: 2865933159826572884, guid: 6189d214bba156d42bdd2282448eeb3c, type: 3}
-  targetTransform: {fileID: 0}
+  targetTransform: {fileID: 528625816}
 --- !u!114 &977792684
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2352,7 +2369,11 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-  bossConfigs: []
+  bossConfigs:
+  - bossName: GiantBoss
+    bossPrefab: {fileID: 3104063007881889148, guid: b87f316fdc5621c4dbd0940c0e470012, type: 3}
+    triggerDepth: 20
+    arenaSize: {x: 9, y: 9}
 --- !u!114 &977792685
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2366,8 +2387,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Dreamer.Item.ItemSpawner
   mapGenerator: {fileID: 977792683}
-  globalItemSpawnRate: 0.05
-  maxItemsPerRow: 1
+  globalItemSpawnRate: 0.1
+  maxItemsPerRow: 2
   itemRules:
   - ruleName: Iron
     itemType: 0
@@ -2406,10 +2427,10 @@ MonoBehaviour:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 34
+        value: 0
+        inSlope: 2
+        outSlope: 2
+        tangentMode: 0
         weightedMode: 0
         inWeight: 0
         outWeight: 0
@@ -2418,7 +2439,7 @@ MonoBehaviour:
         value: 1
         inSlope: 0
         outSlope: 0
-        tangentMode: 34
+        tangentMode: 0
         weightedMode: 0
         inWeight: 0
         outWeight: 0
@@ -2428,16 +2449,16 @@ MonoBehaviour:
   - ruleName: Diamond
     itemType: 2
     itemPrefab: {fileID: 8760885631284142940, guid: 481ca71b93bcee64ba325f7704e6e116, type: 3}
-    minDepth: 50
+    minDepth: 40
     weightByDepth:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 1
+        value: 0
         inSlope: 0
         outSlope: 0
-        tangentMode: 34
+        tangentMode: 0
         weightedMode: 0
         inWeight: 0
         outWeight: 0
@@ -2446,7 +2467,7 @@ MonoBehaviour:
         value: 1
         inSlope: 0
         outSlope: 0
-        tangentMode: 34
+        tangentMode: 0
         weightedMode: 0
         inWeight: 0
         outWeight: 0

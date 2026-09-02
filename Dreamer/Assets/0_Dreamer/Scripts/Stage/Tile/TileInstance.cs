@@ -3,6 +3,8 @@ using Dreamer.Core;
 using Dreamer.Data;
 using Dreamer.UI;
 using UnityEngine;
+using UnityEngine.Pool;
+
 namespace Dreamer.Tile
 {
     /// <summary>
@@ -11,6 +13,8 @@ namespace Dreamer.Tile
     [RequireComponent(typeof(SpriteRenderer), typeof(Collider2D))]
     public class TileInstance : MonoBehaviour, IDamageable
     {
+
+
         [Header("지층 데이터")]
         [SerializeField] private TileData tileData;
 
@@ -26,6 +30,7 @@ namespace Dreamer.Tile
         public bool IsDead => currentHp <= 0;
         public int Hardness => tileData != null ? tileData.TileHardness : 0;
         public bool IsBlock => CurrentHp > 0 || tileData == null;
+
         /// <summary>
         ///  타일 파괴 시 좌표를 통보하는 정적 이벤트
         /// </summary>
@@ -103,7 +108,7 @@ namespace Dreamer.Tile
             // 풀에 반환 또는 비활성화
             if (ObjectPoolManager.Instance != null)
             {
-                ObjectPoolManager.Instance.ReturnToPool(gameObject, gameObject);
+                ObjectPoolManager.Instance.ReturnToPool(this, this);
             }
             else
             {
@@ -132,7 +137,7 @@ namespace Dreamer.Tile
             }
         }
 
-  
+
         private void TryDropItem()
         {
             if (tileData.DropItems == null || tileData.DropItems.Count == 0) return;

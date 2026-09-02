@@ -11,7 +11,8 @@ namespace Dreamer.Data
         SoftEarth = 0,   
         MediumRock = 1,  
         HardRock = 2,
-        Obsidian = 3
+        Obsidian = 3,
+            Wall = 99
     }
     [CreateAssetMenu(fileName = "NewTileData", menuName = "Data/TileData")]
     public class TileData : ScriptableObject

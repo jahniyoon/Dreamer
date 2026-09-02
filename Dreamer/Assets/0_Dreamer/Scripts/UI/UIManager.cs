@@ -17,7 +17,6 @@ namespace Dreamer.UI
         [field: SerializeField] public UITitle TitleUI {  get; set; }
         [field: SerializeField] public UIInGameHUD InGameHUDUI { get; set; }
         [field: SerializeField] public UIObject GameOverUI { get; set; }
-        [field: SerializeField] public GameObject PausePanel { get; set; }
 
         [Header("플레이어 참조")]
         [SerializeField] private PlayerController player;

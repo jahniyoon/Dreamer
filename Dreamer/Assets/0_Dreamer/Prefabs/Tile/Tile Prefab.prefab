@@ -46,6 +46,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a0b347da784d7348b25198571ee4790, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Dreamer.Tile.TileInstance
+  id: Tile
   tileData: {fileID: 0}
 --- !u!61 &5536608567859221306
 BoxCollider2D:

@@ -34,14 +34,7 @@ namespace Dreamer.UI
             }
         }
 
-        private void Start()
-        {
-            // 오브젝트 풀에 미리 캐싱 생성
-            if (damageTextPrefab != null && ObjectPoolManager.Instance != null)
-            {
-                ObjectPoolManager.Instance.CreateComponentPool(damageTextPrefab, initialPoolSize);
-            }
-        }
+ 
 
         /// <summary>
         /// 특정 월드 좌표에 데미지 숫자를 띄웁니다.

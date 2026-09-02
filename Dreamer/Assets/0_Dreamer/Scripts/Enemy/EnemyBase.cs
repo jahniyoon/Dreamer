@@ -63,7 +63,7 @@ namespace Dreamer.Enemy
             TurnManager.OnPlayerTurnExecuted -= HandlePlayerTurn;
         }
 
-        public void InitEnemy(EnemyData data, Vector2Int initialGridPos)
+        public virtual void InitEnemy(EnemyData data, Vector2Int initialGridPos)
         {
             enemyData = data;
             gridPos = initialGridPos;
