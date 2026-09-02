@@ -23,6 +23,8 @@ namespace Dreamer.Player
         public PlayerVisual Visual { get; private set; }
         [field: SerializeField]
         public PlayerStatsHandler Stats { get; private set; }
+        [field: SerializeField]
+        public PickaxeSwingController Pickaxe { get; private set; }
 
         private void Awake()
         {
@@ -31,6 +33,7 @@ namespace Dreamer.Player
             Combat = GetComponent<PlayerCombat>();
             Visual = GetComponent<PlayerVisual>();
             Stats = GetComponent<PlayerStatsHandler>();
+            Pickaxe = GetComponent<PickaxeSwingController>();
         }
 
         private void Update()
@@ -78,6 +81,7 @@ namespace Dreamer.Player
                 return;
             }
 
+            Pickaxe.Swing(targetDir);
             // 2단계: 대각선 이동 시 옆(가로) 타일 장애물/미파괴 타일 체크
             if (targetDir.x != 0 && targetDir.y != 0)
             {
